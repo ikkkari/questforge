@@ -1,0 +1,45 @@
+name: Deploy to Netlify
+
+# Builds the publish directory from the three source files and pushes it to
+# Netlify. No build step is needed beyond copying the files.
+#
+# Repository secrets required (Settings → Secrets and variables → Actions):
+#   NETLIFY_AUTH_TOKEN  Netlify → User settings → Applications → Personal access tokens
+#   NETLIFY_SITE_ID     Netlify → Site configuration → Site information → Site ID
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: netlify-deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Publish site
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Assemble publish directory
+        run: |
+          mkdir -p deploy
+          cp index.html style.css script.js deploy/
+          ls -l deploy
+
+      - name: Deploy to Netlify
+        run: npx --yes netlify-cli@27 deploy --prod --dir=deploy --message "Deploy ${GITHUB_SHA::7}"
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
