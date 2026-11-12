@@ -1,0 +1,471 @@
+/* ============================================
+   Quest Tracker - Stylesheet
+   ============================================ */
+
+/* --- Reset & Variables --- */
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --accent: #70e1b5;
+  --bg-dark: #151923;
+  --bg-card: #252c3b;
+  --bg-muted: #333b4d;
+  --border: #394456;
+  --border-light: #444d60;
+  --text: white;
+}
+
+/* --- Base Layout --- */
+
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, var(--bg-dark), #202b3c);
+  color: var(--text);
+  max-width: 750px;
+  margin: 40px auto;
+  padding: 20px;
+  line-height: 1.6;
+}
+
+/* --- Typography --- */
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.header-container h1 {
+  margin: 0;
+}
+
+.btn-sound {
+  background: var(--bg-card);
+  color: var(--text);
+  border: 1px solid var(--border-light);
+  padding: 8px 14px;
+  font-size: 13px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+  font-weight: bold;
+}
+
+.btn-sound:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+h1 {
+  color: var(--accent);
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+.player-title {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: bold;
+  color: #ffd700;
+  background: rgba(255, 215, 0, 0.15);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin-left: 10px;
+  vertical-align: middle;
+}
+
+h3 {
+  margin-top: 30px;
+}
+
+/* --- Progress Bar --- */
+
+#progressContainer {
+  width: 100%;
+  height: 15px;
+  background: var(--bg-muted);
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+#progressBar {
+  width: 0%;
+  height: 100%;
+  background: var(--accent);
+  border-radius: 10px;
+  transition: width 0.3s;
+}
+
+/* --- Form Controls --- */
+
+.quest-input-group {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 15px 0;
+}
+
+input, select, button {
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+input {
+  flex: 1 1 200px;
+  background: var(--bg-card);
+  color: var(--text);
+  border: 1px solid var(--border-light);
+  outline: none;
+}
+
+input:focus {
+  border: 1px solid var(--accent);
+}
+
+select {
+  background: var(--bg-card);
+  color: var(--text);
+  border: 1px solid var(--border-light);
+  outline: none;
+  cursor: pointer;
+}
+
+select:focus {
+  border: 1px solid var(--accent);
+}
+
+button {
+  background: var(--accent);
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+button:hover {
+  opacity: 0.8;
+  transform: translateY(-2px);
+}
+
+/* --- Quest List --- */
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  background: var(--bg-card);
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.done {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+
+.task-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.task-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.badge {
+  font-size: 12px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+.badge-easy {
+  background: rgba(112, 225, 181, 0.15);
+  color: #70e1b5;
+  border: 1px solid rgba(112, 225, 181, 0.3);
+}
+
+.badge-medium {
+  background: rgba(255, 215, 0, 0.15);
+  color: #ffd700;
+  border: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+.badge-hard {
+  background: rgba(255, 99, 71, 0.15);
+  color: #ff6347;
+  border: 1px solid rgba(255, 99, 71, 0.3);
+}
+
+/* Empty State */
+li.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 30px 20px;
+  background: rgba(37, 44, 59, 0.4);
+  border: 1px dashed var(--border-light);
+  color: #9aa5b8;
+}
+
+li.empty-state .empty-icon {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+li.empty-state p {
+  margin: 0;
+  font-size: 15px;
+}
+
+/* Clear Completed Button */
+.list-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 15px;
+}
+
+.btn-clear {
+  background: transparent;
+  color: #e06c75;
+  border: 1px solid rgba(224, 108, 117, 0.4);
+  font-size: 13px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-clear:hover {
+  background: rgba(224, 108, 117, 0.15);
+  border-color: #e06c75;
+  transform: translateY(-2px);
+}
+
+/* --- Stats Dashboard --- */
+
+#questStats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin: 15px 0;
+}
+
+.stat {
+  background: var(--bg-card);
+  padding: 12px;
+  border-radius: 10px;
+  text-align: center;
+  border: 1px solid var(--border);
+  transition: 0.2s;
+}
+
+.stat:hover {
+  transform: translateY(-3px);
+}
+
+.stat h2 {
+  color: var(--accent);
+  margin: 5px 0;
+}
+
+.stat p {
+  font-size: 12px;
+  margin: 5px 0;
+}
+
+/* --- Filter Tabs --- */
+
+.filter-tabs {
+  display: flex;
+  gap: 8px;
+  margin: 20px 0 10px 0;
+  background: var(--bg-card);
+  padding: 6px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+
+.filter-btn {
+  flex: 1;
+  background: transparent;
+  color: #9aa5b8;
+  border: none;
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+  margin: 0;
+}
+
+.filter-btn:hover {
+  color: var(--text);
+  background: rgba(112, 225, 181, 0.1);
+  transform: none;
+  opacity: 1;
+}
+
+.filter-btn.active {
+  background: var(--accent);
+  color: #151923;
+  box-shadow: 0 2px 8px rgba(112, 225, 181, 0.3);
+}
+
+/* --- Mobile-friendly layout --- */
+
+@media (max-width: 600px) {
+  body {
+    margin: 15px;
+    padding: 15px;
+  }
+
+  #questStats {
+    grid-template-columns: 1fr;
+  }
+
+  .quest-input-group input,
+  .quest-input-group select,
+  .quest-input-group button {
+    width: 100%;
+  }
+
+  li {
+    align-items: flex-start;
+  }
+}
+
+/* --- Level-Up Modal & Animation --- */
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(10, 13, 20, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal-overlay.hidden {
+  display: none;
+}
+
+.modal-card {
+  background: linear-gradient(145deg, #1f2737, #2c374d);
+  border: 2px solid var(--accent);
+  box-shadow: 0 0 35px rgba(112, 225, 181, 0.45);
+  border-radius: 16px;
+  padding: 30px;
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+  animation: levelUpPop 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.modal-icon {
+  font-size: 50px;
+  margin-bottom: 10px;
+  animation: iconBounce 1s infinite alternate ease-in-out;
+}
+
+.modal-card h2 {
+  color: var(--accent);
+  font-size: 28px;
+  margin: 0 0 10px 0;
+  letter-spacing: 2px;
+}
+
+.modal-level-text {
+  font-size: 20px;
+  margin: 10px 0;
+  color: var(--text);
+}
+
+.modal-title-text {
+  font-size: 15px;
+  color: #ffd700;
+  font-weight: bold;
+  margin-bottom: 25px;
+}
+
+.modal-card button {
+  background: var(--accent);
+  color: #151923;
+  font-size: 16px;
+  padding: 12px 24px;
+  border-radius: 8px;
+  width: 100%;
+}
+
+@keyframes levelUpPop {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes iconBounce {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-8px);
+  }
+}
+
+/* --- Fullscreen Confetti Canvas --- */
+
+#confettiCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 999;
+}
+
+/* --- Reduced Motion Accessibility --- */
+
+@media (prefers-reduced-motion: reduce) {
+  .modal-card,
+  .modal-icon,
+  button,
+  .stat {
+    animation: none !important;
+    transition: none !important;
+  }
+}

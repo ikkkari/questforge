@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Quest Tracker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Fullscreen Confetti Canvas -->
+  <canvas id="confettiCanvas"></canvas>
+
+  <div class="header-container">
+    <h1>🎮 My Quest Tracker</h1>
+    <button id="soundToggleBtn" class="btn-sound" onclick="toggleSound()" aria-label="Toggle sound effects">🔊 Sound ON</button>
+  </div>
+  <h2>Level <span id="level">1</span> <span id="playerTitle" class="player-title">Beginner Adventurer</span></h2>
+  <p>XP: <span id="xp">0</span> / 100</p>
+  <div id="progressContainer">
+    <div id="progressBar"></div>
+  </div>
+
+  <div class="quest-input-group">
+    <input id="taskInput" placeholder="Enter your next quest">
+    <select id="difficultySelect">
+      <option value="easy">🟢 Easy (+10 XP)</option>
+      <option value="medium" selected>🟡 Medium (+20 XP)</option>
+      <option value="hard">🔴 Hard (+50 XP)</option>
+    </select>
+    <button onclick="addTask()">Add Quest</button>
+  </div>
+
+  <h3>My Missions</h3>
+
+  <div id="questStats">
+    <div class="stat">
+      <h2 id="totalQuests">0</h2>
+      <p>Total Quests</p>
+    </div>
+
+    <div class="stat">
+      <h2 id="completedQuests">0</h2>
+      <p>Completed</p>
+    </div>
+
+    <div class="stat">
+      <h2 id="remainingQuests">0</h2>
+      <p>Remaining</p>
+    </div>
+  </div>
+
+  <div class="filter-tabs">
+    <button class="filter-btn active" data-filter="all" onclick="setFilter('all')">All</button>
+    <button class="filter-btn" data-filter="active" onclick="setFilter('active')">In Progress</button>
+    <button class="filter-btn" data-filter="completed" onclick="setFilter('completed')">Completed</button>
+  </div>
+
+  <ul id="taskList"></ul>
+
+  <div class="list-actions">
+    <button id="clearCompletedBtn" class="btn-clear" onclick="clearCompleted()">🗑️ Clear Completed Quests</button>
+  </div>
+
+  <!-- Level-Up Celebration Modal -->
+  <div id="levelUpModal" class="modal-overlay hidden">
+    <div class="modal-card">
+      <div class="modal-icon">🎉</div>
+      <h2>LEVEL UP!</h2>
+      <p class="modal-level-text">You reached <strong id="modalLevel">Level 2</strong>!</p>
+      <p class="modal-title-text" id="modalTitle">Title: Skilled Adventurer</p>
+      <button id="closeModalBtn" onclick="closeLevelUpModal()">Continue Questing ⚔️</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
