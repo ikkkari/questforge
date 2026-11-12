@@ -1,0 +1,13 @@
+# Questforge — Netlify configuration
+#
+# The site itself is plain static files at the repository root (index.html,
+# style.css, script.js) with no build step. "deploy" is the publish directory,
+# populated from those three files so a Git deploy never depends on a committed
+# duplicate of the source.
+#
+# Local CLI: `netlify deploy --prod --build` rebuilds deploy/ before uploading;
+# plain `netlify deploy --prod` uploads the existing deploy/ contents.
+
+[build]
+  command = "mkdir -p deploy && cp index.html style.css script.js deploy/"
+  publish = "deploy"

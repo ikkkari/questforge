@@ -3,73 +3,171 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Quest Tracker</title>
+  <meta name="color-scheme" content="dark">
+  <title>Questforge — The Dark Knight's Journal</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='10' fill='%23111018'/%3E%3Cpath d='M24 7 38.5 12.2v10.2C38.5 31 32.2 36.3 24 39.4 15.8 36.3 9.5 31 9.5 22.4V12.2Z' fill='none' stroke='%23D9B56D' stroke-width='2'/%3E%3Cpath d='M24 15.5v13' stroke='%23D9B56D' stroke-width='2' stroke-linecap='round'/%3E%3Cpath d='M19 21h10' stroke='%23D9B56D' stroke-width='2' stroke-linecap='round'/%3E%3Ccircle cx='24' cy='32' r='1.8' fill='%23D9B56D'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <!-- Fullscreen Confetti Canvas -->
-  <canvas id="confettiCanvas"></canvas>
+  <canvas id="confettiCanvas" aria-hidden="true"></canvas>
 
-  <div class="header-container">
-    <h1>🎮 My Quest Tracker</h1>
-    <button id="soundToggleBtn" class="btn-sound" onclick="toggleSound()" aria-label="Toggle sound effects">🔊 Sound ON</button>
-  </div>
-  <h2>Level <span id="level">1</span> <span id="playerTitle" class="player-title">Beginner Adventurer</span></h2>
-  <p>XP: <span id="xp">0</span> / 100</p>
-  <div id="progressContainer">
-    <div id="progressBar"></div>
-  </div>
+  <div class="app">
 
-  <div class="quest-input-group">
-    <input id="taskInput" placeholder="Enter your next quest">
-    <select id="difficultySelect">
-      <option value="easy">🟢 Easy (+10 XP)</option>
-      <option value="medium" selected>🟡 Medium (+20 XP)</option>
-      <option value="hard">🔴 Hard (+50 XP)</option>
-    </select>
-    <button onclick="addTask()">Add Quest</button>
-  </div>
+    <header class="topbar">
+      <div class="brand">
+        <svg class="brand-mark" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+          <path d="M24 4.5 42 11v12.6C42 34.4 34.2 40.9 24 44.5 13.8 40.9 6 34.4 6 23.6V11Z" fill="none" stroke="#D9B56D" stroke-width="1.3" opacity=".75"/>
+          <path d="M24 14v18" fill="none" stroke="#D9B56D" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M18.4 20.6h11.2" fill="none" stroke="#D9B56D" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="24" cy="34.6" r="1.7" fill="#D9B56D"/>
+        </svg>
+        <div class="brand-text">
+          <p class="eyebrow">Questforge</p>
+          <h1>The Dark Knight&rsquo;s Journal</h1>
+        </div>
+      </div>
+      <button id="soundToggleBtn" class="btn-sound" onclick="toggleSound()" aria-label="Toggle sound effects">🔊 Sound ON</button>
+    </header>
 
-  <h3>My Missions</h3>
+    <main class="dashboard">
 
-  <div id="questStats">
-    <div class="stat">
-      <h2 id="totalQuests">0</h2>
-      <p>Total Quests</p>
-    </div>
+      <!-- A. Player Profile -->
+      <section class="panel panel-profile" aria-labelledby="heading-profile">
+        <div class="panel-head">
+          <h2 id="heading-profile">Player Profile</h2>
+          <span class="panel-index" aria-hidden="true">I</span>
+        </div>
 
-    <div class="stat">
-      <h2 id="completedQuests">0</h2>
-      <p>Completed</p>
-    </div>
+        <div class="profile-body">
+          <div class="level-orb">
+            <span class="level-label">Level</span>
+            <span id="level" class="level-value">1</span>
+          </div>
 
-    <div class="stat">
-      <h2 id="remainingQuests">0</h2>
-      <p>Remaining</p>
-    </div>
-  </div>
+          <div class="profile-meta">
+            <p class="profile-rank-line">
+              <span id="playerTitle" class="player-title">Beginner Adventurer</span>
+            </p>
+            <div class="xp-row">
+              <span class="xp-label">Experience</span>
+              <span class="xp-values"><span id="xp">0</span><span class="xp-max">/ 100</span></span>
+            </div>
+            <div id="progressContainer" role="progressbar" aria-label="Experience towards the next level" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+              <div id="progressBar"></div>
+            </div>
+            <p class="xp-hint">Complete quests to earn experience. At 100 XP a new level is claimed.</p>
+          </div>
+        </div>
+      </section>
 
-  <div class="filter-tabs">
-    <button class="filter-btn active" data-filter="all" onclick="setFilter('all')">All</button>
-    <button class="filter-btn" data-filter="active" onclick="setFilter('active')">In Progress</button>
-    <button class="filter-btn" data-filter="completed" onclick="setFilter('completed')">Completed</button>
-  </div>
+      <!-- B. Adventure Statistics -->
+      <section class="panel panel-stats" aria-labelledby="heading-stats">
+        <div class="panel-head">
+          <h2 id="heading-stats">Adventure Statistics</h2>
+          <span class="panel-index" aria-hidden="true">II</span>
+        </div>
 
-  <ul id="taskList"></ul>
+        <div id="questStats">
+          <div class="stat">
+            <span class="stat-value" id="totalQuests">0</span>
+            <p class="stat-label">Total Quests</p>
+          </div>
 
-  <div class="list-actions">
-    <button id="clearCompletedBtn" class="btn-clear" onclick="clearCompleted()">🗑️ Clear Completed Quests</button>
+          <div class="stat">
+            <span class="stat-value" id="completedQuests">0</span>
+            <p class="stat-label">Completed</p>
+          </div>
+
+          <div class="stat">
+            <span class="stat-value" id="remainingQuests">0</span>
+            <p class="stat-label">Remaining</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- C. Quest creation -->
+      <section class="panel panel-composer" aria-labelledby="heading-composer">
+        <div class="panel-head">
+          <h2 id="heading-composer">Forge a New Quest</h2>
+          <span class="panel-index" aria-hidden="true">III</span>
+        </div>
+
+        <div class="composer-row">
+          <div class="field field-quest">
+            <label for="taskInput">Quest name</label>
+            <input id="taskInput" type="text" placeholder="Describe the trial ahead…" autocomplete="off">
+          </div>
+
+          <div class="field field-difficulty">
+            <label for="difficultySelect">Difficulty</label>
+            <select id="difficultySelect">
+              <option value="easy">Easy — +10 XP</option>
+              <option value="medium" selected>Medium — +20 XP</option>
+              <option value="hard">Hard — +50 XP</option>
+            </select>
+          </div>
+
+          <button class="btn-primary" onclick="addTask()">Add Quest</button>
+        </div>
+      </section>
+
+      <!-- D. Quest Board -->
+      <section class="panel panel-board" aria-labelledby="heading-board">
+        <div class="panel-head">
+          <h2 id="heading-board">Quest Board</h2>
+          <span class="panel-index" aria-hidden="true">IV</span>
+        </div>
+
+        <div class="filter-tabs" role="group" aria-label="Filter quests">
+          <button class="filter-btn active" data-filter="all" aria-pressed="true" onclick="setFilter('all')">All</button>
+          <button class="filter-btn" data-filter="active" aria-pressed="false" onclick="setFilter('active')">In Progress</button>
+          <button class="filter-btn" data-filter="completed" aria-pressed="false" onclick="setFilter('completed')">Completed</button>
+        </div>
+
+        <ul id="taskList"></ul>
+
+        <div class="list-actions">
+          <button id="clearCompletedBtn" class="btn-clear" onclick="clearCompleted()">Clear Completed Quests</button>
+        </div>
+      </section>
+
+      <!-- E. Chronicles -->
+      <aside class="panel panel-chronicles" aria-labelledby="heading-chronicles">
+        <div class="panel-head">
+          <h2 id="heading-chronicles">Chronicles</h2>
+          <span class="panel-index" aria-hidden="true">V</span>
+        </div>
+
+        <p class="subsection-title">Rank Progression</p>
+        <div class="rank-track" id="rankLadder"></div>
+
+        <p class="subsection-title">Achievements</p>
+        <div class="achievements" id="achievementGrid"></div>
+      </aside>
+
+    </main>
   </div>
 
   <!-- Level-Up Celebration Modal -->
-  <div id="levelUpModal" class="modal-overlay hidden">
+  <div id="levelUpModal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="levelUpTitle">
     <div class="modal-card">
-      <div class="modal-icon">🎉</div>
-      <h2>LEVEL UP!</h2>
-      <p class="modal-level-text">You reached <strong id="modalLevel">Level 2</strong>!</p>
+      <div class="modal-icon" aria-hidden="true">
+        <svg viewBox="0 0 48 48" focusable="false">
+          <path d="M24 4.5 42 11v12.6C42 34.4 34.2 40.9 24 44.5 13.8 40.9 6 34.4 6 23.6V11Z" fill="none" stroke="#D9B56D" stroke-width="1.3" opacity=".85"/>
+          <path d="M24 14v18" fill="none" stroke="#D9B56D" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M18.4 20.6h11.2" fill="none" stroke="#D9B56D" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="24" cy="34.6" r="1.7" fill="#D9B56D"/>
+        </svg>
+      </div>
+      <h2 id="levelUpTitle">Level Up</h2>
+      <p class="modal-level-text"><strong id="modalLevel">Level 2</strong></p>
       <p class="modal-title-text" id="modalTitle">Title: Skilled Adventurer</p>
-      <button id="closeModalBtn" onclick="closeLevelUpModal()">Continue Questing ⚔️</button>
+      <button id="closeModalBtn" class="btn-primary modal-close" onclick="closeLevelUpModal()">Continue Questing</button>
     </div>
   </div>
 
