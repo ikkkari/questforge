@@ -2030,8 +2030,14 @@ li.empty-state p {
     flex: 1 1 0;
   }
 
+  .list-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
 
-  .list-actions .btn-clear {
+  .list-actions .btn-clear,
+  .list-actions .btn-ghost {
     width: 100%;
   }
 

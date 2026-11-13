@@ -1141,7 +1141,16 @@ function renderTasks() {
     clearBtn.disabled = completedCount === 0;
   }
 
+  // The reschedule action only makes sense while something is overdue
+  const rescheduleBtn = document.getElementById("rescheduleOverdueBtn");
+  if (rescheduleBtn) {
     const overdueCount = quests.filter(isQuestOverdue).length;
+    rescheduleBtn.disabled = overdueCount === 0;
+    rescheduleBtn.textContent = overdueCount > 0
+      ? "Move " + overdueCount + " Overdue to Today"
+      : "Move Overdue to Today";
+  }
+
   // Refresh rank progression and achievements
   renderChronicles({
     level: level,
@@ -1299,6 +1308,27 @@ function addTask() {
 
 // 5. Clear all completed quests
 // Move every overdue quest's due date to today; completed and future quests are left alone
+function rescheduleOverdue() {
+  const key = todayKey();
+  const overdue = quests.filter(isQuestOverdue);
+
+  if (overdue.length === 0) {
+    showToast("Nothing is overdue — the road is clear.");
+    return;
+  }
+
+  overdue.forEach(function(quest) {
+    quest.due = key;
+  });
+
+  saveProgress();
+  renderTasks();
+
+  showToast(overdue.length === 1
+    ? "Moved 1 overdue quest to today."
+    : "Moved " + overdue.length + " overdue quests to today.");
+}
+
 function clearCompleted() {
   const completedCount = quests.filter(function(quest) {
     return quest.completed;
