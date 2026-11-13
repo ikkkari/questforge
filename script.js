@@ -1209,3 +1209,168 @@ document.addEventListener("visibilitychange", function() {
 
 window.addEventListener("focus", refreshStreakFromStorage);
 
+// ============================================
+// 9. Adventurer feedback portal
+// Posts to Netlify Forms through the form named
+// in the markup, so submissions land in the
+// Netlify dashboard. No keys in the browser.
+// ============================================
+
+const FEEDBACK_FORM_NAME = "adventurer-feedback";
+
+function initFeedbackForm() {
+  const form = document.getElementById("feedbackForm");
+  if (!form) return;
+
+  const categoryInput = document.getElementById("feedbackCategory");
+  const emailInput = document.getElementById("feedbackEmail");
+  const messageInput = document.getElementById("feedbackMessage");
+  const countEl = document.getElementById("feedbackCount");
+  const submitButton = document.getElementById("feedbackSubmit");
+  const statusEl = document.getElementById("feedbackStatus");
+  const messageError = document.getElementById("feedbackMessageError");
+  const emailError = document.getElementById("feedbackEmailError");
+  const formError = document.getElementById("feedbackError");
+  const successEl = document.getElementById("feedbackSuccess");
+  const againButton = document.getElementById("feedbackAgain");
+  const honeypot = document.getElementById("feedbackBot");
+
+  let isSubmitting = false;
+
+  function updateCount() {
+    countEl.textContent = messageInput.value.length + " / " + messageInput.maxLength;
+  }
+
+  function setFieldError(input, target, text) {
+    target.textContent = text;
+    target.hidden = false;
+    input.classList.add("invalid");
+    input.setAttribute("aria-invalid", "true");
+  }
+
+  function clearFieldError(input, target) {
+    target.textContent = "";
+    target.hidden = true;
+    input.classList.remove("invalid");
+    input.removeAttribute("aria-invalid");
+  }
+
+  function clearAllFeedback() {
+    clearFieldError(messageInput, messageError);
+    clearFieldError(emailInput, emailError);
+    formError.textContent = "";
+    formError.hidden = true;
+    statusEl.textContent = "";
+  }
+
+  function validate() {
+    clearAllFeedback();
+
+    const message = messageInput.value.trim();
+    const email = emailInput.value.trim();
+    let firstInvalid = null;
+
+    if (message === "") {
+      setFieldError(messageInput, messageError, "Please write a message before sending.");
+      firstInvalid = messageInput;
+    }
+
+    if (email !== "" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setFieldError(emailInput, emailError, "That address does not look right — correct it, or leave the field empty.");
+      if (!firstInvalid) firstInvalid = emailInput;
+    }
+
+    if (firstInvalid) {
+      firstInvalid.focus();
+      return null;
+    }
+
+    return { category: categoryInput.value, email: email, message: message };
+  }
+
+  function showSuccess() {
+    form.hidden = true;
+    successEl.hidden = false;
+    successEl.focus();
+  }
+
+  function resetToForm() {
+    form.reset();
+    updateCount();
+    clearAllFeedback();
+    successEl.hidden = true;
+    form.hidden = false;
+    messageInput.focus();
+  }
+
+  function send(payload) {
+    const body = new URLSearchParams();
+    body.set("form-name", FEEDBACK_FORM_NAME);
+    body.set("category", payload.category);
+    body.set("message", payload.message);
+    body.set("email", payload.email);
+    body.set("bot-field", honeypot ? honeypot.value : "");
+
+    return fetch("/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: body.toString()
+    }).then(function (response) {
+      if (!response.ok) {
+        throw new Error("Feedback request failed with status " + response.status);
+      }
+      return response;
+    });
+  }
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    if (isSubmitting) return;
+
+    const payload = validate();
+    if (!payload) return;
+
+    isSubmitting = true;
+    submitButton.disabled = true;
+    submitButton.textContent = "Sending…";
+    form.setAttribute("aria-busy", "true");
+    statusEl.textContent = "Sending your message…";
+
+    send(payload).then(function () {
+      statusEl.textContent = "";
+      showSuccess();
+    }).catch(function (error) {
+      console.warn("Feedback submission failed:", error);
+      statusEl.textContent = "";
+      formError.textContent = "The message could not be sent. Check your connection and try again — your text is still here.";
+      formError.hidden = false;
+      formError.focus();
+    }).finally(function () {
+      isSubmitting = false;
+      submitButton.disabled = false;
+      submitButton.textContent = "Send feedback";
+      form.removeAttribute("aria-busy");
+    });
+  });
+
+  messageInput.addEventListener("input", function () {
+    updateCount();
+    if (!messageError.hidden) {
+      clearFieldError(messageInput, messageError);
+    }
+  });
+
+  emailInput.addEventListener("input", function () {
+    if (!emailError.hidden) {
+      clearFieldError(emailInput, emailError);
+    }
+  });
+
+  againButton.addEventListener("click", resetToForm);
+
+  updateCount();
+}
+
+initFeedbackForm();
+

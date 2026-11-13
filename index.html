@@ -197,6 +197,70 @@
         </div>
       </section>
 
+      <!-- G. Adventurer Feedback Portal -->
+      <section id="panel-feedback" class="panel panel-feedback" aria-labelledby="heading-feedback">
+        <div class="panel-head">
+          <h2 id="heading-feedback">Adventurer&rsquo;s Feedback</h2>
+          <span class="panel-index" aria-hidden="true">VII</span>
+        </div>
+
+        <p class="feedback-intro">Spotted a broken rune, or have a trial worth adding to the journal? Send a message to the keepers of Questforge.</p>
+
+        <form id="feedbackForm" class="feedback-form" name="adventurer-feedback" method="POST" action="/"
+              data-netlify="true" netlify-honeypot="bot-field" novalidate>
+          <input type="hidden" name="form-name" value="adventurer-feedback">
+
+          <p class="honeypot">
+            <label for="feedbackBot">Leave this field empty</label>
+            <input id="feedbackBot" name="bot-field" type="text" tabindex="-1" autocomplete="off">
+          </p>
+
+          <div class="feedback-grid">
+            <div class="field">
+              <label for="feedbackCategory">Category</label>
+              <select id="feedbackCategory" name="category" required>
+                <option value="feature">Feature Suggestion</option>
+                <option value="bug">Bug Report</option>
+                <option value="general" selected>General Feedback</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="feedbackEmail">Contact email <span class="label-optional">optional</span></label>
+              <input id="feedbackEmail" name="email" type="email" autocomplete="email" placeholder="you@example.com" aria-describedby="feedbackEmailHint feedbackEmailError">
+              <p class="field-hint" id="feedbackEmailHint">Only if you would like a reply. Nothing else is collected.</p>
+              <p class="field-error" id="feedbackEmailError" role="alert" hidden></p>
+            </div>
+          </div>
+
+          <div class="field field-message">
+            <label for="feedbackMessage">Message</label>
+            <textarea id="feedbackMessage" name="message" rows="5" maxlength="1000" required
+                      placeholder="Describe the rune that broke, or the trial you would like to see added…"
+                      aria-describedby="feedbackMessageHint feedbackMessageError"></textarea>
+            <div class="field-hint-row">
+              <p class="field-hint" id="feedbackMessageHint">Required — up to 1000 characters.</p>
+              <p class="char-count" id="feedbackCount" aria-hidden="true">0 / 1000</p>
+            </div>
+            <p class="field-error" id="feedbackMessageError" role="alert" hidden></p>
+          </div>
+
+          <div class="feedback-actions">
+            <button type="submit" id="feedbackSubmit" class="btn-primary">Send feedback</button>
+            <p class="feedback-status" id="feedbackStatus" role="status" aria-live="polite"></p>
+            <p class="field-error" id="feedbackError" role="alert" hidden></p>
+          </div>
+        </form>
+
+        <div class="feedback-success" id="feedbackSuccess" tabindex="-1" hidden>
+          <p class="success-mark" aria-hidden="true">✦</p>
+          <h3>Message received</h3>
+          <p>Your words have reached the guild. Thank you for helping forge Questforge.</p>
+          <button type="button" class="btn-ghost" id="feedbackAgain">Send another message</button>
+        </div>
+      </section>
+
     </main>
   </div>
 
