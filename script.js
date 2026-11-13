@@ -605,13 +605,41 @@ function buildQuestEditor(quest, diffKey) {
   const form = document.createElement("div");
   form.className = "quest-edit";
 
+  // Name field
+  const nameField = document.createElement("div");
+  nameField.className = "edit-field edit-field-name";
+
+  const nameLabel = document.createElement("label");
+  nameLabel.className = "edit-label";
+  nameLabel.htmlFor = "questEditName";
+  nameLabel.textContent = "Quest name";
+
   const nameInput = document.createElement("input");
   nameInput.type = "text";
   nameInput.id = "questEditName";
   nameInput.className = "edit-name";
   nameInput.value = quest.name;
   nameInput.autocomplete = "off";
-  nameInput.setAttribute("aria-label", "Quest name");
+  nameInput.setAttribute("aria-describedby", "questEditError");
+
+  const error = document.createElement("p");
+  error.className = "edit-error";
+  error.id = "questEditError";
+  error.setAttribute("role", "alert");
+  error.hidden = true;
+
+  nameField.appendChild(nameLabel);
+  nameField.appendChild(nameInput);
+  nameField.appendChild(error);
+
+  // Difficulty field
+  const diffField = document.createElement("div");
+  diffField.className = "edit-field edit-field-difficulty";
+
+  const diffLabel = document.createElement("label");
+  diffLabel.className = "edit-label";
+  diffLabel.htmlFor = "questEditDifficulty";
+  diffLabel.textContent = "Difficulty";
 
   const diffSelect = document.createElement("select");
   diffSelect.id = "questEditDifficulty";
@@ -628,30 +656,85 @@ function buildQuestEditor(quest, diffKey) {
     diffSelect.appendChild(option);
   });
 
+  const hint = document.createElement("p");
+  hint.className = "edit-hint";
+  hint.id = "questEditHint";
+
+  diffField.appendChild(diffLabel);
+  diffField.appendChild(diffSelect);
+  diffField.appendChild(hint);
+
+
+  // Guards against a second save while the first one is being applied
+  let isSaving = false;
+
+  function currentDifficulty() {
+    return DIFFICULTY[diffSelect.value] ? diffSelect.value : diffKey;
+  }
+
+  // Keep the card's difficulty colour and reward hint in step with the select
+  function updateHint() {
+    const key = currentDifficulty();
+    const card = form.closest(".quest-card");
+
+    if (card) {
+      card.dataset.difficulty = key;
+    }
+
+    hint.textContent = quest.completed
+      ? "Already completed — its XP and status stay as they are. Worth +" + DIFFICULTY[key].xp + " XP."
+      : "Worth +" + DIFFICULTY[key].xp + " XP when completed. Editing awards no XP.";
+  }
+
   function closeEditor() {
     focusQuestIndex = quests.indexOf(quest);
     editingQuest = null;
     renderTasks();
   }
 
+  function showError(message) {
+    error.textContent = message;
+    error.hidden = false;
+    nameInput.classList.add("invalid");
+    nameInput.setAttribute("aria-invalid", "true");
+    nameInput.focus();
+  }
+
+  function clearError() {
+    error.hidden = true;
+    error.textContent = "";
+    nameInput.classList.remove("invalid");
+    nameInput.removeAttribute("aria-invalid");
+  }
+
   function commitEdit() {
+    if (isSaving) return;
+
     const name = nameInput.value.trim();
 
     if (name === "") {
-      nameInput.classList.add("invalid");
-      nameInput.focus();
+      showError("A quest needs a name before it can be saved.");
       return;
     }
 
+    isSaving = true;
+    nameInput.value = name;
+    saveButton.disabled = true;
+
     quest.name = name;
-    quest.difficulty = diffSelect.value;
+    quest.difficulty = currentDifficulty();
+
+    if (isValidDateKey(dueInput.value)) {
+      quest.due = dueInput.value;
+    } else {
+      delete quest.due;
+    }
+
     saveProgress();
     closeEditor();
   }
 
-  nameInput.addEventListener("input", function() {
-    nameInput.classList.remove("invalid");
-  });
+  nameInput.addEventListener("input", clearError);
 
   nameInput.addEventListener("keydown", function(event) {
     if (event.key === "Enter") {
@@ -663,13 +746,23 @@ function buildQuestEditor(quest, diffKey) {
     }
   });
 
+  diffSelect.addEventListener("change", updateHint);
+
+  // Escape cancels from anywhere inside the editor
+  form.addEventListener("keydown", function(event) {
+    if (event.key === "Escape") {
+      event.preventDefault();
+      closeEditor();
+    }
+  });
+
   const actions = document.createElement("div");
   actions.className = "edit-actions";
 
   const saveButton = document.createElement("button");
   saveButton.type = "button";
   saveButton.className = "btn-save";
-  saveButton.textContent = "Save";
+  saveButton.textContent = "Save changes";
   saveButton.onclick = commitEdit;
 
   const cancelButton = document.createElement("button");
@@ -681,9 +774,12 @@ function buildQuestEditor(quest, diffKey) {
   actions.appendChild(saveButton);
   actions.appendChild(cancelButton);
 
-  form.appendChild(nameInput);
-  form.appendChild(diffSelect);
+  form.appendChild(nameField);
+  form.appendChild(diffField);
+  form.appendChild(dueField);
   form.appendChild(actions);
+
+  updateHint();
 
   return form;
 }
@@ -763,6 +859,7 @@ function buildQuestCard(quest) {
     // One streak credit per calendar day, plus any milestone rewards it unlocks
     const streakResult = recordStreakDay();
     xp += sumMilestoneXP(streakResult.rewards);
+
     // Track level before checking for a level up
     const previousLevel = level;
 
@@ -785,6 +882,7 @@ function buildQuestCard(quest) {
         showToast(reward.days + "-day milestone reached — +" + reward.xp + " XP!", "milestone");
       });
     }
+
     // Trigger the celebration only if the player leveled up
     if (level > previousLevel) {
       showLevelUpModal(level);
