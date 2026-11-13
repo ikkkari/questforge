@@ -61,6 +61,23 @@
           </div>
 
           <div class="profile-meta">
+            <div class="profile-name-row">
+              <p class="profile-name-line">
+                <span id="playerName" class="player-name">Dark Knight</span>
+              </p>
+              <button id="renameBtn" class="btn-rename" type="button" onclick="startRename()" aria-label="Change your adventurer name">Rename</button>
+            </div>
+
+            <div id="renameForm" class="rename-form" role="group" aria-label="Change your adventurer name" hidden>
+              <label class="sr-only" for="renameInput">Adventurer name</label>
+              <input id="renameInput" type="text" maxlength="24" autocomplete="off" placeholder="Adventurer name">
+              <div class="rename-actions">
+                <button id="renameSave" class="btn-primary btn-small" type="button" onclick="saveName()">Save</button>
+                <button id="renameCancel" class="btn-ghost" type="button" onclick="cancelRename()">Cancel</button>
+              </div>
+              <p id="renameError" class="rename-error" role="alert" hidden></p>
+            </div>
+
             <p class="profile-rank-line">
               <span id="playerTitle" class="player-title">Beginner Adventurer</span>
             </p>

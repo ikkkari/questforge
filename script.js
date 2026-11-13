@@ -451,12 +451,132 @@ function showToast(message, variant) {
 // Helper: Determine title based on current level
 function getPlayerTitle(currentLevel) {
   let title = RANKS[0].title;
+
   RANKS.forEach(function(rank) {
     if (currentLevel >= rank.level) {
       title = rank.title;
     }
   });
+
   return title;
+}
+
+// --- Adventurer name ---
+// Stored on its own key so a rename never touches quests, XP or the streak.
+
+const DEFAULT_PLAYER_NAME = "Dark Knight";
+const PLAYER_NAME_MAX = 24;
+
+function cleanPlayerName(value) {
+  return String(value || "")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, PLAYER_NAME_MAX);
+}
+
+function loadPlayerName() {
+  const stored = localStorage.getItem("playerName");
+  if (typeof stored !== "string") return DEFAULT_PLAYER_NAME;
+  return cleanPlayerName(stored) || DEFAULT_PLAYER_NAME;
+}
+
+let playerName = loadPlayerName();
+
+function renderPlayerName() {
+  const nameEl = document.getElementById("playerName");
+  if (nameEl) nameEl.textContent = playerName;
+}
+
+function setRenameError(message) {
+  const error = document.getElementById("renameError");
+  const input = document.getElementById("renameInput");
+
+  if (error) {
+    error.textContent = message || "";
+    error.hidden = !message;
+  }
+
+  if (input) {
+    if (message) {
+      input.classList.add("invalid");
+      input.setAttribute("aria-invalid", "true");
+    } else {
+      input.classList.remove("invalid");
+      input.removeAttribute("aria-invalid");
+    }
+  }
+}
+
+function startRename() {
+  const form = document.getElementById("renameForm");
+  const input = document.getElementById("renameInput");
+  const button = document.getElementById("renameBtn");
+  if (!form || !input) return;
+
+  setRenameError("");
+  input.value = playerName;
+  form.hidden = false;
+  if (button) button.hidden = true;
+
+  input.focus();
+  input.select();
+}
+
+function cancelRename() {
+  const form = document.getElementById("renameForm");
+  const button = document.getElementById("renameBtn");
+  if (!form) return;
+
+  form.hidden = true;
+  setRenameError("");
+
+  if (button) {
+    button.hidden = false;
+    button.focus();
+  }
+}
+
+function saveName() {
+  const form = document.getElementById("renameForm");
+  const input = document.getElementById("renameInput");
+  const button = document.getElementById("renameBtn");
+  if (!form || !input) return;
+
+  const cleaned = cleanPlayerName(input.value);
+
+  if (cleaned === "") {
+    setRenameError("Give your knight a name before saving.");
+    input.focus();
+    return;
+  }
+
+  playerName = cleaned;
+  localStorage.setItem("playerName", playerName);
+
+  form.hidden = true;
+  setRenameError("");
+  renderPlayerName();
+
+  if (button) {
+    button.hidden = false;
+    button.focus();
+  }
+}
+
+// Enter saves, Escape cancels, and a click outside behaves like Escape
+function initRenameInput() {
+  const input = document.getElementById("renameInput");
+  if (!input) return;
+
+  input.addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      saveName();
+    } else if (event.key === "Escape") {
+      event.preventDefault();
+      cancelRename();
+    }
+  });
 }
 
 // Sound state (persisted in localStorage)
@@ -1356,8 +1476,10 @@ function clearCompleted() {
   }
 }
 
-// 6. Display saved quests and sound state when the page opens
+// 6. Display saved quests, the adventurer's name and sound state when the page opens
 renderTasks();
+renderPlayerName();
+initRenameInput();
 updateSoundButton();
 
 // 7. Listen for the Enter key on the input field

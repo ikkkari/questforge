@@ -34,12 +34,13 @@ netlify.toml Netlify publish config
 - Due dates: an optional `due` calendar day per quest. Dated quests sort soonest-first with undated quests last; chips read `2 days overdue`, `Due today` or `Due Nov 16`. The Today filter covers anything due today or earlier and still unfinished.
 - Navigation: `initJumpBar()` marks the section under the reading line, `initBackToTop()` reveals the return control past 600px, `initSearchShortcut()` binds `/` and `Escape`.
 - Feedback: `initFeedbackForm()` posts a urlencoded form to `/` with its form name and a honeypot, and only shows success when the response is ok.
+- Adventurer name: `startRename()` / `saveName()` edit the name shown in the Player Profile. It lives on its own key, so renaming never disturbs quests, XP, level or the streak.
 - Celebration: `playLevelUpSound()` (Web Audio, four notes), `triggerConfetti()` (canvas, 80 particles, ~3s), `showLevelUpModal()`.
 - Progress display: `RANKS` and `ACHIEVEMENTS` are derived from `level`, `xp` and `quests` at render time — nothing extra is stored.
 
 ## LocalStorage
 
-Five keys, read on load and written by `saveProgress()` / `saveStreak()`:
+Six keys, read on load and written by `saveProgress()`, `saveStreak()` and the rename form:
 
 | Key | Value |
 | --- | --- |
@@ -47,6 +48,7 @@ Five keys, read on load and written by `saveProgress()` / `saveStreak()`:
 | `xp` | number, 0–99 |
 | `level` | number, starts at 1 |
 | `soundEnabled` | `"true"` / `"false"` |
+| `playerName` | display name, up to 24 characters (defaults to "Dark Knight") |
 | `streak` | `{ current, best, lastActivity, days[], claimed[], version }` |
 
 `due` is optional, so journals saved before due dates existed keep working untouched. `streak` is created on the first completion; `days[]` holds the local dates with a credit, and `claimed[]` prevents a milestone paying twice.
