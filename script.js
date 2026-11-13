@@ -45,6 +45,354 @@ function saveProgress() {
   localStorage.setItem("level", level);
 }
 
+// ============================================
+// 2b. Daily streak system
+// One credit per local calendar day; a missed
+// day breaks the run without any penalty.
+// ============================================
+
+const STREAK_STORAGE_KEY = "streak";
+const STREAK_HISTORY_LIMIT = 400;
+const DAY_MS = 86400000;
+
+const STREAK_MILESTONES = [
+  { days: 3, xp: 20 },
+  { days: 7, xp: 50 },
+  { days: 14, xp: 100 },
+  { days: 30, xp: 250 }
+];
+
+// --- Local calendar dates (never UTC) ---
+
+function isValidDateKey(value) {
+  if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+  const parts = value.split("-");
+  const year = Number(parts[0]);
+  const month = Number(parts[1]);
+  const day = Number(parts[2]);
+  const date = new Date(year, month - 1, day);
+  return date.getFullYear() === year && date.getMonth() === month - 1 && date.getDate() === day;
+}
+
+function dateKeyFromDate(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return year + "-" + month + "-" + day;
+}
+
+function todayKey() {
+  return dateKeyFromDate(new Date());
+}
+
+// Compare calendar days through UTC midnight so daylight saving never shifts a day
+function dateKeyToTime(key) {
+  const parts = key.split("-");
+  return Date.UTC(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+}
+
+function daysBetween(fromKey, toKey) {
+  return Math.round((dateKeyToTime(toKey) - dateKeyToTime(fromKey)) / DAY_MS);
+}
+
+function startOfWeek(date) {
+  const start = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  const offset = (start.getDay() + 6) % 7; // Monday = 0
+  start.setDate(start.getDate() - offset);
+  return start;
+}
+// --- Persistence ---
+
+function emptyStreak() {
+  return { current: 0, best: 0, lastActivity: null, days: [], claimed: [], version: 1 };
+}
+
+function loadStreak() {
+  let raw = null;
+
+  try {
+    raw = JSON.parse(localStorage.getItem(STREAK_STORAGE_KEY));
+  } catch (error) {
+    return emptyStreak();
+  }
+
+  if (!raw || typeof raw !== "object" || Array.isArray(raw)) return emptyStreak();
+
+  const days = Array.isArray(raw.days) ? raw.days.filter(isValidDateKey) : [];
+  const claimed = Array.isArray(raw.claimed) ? raw.claimed.filter(function (value) {
+    return typeof value === "number" && isFinite(value);
+  }) : [];
+
+  const streak = {
+    current: Math.max(0, Math.floor(Number(raw.current) || 0)),
+    best: Math.max(0, Math.floor(Number(raw.best) || 0)),
+    lastActivity: isValidDateKey(raw.lastActivity) ? raw.lastActivity : (days.length ? days[days.length - 1] : null),
+    days: days,
+    claimed: claimed,
+    version: 1
+  };
+
+  // A saved run only survives while the last activity is today or yesterday
+  if (!streak.lastActivity || daysBetween(streak.lastActivity, todayKey()) > 1) {
+    streak.current = 0;
+  }
+
+  if (streak.best < streak.current) {
+    streak.best = streak.current;
+  }
+
+  return streak;
+}
+
+let streak = loadStreak();
+
+function saveStreak() {
+  try {
+    localStorage.setItem(STREAK_STORAGE_KEY, JSON.stringify(streak));
+  } catch (error) {
+    console.warn("Could not save streak progress:", error);
+  }
+}
+
+// --- Recording a day ---
+
+function recordStreakDay() {
+  const today = todayKey();
+  const result = {
+    recorded: false,
+    started: false,
+    streak: streak.current,
+    best: streak.best,
+    rewards: [],
+    milestone: null
+  };
+
+  // One credit per calendar day, no matter how many quests are completed
+  if (streak.days.indexOf(today) !== -1 || streak.lastActivity === today) {
+    return result;
+  }
+
+  const previous = streak.lastActivity;
+  const isConsecutive = Boolean(previous) && daysBetween(previous, today) === 1;
+
+  streak.current = isConsecutive ? Math.max(1, streak.current) + 1 : 1;
+  streak.days.push(today);
+  if (streak.days.length > STREAK_HISTORY_LIMIT) {
+    streak.days = streak.days.slice(-STREAK_HISTORY_LIMIT);
+  }
+  streak.lastActivity = today;
+  streak.best = Math.max(streak.best, streak.current);
+
+  // Milestones are claimed once and never awarded twice
+  STREAK_MILESTONES.forEach(function (milestone) {
+    if (streak.current >= milestone.days && streak.claimed.indexOf(milestone.days) === -1) {
+      streak.claimed.push(milestone.days);
+      result.rewards.push(milestone);
+    }
+  });
+
+  saveStreak();
+
+  result.recorded = true;
+  result.started = !isConsecutive;
+  result.streak = streak.current;
+  result.best = streak.best;
+  result.milestone = result.rewards.length ? result.rewards[result.rewards.length - 1] : null;
+
+  return result;
+}
+
+function sumMilestoneXP(rewards) {
+  return rewards.reduce(function (total, milestone) {
+    return total + milestone.xp;
+  }, 0);
+}
+
+// --- Rendering ---
+
+function renderStreak() {
+  const today = todayKey();
+  const recordedToday = streak.days.indexOf(today) !== -1;
+
+  const flame = document.getElementById("streakFlame");
+  if (flame) {
+    flame.dataset.state = recordedToday ? "lit" : (streak.current > 0 ? "warm" : "cold");
+  }
+
+  const currentEl = document.getElementById("streakCurrent");
+  if (currentEl) {
+    currentEl.textContent = streak.current;
+  }
+
+  const bestEl = document.getElementById("streakBest");
+  if (bestEl) {
+    bestEl.textContent = streak.best;
+  }
+
+  const bestUnitEl = document.getElementById("streakBestUnit");
+  if (bestUnitEl) {
+    bestUnitEl.textContent = streak.best === 1 ? "day" : "days";
+  }
+
+  const statusEl = document.getElementById("streakStatus");
+  if (statusEl) {
+    if (recordedToday) {
+      statusEl.textContent = "Today's quest is logged — your streak is safe until midnight.";
+    } else if (streak.current > 0) {
+      statusEl.textContent = "Complete one quest today to keep your " + streak.current + "-day streak alive.";
+    } else {
+      statusEl.textContent = "Complete a quest to start a new streak.";
+    }
+  }
+
+  renderStreakWeek(today);
+  renderStreakMilestones();
+}
+
+function renderStreakWeek(today) {
+  const list = document.getElementById("streakDays");
+  if (!list) return;
+
+  const monday = startOfWeek(new Date());
+  const active = {};
+  streak.days.forEach(function (key) {
+    active[key] = true;
+  });
+
+  list.innerHTML = "";
+
+  for (let index = 0; index < 7; index++) {
+    const day = new Date(monday.getFullYear(), monday.getMonth(), monday.getDate() + index);
+    const key = dateKeyFromDate(day);
+    const isToday = key === today;
+    const isActive = Boolean(active[key]);
+    const isFuture = daysBetween(today, key) > 0;
+
+    const item = document.createElement("li");
+    item.className = "streak-day";
+    if (isActive) item.classList.add("is-active");
+    if (isToday) item.classList.add("is-today");
+    if (isFuture) item.classList.add("is-future");
+
+    const dayName = day.toLocaleDateString(undefined, { weekday: "short" });
+    const state = isActive ? "quest completed" : (isFuture ? "upcoming" : "no quest completed");
+    item.setAttribute("aria-label", dayName + " " + day.getDate() + ": " + state + (isToday ? ", today" : ""));
+
+    const nameEl = document.createElement("span");
+    nameEl.className = "day-name";
+    nameEl.setAttribute("aria-hidden", "true");
+    nameEl.textContent = dayName;
+
+    const markEl = document.createElement("span");
+    markEl.className = "day-mark";
+    markEl.setAttribute("aria-hidden", "true");
+    markEl.textContent = isActive ? "✓" : "";
+
+    const numEl = document.createElement("span");
+    numEl.className = "day-num";
+    numEl.setAttribute("aria-hidden", "true");
+    numEl.textContent = day.getDate();
+
+    item.appendChild(nameEl);
+    item.appendChild(markEl);
+    item.appendChild(numEl);
+    list.appendChild(item);
+  }
+}
+
+function renderStreakMilestones() {
+  const track = document.getElementById("milestoneTrack");
+  const nextMilestone = STREAK_MILESTONES.find(function (milestone) {
+    return streak.claimed.indexOf(milestone.days) === -1;
+  });
+
+  if (track) {
+    track.innerHTML = "";
+
+    STREAK_MILESTONES.forEach(function (milestone) {
+      const claimed = streak.claimed.indexOf(milestone.days) !== -1;
+      const chip = document.createElement("div");
+      chip.className = "milestone";
+      chip.setAttribute("role", "listitem");
+      if (claimed) chip.classList.add("is-claimed");
+      if (!claimed && nextMilestone && nextMilestone.days === milestone.days) chip.classList.add("is-next");
+      chip.setAttribute("aria-label", milestone.days + "-day streak reward: " + milestone.xp + " XP, " + (claimed ? "claimed" : "not claimed yet"));
+
+      const days = document.createElement("span");
+      days.className = "milestone-days";
+      days.setAttribute("aria-hidden", "true");
+      days.textContent = milestone.days + "d";
+
+      const xp = document.createElement("span");
+      xp.className = "milestone-xp";
+      xp.setAttribute("aria-hidden", "true");
+      xp.textContent = "+" + milestone.xp + " XP";
+
+      chip.appendChild(days);
+      chip.appendChild(xp);
+      track.appendChild(chip);
+    });
+  }
+
+  const previousMilestone = STREAK_MILESTONES.filter(function (milestone) {
+    return nextMilestone && milestone.days < nextMilestone.days;
+  }).pop();
+
+  const from = previousMilestone ? previousMilestone.days : 0;
+  const to = nextMilestone ? nextMilestone.days : Math.max(from, 1);
+  const span = Math.max(1, to - from);
+  const done = Math.max(0, Math.min(span, streak.current - from));
+
+  const meter = document.getElementById("streakMeter");
+  const fill = document.getElementById("streakMeterFill");
+  if (meter && fill) {
+    fill.style.width = Math.round((nextMilestone ? done / span : 1) * 100) + "%";
+    meter.setAttribute("aria-valuemin", "0");
+    meter.setAttribute("aria-valuemax", String(span));
+    meter.setAttribute("aria-valuenow", String(done));
+  }
+
+  const nextEl = document.getElementById("milestoneNext");
+  if (nextEl) {
+    if (nextMilestone) {
+      const remaining = Math.max(0, nextMilestone.days - streak.current);
+      nextEl.textContent = "Next reward: +" + nextMilestone.xp + " XP at a " + nextMilestone.days + "-day streak" +
+        (remaining > 0 ? " (" + remaining + (remaining === 1 ? " day to go)." : " days to go).") : ".");
+    } else {
+      nextEl.textContent = "Every milestone claimed — the flame burns eternal.";
+    }
+  }
+}
+
+// --- Toast notifications ---
+
+function showToast(message, variant) {
+  const region = document.getElementById("toastRegion");
+  if (!region) return;
+
+  const toast = document.createElement("div");
+  toast.className = "toast" + (variant ? " is-" + variant : "");
+
+  const glyph = document.createElement("span");
+  glyph.className = "toast-glyph";
+  glyph.setAttribute("aria-hidden", "true");
+  glyph.textContent = variant === "milestone" ? "🏆" : "🔥";
+
+  const text = document.createElement("span");
+  text.textContent = message;
+
+  toast.appendChild(glyph);
+  toast.appendChild(text);
+  region.appendChild(toast);
+
+  setTimeout(function () {
+    toast.classList.add("is-leaving");
+    setTimeout(function () {
+      if (toast.parentNode) toast.parentNode.removeChild(toast);
+    }, 320);
+  }, 4200);
+}
+
 // Helper: Determine title based on current level
 function getPlayerTitle(currentLevel) {
   let title = RANKS[0].title;
@@ -412,6 +760,9 @@ function buildQuestCard(quest) {
     // Award XP based on quest difficulty (defaults to 20 for older quests)
     xp += getDifficulty(quest.difficulty).xp;
 
+    // One streak credit per calendar day, plus any milestone rewards it unlocks
+    const streakResult = recordStreakDay();
+    xp += sumMilestoneXP(streakResult.rewards);
     // Track level before checking for a level up
     const previousLevel = level;
 
@@ -423,9 +774,23 @@ function buildQuestCard(quest) {
     saveProgress();
     renderTasks();
 
+    if (streakResult.recorded) {
+      if (streakResult.started) {
+        showToast("Streak started — day 1. Return tomorrow to keep the flame alive.", "ember");
+      } else {
+        showToast("Day " + streakResult.streak + " recorded. Streak safe until midnight.", "ember");
+      }
+
+      streakResult.rewards.forEach(function (reward) {
+        showToast(reward.days + "-day milestone reached — +" + reward.xp + " XP!", "milestone");
+      });
+    }
     // Trigger the celebration only if the player leveled up
     if (level > previousLevel) {
       showLevelUpModal(level);
+    } else if (streakResult.milestone) {
+      playLevelUpSound();
+      triggerConfetti();
     }
   };
 
@@ -567,6 +932,9 @@ function renderTasks() {
     total: quests.length,
     completed: completedCount
   });
+
+  // Refresh the daily streak panel
+  renderStreak();
 
   // Keep keyboard focus sensible while editing
   if (editingQuest) {
@@ -728,3 +1096,18 @@ taskInput.addEventListener("keydown", function(event) {
     addTask();
   }
 });
+// 8. Re-read the streak when the tab regains focus, so a page left open
+//    overnight never shows yesterday's credit as today's
+function refreshStreakFromStorage() {
+  streak = loadStreak();
+  renderStreak();
+}
+
+document.addEventListener("visibilitychange", function() {
+  if (document.visibilityState === "visible") {
+    refreshStreakFromStorage();
+  }
+});
+
+window.addEventListener("focus", refreshStreakFromStorage);
+

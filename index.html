@@ -150,6 +150,53 @@
         <div class="achievements" id="achievementGrid"></div>
       </aside>
 
+      <!-- F. Adventurer's Streak -->
+      <section id="panel-streak" class="panel panel-streak" aria-labelledby="heading-streak">
+        <div class="panel-head">
+          <h2 id="heading-streak">Adventurer&rsquo;s Streak</h2>
+          <span class="panel-index" aria-hidden="true">VI</span>
+        </div>
+
+        <div class="streak-body">
+          <div class="streak-hero">
+            <div class="streak-flame" id="streakFlame" data-state="cold">
+              <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+                <defs>
+                  <linearGradient id="streakFlameGradient" x1="0" y1="1" x2="0.2" y2="0">
+                    <stop offset="0" stop-color="#C4703A"/>
+                    <stop offset="0.55" stop-color="#E08A4B"/>
+                    <stop offset="1" stop-color="#EFD9A6"/>
+                  </linearGradient>
+                </defs>
+                <path d="M16 2.5c1.2 4.9 6.6 7.1 6.6 13a6.6 6.6 0 0 1-13.2 0c0-3.1 1.7-5.4 3.4-7.4.2 2 1.2 3.4 2.6 4.1.1-3.4.3-6.6.6-9.7Z" fill="url(#streakFlameGradient)"/>
+                <path d="M16 29.6a4.2 4.2 0 0 1-4.2-4.2c0-2.4 2.1-4.1 4.2-6.4 2.1 2.3 4.2 4 4.2 6.4a4.2 4.2 0 0 1-4.2 4.2Z" fill="#D9B56D" opacity=".9"/>
+              </svg>
+            </div>
+
+            <div class="streak-readout">
+              <p class="streak-count"><span id="streakCurrent">0</span><span class="streak-unit">day streak</span></p>
+              <p class="streak-best">Best <span id="streakBest">0</span> <span id="streakBestUnit">days</span></p>
+            </div>
+
+            <p class="streak-status" id="streakStatus" aria-live="polite">Complete a quest to start a new streak.</p>
+          </div>
+
+          <div class="streak-week">
+            <p class="subsection-title">This Week</p>
+            <ol class="streak-days" id="streakDays" aria-label="Quest activity for this week"></ol>
+          </div>
+
+          <div class="streak-milestones">
+            <p class="subsection-title">Milestones</p>
+            <div class="milestone-track" id="milestoneTrack" role="list" aria-label="Streak milestones"></div>
+            <div class="streak-meter" id="streakMeter" role="progressbar" aria-label="Progress towards the next streak milestone" aria-valuemin="0" aria-valuemax="3" aria-valuenow="0">
+              <div id="streakMeterFill"></div>
+            </div>
+            <p class="milestone-next" id="milestoneNext">Next reward: +20 XP at a 3-day streak.</p>
+          </div>
+        </div>
+      </section>
+
     </main>
   </div>
 
@@ -170,6 +217,8 @@
       <button id="closeModalBtn" class="btn-primary modal-close" onclick="closeLevelUpModal()">Continue Questing</button>
     </div>
   </div>
+
+  <div id="toastRegion" class="toast-region" role="status" aria-live="polite"></div>
 
   <script src="script.js"></script>
 
