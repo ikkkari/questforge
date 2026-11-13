@@ -32,6 +32,7 @@
   --ember-bright: #F0B183;
   --ember-soft: rgba(224, 138, 75, 0.14);
   --ember-line: rgba(224, 138, 75, 0.42);
+
   --line: rgba(169, 166, 178, 0.14);
   --line-strong: rgba(169, 166, 178, 0.28);
   --gold-soft: rgba(217, 181, 109, 0.12);
@@ -129,6 +130,96 @@ body {
   line-height: 1.2;
   letter-spacing: 0.05em;
   color: var(--gold-bright);
+}
+
+/* --- Navigation aids --- */
+
+.jump-bar {
+  position: sticky;
+  top: 12px;
+  z-index: 60;
+  display: flex;
+  gap: 4px;
+  margin: -4px 0 18px;
+  padding: 5px;
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(17, 16, 24, 0.88);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 12px 26px -22px rgba(0, 0, 0, 0.9);
+  scrollbar-width: none;
+}
+
+.jump-bar::-webkit-scrollbar {
+  display: none;
+}
+
+.jump-link {
+  flex: 0 0 auto;
+  padding: 7px 14px;
+  border-radius: 999px;
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--silver);
+  text-decoration: none;
+  transition: color 0.2s var(--ease), background-color 0.2s var(--ease);
+}
+
+.jump-link:hover {
+  color: var(--gold-bright);
+  background: rgba(232, 226, 240, 0.05);
+}
+
+.jump-link.is-active {
+  color: #17131F;
+  background: linear-gradient(180deg, #E6C688, var(--gold));
+}
+
+section[id] {
+  scroll-margin-top: 86px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.back-to-top {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 950;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  font-size: 16px;
+  line-height: 1;
+  color: var(--gold-bright);
+  background: var(--iron-raised);
+  border: 1px solid var(--gold-line);
+  border-radius: 50%;
+  box-shadow: 0 14px 30px -18px rgba(0, 0, 0, 0.95);
+  transition: transform 0.2s var(--ease), border-color 0.2s var(--ease), opacity 0.25s var(--ease);
+}
+
+.back-to-top:hover {
+  transform: translateY(-2px);
+  border-color: var(--gold);
+}
+
+.back-to-top[hidden] {
+  display: none;
 }
 
 /* --- Panels --- */
@@ -446,6 +537,7 @@ button:focus-visible {
   max-width: 240px;
 }
 
+
 .field label {
   font-size: 9.5px;
   letter-spacing: 0.18em;
@@ -454,6 +546,9 @@ button:focus-visible {
 }
 
 input[type="text"],
+input[type="email"],
+input[type="search"],
+textarea,
 select {
   width: 100%;
   padding: 12px 14px;
@@ -468,16 +563,25 @@ select {
   transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease), background-color 0.2s var(--ease);
 }
 
-input[type="text"]::placeholder {
+input[type="text"]::placeholder,
+input[type="email"]::placeholder,
+input[type="search"]::placeholder,
+textarea::placeholder {
   color: rgba(169, 166, 178, 0.55);
 }
 
 input[type="text"]:hover,
+input[type="email"]:hover,
+input[type="search"]:hover,
+textarea:hover,
 select:hover {
   border-color: rgba(217, 181, 109, 0.3);
 }
 
 input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="search"]:focus,
+textarea:focus,
 select:focus {
   background: #131120;
   border-color: var(--gold);
@@ -519,11 +623,50 @@ select option {
   margin-bottom: 12px;
 }
 
+.search-wrap {
+  position: relative;
+  display: flex;
+}
 
+.quest-search {
+  padding-right: 40px;
+}
 
+.quest-search::-webkit-search-cancel-button {
+  cursor: pointer;
+}
 
+.search-key {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  padding: 2px 6px;
+  font-family: var(--font-body);
+  font-size: 10px;
+  line-height: 1.4;
+  color: rgba(169, 166, 178, 0.7);
+  background: var(--iron);
+  border: 1px solid var(--line-strong);
+  border-radius: 5px;
+  pointer-events: none;
+}
 
+.filter-count {
+  margin-left: 5px;
+  padding: 1px 6px;
+  border-radius: 999px;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  background: rgba(232, 226, 240, 0.08);
+  color: rgba(232, 226, 240, 0.75);
+}
 
+.filter-btn.active .filter-count {
+  background: rgba(17, 16, 24, 0.18);
+  color: #17131F;
+}
 
 .filter-tabs {
   display: flex;
@@ -618,7 +761,6 @@ select option {
 }
 
 .quest-card.editing {
-  border-left-color: var(--purple);
   background: var(--iron-raised);
   box-shadow: inset 0 0 0 1px var(--purple-line);
 }
@@ -1796,6 +1938,10 @@ li.empty-state p {
     white-space: nowrap;
   }
 
+  .filter-count {
+    margin-left: 4px;
+    padding: 1px 5px;
+    font-size: 9px;
   }
 
   .quest-card {

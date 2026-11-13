@@ -8,7 +8,11 @@
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='10' fill='%23111018'/%3E%3Cpath d='M24 7 38.5 12.2v10.2C38.5 31 32.2 36.3 24 39.4 15.8 36.3 9.5 31 9.5 22.4V12.2Z' fill='none' stroke='%23D9B56D' stroke-width='2'/%3E%3Cpath d='M24 15.5v13' stroke='%23D9B56D' stroke-width='2' stroke-linecap='round'/%3E%3Cpath d='M19 21h10' stroke='%23D9B56D' stroke-width='2' stroke-linecap='round'/%3E%3Ccircle cx='24' cy='32' r='1.8' fill='%23D9B56D'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <!-- Loaded without blocking rendering or script execution; the local font stacks cover the gap -->
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  </noscript>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -34,10 +38,17 @@
       <button id="soundToggleBtn" class="btn-sound" onclick="toggleSound()" aria-label="Toggle sound effects">🔊 Sound ON</button>
     </header>
 
+    <nav class="jump-bar" aria-label="Sections of the journal">
+      <a class="jump-link" href="#panel-profile">Profile</a>
+      <a class="jump-link" href="#panel-board">Board</a>
+      <a class="jump-link" href="#panel-streak">Streak</a>
+      <a class="jump-link" href="#panel-feedback">Feedback</a>
+    </nav>
+
     <main class="dashboard">
 
       <!-- A. Player Profile -->
-      <section class="panel panel-profile" aria-labelledby="heading-profile">
+      <section id="panel-profile" class="panel panel-profile" aria-labelledby="heading-profile">
         <div class="panel-head">
           <h2 id="heading-profile">Player Profile</h2>
           <span class="panel-index" aria-hidden="true">I</span>
@@ -91,7 +102,7 @@
       </section>
 
       <!-- C. Quest creation -->
-      <section class="panel panel-composer" aria-labelledby="heading-composer">
+      <section id="panel-composer" class="panel panel-composer" aria-labelledby="heading-composer">
         <div class="panel-head">
           <h2 id="heading-composer">Forge a New Quest</h2>
           <span class="panel-index" aria-hidden="true">III</span>
@@ -117,16 +128,25 @@
       </section>
 
       <!-- D. Quest Board -->
-      <section class="panel panel-board" aria-labelledby="heading-board">
+      <section id="panel-board" class="panel panel-board" aria-labelledby="heading-board">
         <div class="panel-head">
           <h2 id="heading-board">Quest Board</h2>
           <span class="panel-index" aria-hidden="true">IV</span>
         </div>
 
+        <div class="board-tools">
+          <div class="search-wrap">
+            <label class="sr-only" for="questSearch">Search quests</label>
+            <input id="questSearch" type="search" class="quest-search" placeholder="Search quests by name…"
+                   autocomplete="off" oninput="setSearch(this.value)">
+            <kbd class="search-key" aria-hidden="true">/</kbd>
+          </div>
+        </div>
+
         <div class="filter-tabs" role="group" aria-label="Filter quests">
-          <button class="filter-btn active" data-filter="all" aria-pressed="true" onclick="setFilter('all')">All</button>
-          <button class="filter-btn" data-filter="active" aria-pressed="false" onclick="setFilter('active')">In Progress</button>
-          <button class="filter-btn" data-filter="completed" aria-pressed="false" onclick="setFilter('completed')">Completed</button>
+          <button class="filter-btn active" data-filter="all" aria-pressed="true" onclick="setFilter('all')">All <span class="filter-count" id="countAll">0</span></button>
+          <button class="filter-btn" data-filter="active" aria-pressed="false" onclick="setFilter('active')">In Progress <span class="filter-count" id="countActive">0</span></button>
+          <button class="filter-btn" data-filter="completed" aria-pressed="false" onclick="setFilter('completed')">Completed <span class="filter-count" id="countCompleted">0</span></button>
         </div>
 
         <ul id="taskList"></ul>
@@ -281,6 +301,8 @@
       <button id="closeModalBtn" class="btn-primary modal-close" onclick="closeLevelUpModal()">Continue Questing</button>
     </div>
   </div>
+
+  <button id="backToTop" class="back-to-top" type="button" aria-label="Back to top" hidden><span aria-hidden="true">↑</span></button>
 
   <div id="toastRegion" class="toast-region" role="status" aria-live="polite"></div>
 

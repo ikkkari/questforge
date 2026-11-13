@@ -587,6 +587,9 @@ function closeLevelUpModal() {
 // Active quest filter state ('all', 'active', 'completed')
 let currentFilter = "all";
 
+// Current search text in the quest board
+let searchTerm = "";
+
 // Quest currently open in the inline editor (object reference, not an index)
 let editingQuest = null;
 
@@ -596,6 +599,13 @@ let focusQuestIndex = null;
 // Change active filter and re-render quest list
 function setFilter(filter) {
   currentFilter = filter;
+  editingQuest = null;
+  renderTasks();
+}
+
+// Filter the board by quest name (called from the search input)
+function setSearch(value) {
+  searchTerm = String(value || "").trim();
   editingQuest = null;
   renderTasks();
 }
@@ -644,7 +654,6 @@ function buildQuestEditor(quest, diffKey) {
   const diffSelect = document.createElement("select");
   diffSelect.id = "questEditDifficulty";
   diffSelect.className = "edit-difficulty";
-  diffSelect.setAttribute("aria-label", "Quest difficulty");
 
   DIFFICULTY_ORDER.forEach(function(key) {
     const option = document.createElement("option");
@@ -950,6 +959,19 @@ function renderTasks() {
     btn.setAttribute("aria-pressed", isActive ? "true" : "false");
   });
 
+  // Counts on the filter tabs always describe the whole journal, not the search
+  const completedCount = quests.filter(function(quest) {
+    return quest.completed;
+  }).length;
+  const remainingCount = quests.length - completedCount;
+
+  const countAllEl = document.getElementById("countAll");
+  const countActiveEl = document.getElementById("countActive");
+  const countCompletedEl = document.getElementById("countCompleted");
+
+  if (countAllEl) countAllEl.textContent = quests.length;
+  if (countActiveEl) countActiveEl.textContent = remainingCount;
+  if (countCompletedEl) countCompletedEl.textContent = completedCount;
   // Filter quests based on selected tab
   let filteredQuests = quests;
   if (currentFilter === "active") {
@@ -959,6 +981,13 @@ function renderTasks() {
   } else if (currentFilter === "completed") {
     filteredQuests = quests.filter(function(quest) {
       return quest.completed;
+    });
+  }
+
+  if (searchTerm !== "") {
+    const needle = searchTerm.toLowerCase();
+    filteredQuests = filteredQuests.filter(function(quest) {
+      return quest.name.toLowerCase().indexOf(needle) !== -1;
     });
   }
 
@@ -976,6 +1005,9 @@ function renderTasks() {
     if (quests.length === 0) {
       emptyIcon.textContent = "🗡️";
       emptyText.textContent = "No quests yet — add one above to begin your adventure!";
+    } else if (searchTerm !== "") {
+      emptyIcon.textContent = "🔍";
+      emptyText.textContent = "No quests match \"" + searchTerm + "\". Try another word or clear the search.";
     } else if (currentFilter === "active") {
       emptyIcon.textContent = "🎉";
       emptyText.textContent = "All quests completed! Take a break or add a new mission.";
@@ -1003,14 +1035,6 @@ function renderTasks() {
   if (progressContainer) {
     progressContainer.setAttribute("aria-valuenow", String(xp));
   }
-
-  // Count completed quests
-  const completedCount = quests.filter(function(quest) {
-    return quest.completed;
-  }).length;
-
-  // Count remaining quests
-  const remainingCount = quests.length - completedCount;
 
   // Update dashboard
   document.getElementById("totalQuests").textContent = quests.length;
@@ -1145,6 +1169,13 @@ function addTask() {
 
   input.value = "";
 
+  // Clear a search that would hide the quest that was just added
+  if (searchTerm !== "") {
+    const searchInput = document.getElementById("questSearch");
+    if (searchInput) searchInput.value = "";
+    searchTerm = "";
+  }
+
   // Switch to 'all' if user was viewing only completed quests so they see the new quest
   if (currentFilter === "completed") {
     currentFilter = "all";
@@ -1194,6 +1225,7 @@ taskInput.addEventListener("keydown", function(event) {
     addTask();
   }
 });
+
 // 8. Re-read the streak when the tab regains focus, so a page left open
 //    overnight never shows yesterday's credit as today's
 function refreshStreakFromStorage() {
@@ -1374,3 +1406,116 @@ function initFeedbackForm() {
 
 initFeedbackForm();
 
+// ============================================
+// 10. Navigation helpers
+// ============================================
+
+// Highlight the jump-bar link for the section currently under the reading line
+function initJumpBar() {
+  const links = Array.prototype.slice.call(document.querySelectorAll(".jump-link"));
+  if (links.length === 0) return;
+
+  const items = links.map(function(link) {
+    return { link: link, section: document.querySelector(link.getAttribute("href")) };
+  }).filter(function(item) {
+    return Boolean(item.section);
+  });
+
+  if (items.length === 0) return;
+
+  let ticking = false;
+
+  function update() {
+    ticking = false;
+
+    const readingLine = window.innerHeight * 0.35;
+    let current = items[0];
+
+    items.forEach(function(item) {
+      if (item.section.getBoundingClientRect().top <= readingLine) {
+        current = item;
+      }
+    });
+
+    // At the very bottom of the journal the last section counts as reached
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) {
+      current = items[items.length - 1];
+    }
+
+    items.forEach(function(item) {
+      const isActive = item === current;
+      item.link.classList.toggle("is-active", isActive);
+      if (isActive) {
+        item.link.setAttribute("aria-current", "true");
+      } else {
+        item.link.removeAttribute("aria-current");
+      }
+    });
+  }
+
+  function requestUpdate() {
+    if (ticking) return;
+    ticking = true;
+    window.requestAnimationFrame(update);
+  }
+
+  window.addEventListener("scroll", requestUpdate, { passive: true });
+  window.addEventListener("resize", requestUpdate);
+  update();
+}
+
+// Show a back-to-top control once the journal is scrolled
+function initBackToTop() {
+  const button = document.getElementById("backToTop");
+  if (!button) return;
+
+  const reducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  function update() {
+    button.hidden = window.scrollY < 600;
+  }
+
+  button.addEventListener("click", function() {
+    const behavior = reducedMotion && reducedMotion.matches ? "auto" : "smooth";
+    window.scrollTo({ top: 0, behavior: behavior });
+
+    const heading = document.querySelector(".brand-text h1");
+    if (heading) {
+      heading.setAttribute("tabindex", "-1");
+      heading.focus({ preventScroll: true });
+    }
+  });
+
+  window.addEventListener("scroll", update, { passive: true });
+  update();
+}
+
+// "/" focuses the board search, Escape inside it clears and releases it
+function initSearchShortcut() {
+  const searchInput = document.getElementById("questSearch");
+  if (!searchInput) return;
+
+  document.addEventListener("keydown", function(event) {
+    const target = event.target;
+    const isTyping = target && (target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.tagName === "SELECT" || target.isContentEditable);
+
+    if (event.key === "/" && !isTyping) {
+      event.preventDefault();
+      searchInput.focus();
+      searchInput.select();
+    }
+  });
+
+  searchInput.addEventListener("keydown", function(event) {
+    if (event.key === "Escape") {
+      event.preventDefault();
+      searchInput.value = "";
+      setSearch("");
+      searchInput.blur();
+    }
+  });
+}
+
+initJumpBar();
+initBackToTop();
+initSearchShortcut();
