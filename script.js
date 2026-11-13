@@ -101,6 +101,61 @@ function startOfWeek(date) {
   start.setDate(start.getDate() - offset);
   return start;
 }
+
+// --- Due dates (optional, "YYYY-MM-DD", local calendar days) ---
+
+function formatDueDate(key) {
+  const parts = key.split("-");
+  const date = new Date(Date.UTC(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2])));
+  const sameYear = new Date().getUTCFullYear() === date.getUTCFullYear();
+
+  return date.toLocaleDateString(undefined, sameYear
+    ? { month: "short", day: "numeric", timeZone: "UTC" }
+    : { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
+}
+
+function isQuestDueNow(quest) {
+  return !quest.completed && isValidDateKey(quest.due) && daysBetween(todayKey(), quest.due) <= 0;
+}
+
+function isQuestOverdue(quest) {
+  return !quest.completed && isValidDateKey(quest.due) && daysBetween(todayKey(), quest.due) < 0;
+}
+
+function getDueInfo(quest) {
+  if (!isValidDateKey(quest.due)) return null;
+
+  const offset = daysBetween(todayKey(), quest.due);
+
+  if (quest.completed) {
+    return { state: "done", label: formatDueDate(quest.due) };
+  }
+
+  if (offset < 0) {
+    const late = Math.abs(offset);
+    return { state: "overdue", label: late === 1 ? "1 day overdue" : late + " days overdue" };
+  }
+
+  if (offset === 0) {
+    return { state: "today", label: "Due today" };
+  }
+
+  return { state: "upcoming", label: "Due " + formatDueDate(quest.due) };
+}
+
+// Soonest due date first; quests without a due date keep their order at the end
+function sortQuestsByDue(list) {
+  return list.slice().sort(function(a, b) {
+    const aDue = isValidDateKey(a.due);
+    const bDue = isValidDateKey(b.due);
+
+    if (aDue && bDue) return daysBetween(b.due, a.due);
+    if (aDue) return -1;
+    if (bDue) return 1;
+    return 0;
+  });
+}
+
 // --- Persistence ---
 
 function emptyStreak() {
@@ -673,6 +728,24 @@ function buildQuestEditor(quest, diffKey) {
   diffField.appendChild(diffSelect);
   diffField.appendChild(hint);
 
+  // Due date field (optional)
+  const dueField = document.createElement("div");
+  dueField.className = "edit-field edit-field-due";
+
+  const dueLabel = document.createElement("label");
+  dueLabel.className = "edit-label";
+  dueLabel.htmlFor = "questEditDue";
+  dueLabel.textContent = "Due date";
+
+  const dueInput = document.createElement("input");
+  dueInput.type = "date";
+  dueInput.id = "questEditDue";
+  dueInput.className = "edit-due";
+  dueInput.value = isValidDateKey(quest.due) ? quest.due : "";
+  dueInput.setAttribute("aria-label", "Due date, optional");
+
+  dueField.appendChild(dueLabel);
+  dueField.appendChild(dueInput);
 
   // Guards against a second save while the first one is being applied
   let isSaving = false;
@@ -848,6 +921,15 @@ function buildQuestCard(quest) {
   badge.appendChild(badgeXP);
   taskInfo.appendChild(badge);
 
+  const due = getDueInfo(quest);
+  if (due) {
+    const dueChip = document.createElement("span");
+    dueChip.className = "due-chip due-" + due.state;
+    dueChip.textContent = due.label;
+    dueChip.title = quest.completed ? "Was due " + formatDueDate(quest.due) : due.label;
+    taskInfo.appendChild(dueChip);
+  }
+
   item.appendChild(taskInfo);
 
   // Complete button
@@ -969,9 +1051,14 @@ function renderTasks() {
   const countActiveEl = document.getElementById("countActive");
   const countCompletedEl = document.getElementById("countCompleted");
 
+  const countTodayEl = document.getElementById("countToday");
+  const dueNowCount = quests.filter(isQuestDueNow).length;
+
   if (countAllEl) countAllEl.textContent = quests.length;
   if (countActiveEl) countActiveEl.textContent = remainingCount;
   if (countCompletedEl) countCompletedEl.textContent = completedCount;
+  if (countTodayEl) countTodayEl.textContent = dueNowCount;
+
   // Filter quests based on selected tab
   let filteredQuests = quests;
   if (currentFilter === "active") {
@@ -982,6 +1069,8 @@ function renderTasks() {
     filteredQuests = quests.filter(function(quest) {
       return quest.completed;
     });
+  } else if (currentFilter === "today") {
+    filteredQuests = quests.filter(isQuestDueNow);
   }
 
   if (searchTerm !== "") {
@@ -990,6 +1079,8 @@ function renderTasks() {
       return quest.name.toLowerCase().indexOf(needle) !== -1;
     });
   }
+
+  filteredQuests = sortQuestsByDue(filteredQuests);
 
   // Display empty state if no quests match the current filter
   if (filteredQuests.length === 0) {
@@ -1008,6 +1099,9 @@ function renderTasks() {
     } else if (searchTerm !== "") {
       emptyIcon.textContent = "🔍";
       emptyText.textContent = "No quests match \"" + searchTerm + "\". Try another word or clear the search.";
+    } else if (currentFilter === "today") {
+      emptyIcon.textContent = "🌙";
+      emptyText.textContent = "Nothing is due today. Add a due date or enjoy the clear road.";
     } else if (currentFilter === "active") {
       emptyIcon.textContent = "🎉";
       emptyText.textContent = "All quests completed! Take a break or add a new mission.";
@@ -1047,6 +1141,7 @@ function renderTasks() {
     clearBtn.disabled = completedCount === 0;
   }
 
+    const overdueCount = quests.filter(isQuestOverdue).length;
   // Refresh rank progression and achievements
   renderChronicles({
     level: level,
@@ -1160,14 +1255,31 @@ function addTask() {
   if (task === "") return;
 
   const difficulty = difficultySelect ? difficultySelect.value : "medium";
+  const dueInput = document.getElementById("dueInput");
+  const dueValue = dueInput ? dueInput.value : "";
 
-  quests.push({
+  const quest = {
     name: task,
     difficulty: difficulty,
     completed: false
-  });
+  };
+
+  if (isValidDateKey(dueValue)) {
+    quest.due = dueValue;
+  }
+
+  quests.push(quest);
 
   input.value = "";
+
+  if (dueInput) {
+    dueInput.value = "";
+  }
+
+  // Stay on "Today" only if the new quest belongs there
+  if (currentFilter === "today" && !isQuestDueNow(quest)) {
+    currentFilter = "all";
+  }
 
   // Clear a search that would hide the quest that was just added
   if (searchTerm !== "") {
@@ -1186,6 +1298,7 @@ function addTask() {
 }
 
 // 5. Clear all completed quests
+// Move every overdue quest's due date to today; completed and future quests are left alone
 function clearCompleted() {
   const completedCount = quests.filter(function(quest) {
     return quest.completed;

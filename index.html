@@ -123,6 +123,11 @@
             </select>
           </div>
 
+          <div class="field field-due">
+            <label for="dueInput">Due date <span class="label-optional">optional</span></label>
+            <input id="dueInput" type="date">
+          </div>
+
           <button class="btn-primary" onclick="addTask()">Add Quest</button>
         </div>
       </section>
@@ -145,6 +150,7 @@
 
         <div class="filter-tabs" role="group" aria-label="Filter quests">
           <button class="filter-btn active" data-filter="all" aria-pressed="true" onclick="setFilter('all')">All <span class="filter-count" id="countAll">0</span></button>
+          <button class="filter-btn" data-filter="today" aria-pressed="false" onclick="setFilter('today')">Today <span class="filter-count" id="countToday">0</span></button>
           <button class="filter-btn" data-filter="active" aria-pressed="false" onclick="setFilter('active')">In Progress <span class="filter-count" id="countActive">0</span></button>
           <button class="filter-btn" data-filter="completed" aria-pressed="false" onclick="setFilter('completed')">Completed <span class="filter-count" id="countCompleted">0</span></button>
         </div>
