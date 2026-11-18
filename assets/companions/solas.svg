@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" width="100%" height="100%" class="companion-svg companion-solas-svg">
+  <defs>
+    <radialGradient id="solasAura" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fbbf24" stop-opacity="0.45"/>
+      <stop offset="55%" stop-color="#f43f5e" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="solasGoldPlumage" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef08a"/>
+      <stop offset="35%" stop-color="#f59e0b"/>
+      <stop offset="75%" stop-color="#e11d48"/>
+      <stop offset="100%" stop-color="#881337"/>
+    </linearGradient>
+    <linearGradient id="solasCrownGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="40%" stop-color="#fef08a"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+    <radialGradient id="solasEye" cx="35%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="50%" stop-color="#fbbf24"/>
+      <stop offset="85%" stop-color="#ea580c"/>
+      <stop offset="100%" stop-color="#451a03"/>
+    </radialGradient>
+    <filter id="solasSolarGlow" x="0%" y="0%" width="100%" height="100%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <circle cx="160" cy="165" r="130" fill="url(#solasAura)"/>
+
+  <!-- Solar Corona & Prismatic Sparkles -->
+  <g class="comp-particles-group" filter="url(#solasSolarGlow)">
+    <polygon points="160,30 164,40 174,42 165,48 167,58 160,52 153,58 155,48 146,42 156,40" fill="#ffffff"/>
+    <circle cx="75" cy="100" r="4" fill="#fef08a" opacity="0.85"/>
+    <circle cx="245" cy="95" r="4.5" fill="#fb7185" opacity="0.8"/>
+    <circle cx="260" cy="180" r="3.5" fill="#f59e0b" opacity="0.75"/>
+    <circle cx="65" cy="180" r="3.5" fill="#fef08a" opacity="0.8"/>
+  </g>
+
+  <!-- Flowing Triple Phoenix Tail Feathers -->
+  <g class="comp-tail-group solas-tail" filter="url(#solasSolarGlow)">
+    <path d="M150 225 C140 260 120 280 135 295 C145 285 155 260 155 230 Z" fill="url(#solasGoldPlumage)"/>
+    <path d="M160 225 C160 265 160 288 165 300 C170 288 170 265 165 230 Z" fill="url(#solasCrownGold)"/>
+    <path d="M170 225 C180 260 200 280 185 295 C175 285 165 260 165 230 Z" fill="url(#solasGoldPlumage)"/>
+  </g>
+
+  <!-- Golden Talons -->
+  <g fill="#f59e0b">
+    <ellipse cx="140" cy="265" rx="8" ry="6"/>
+    <ellipse cx="180" cy="265" rx="8" ry="6"/>
+  </g>
+
+  <!-- Radiant Body -->
+  <g class="comp-body-group solas-body">
+    <ellipse cx="160" cy="205" rx="52" ry="54" fill="url(#solasGoldPlumage)"/>
+    <!-- Solar Breast Plumage -->
+    <path d="M135 175 C125 210 135 245 160 252 C185 245 195 210 185 175 C172 190 148 190 135 175 Z" fill="url(#solasCrownGold)"/>
+  </g>
+
+  <!-- Magnificent Phoenix Wings -->
+  <g class="solas-wings" filter="url(#solasSolarGlow)">
+    <path d="M115 175 C80 140 50 160 65 195 C80 215 110 200 125 188 Z" fill="url(#solasGoldPlumage)"/>
+    <path d="M205 175 C240 140 270 160 255 195 C240 215 210 200 195 188 Z" fill="url(#solasGoldPlumage)"/>
+  </g>
+
+  <!-- Head Group -->
+  <g class="comp-head-group solas-head">
+    <!-- Radiant Sun Crest Crown -->
+    <g class="solas-crown" filter="url(#solasSolarGlow)">
+      <path d="M160 110 C155 70 140 55 150 45 C158 55 162 75 160 110 Z" fill="url(#solasCrownGold)"/>
+      <path d="M160 110 C160 65 160 40 165 35 C170 45 168 70 165 110 Z" fill="#ffffff"/>
+      <path d="M160 110 C165 70 180 55 170 45 C162 55 158 75 160 110 Z" fill="url(#solasCrownGold)"/>
+    </g>
+
+    <ellipse cx="160" cy="140" rx="48" ry="40" fill="url(#solasGoldPlumage)"/>
+
+    <!-- Luminous Eyes -->
+    <g class="comp-eye solas-eye-l">
+      <circle cx="136" cy="138" r="14" fill="url(#solasEye)"/>
+      <circle cx="136" cy="138" r="7" fill="#451a03"/>
+      <circle cx="132" cy="133" r="4.5" fill="#ffffff"/>
+    </g>
+    <g class="comp-eye solas-eye-r">
+      <circle cx="184" cy="138" r="14" fill="url(#solasEye)"/>
+      <circle cx="184" cy="138" r="7" fill="#451a03"/>
+      <circle cx="180" cy="133" r="4.5" fill="#ffffff"/>
+    </g>
+
+    <!-- Golden Beak -->
+    <polygon points="156,145 164,145 160,158" fill="#fef08a" stroke="#d97706" stroke-width="1.5"/>
+
+    <!-- Forehead Solar Star -->
+    <polygon points="160,110 163,116 170,118 164,122 161,128 158,122 150,118 157,116" fill="#ffffff" filter="url(#solasSolarGlow)"/>
+  </g>
+</svg>

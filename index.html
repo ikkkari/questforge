@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="midnight-arcane">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="color-scheme" content="dark">
   <title>Questforge — The Dark Knight's Journal</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='10' fill='%23111018'/%3E%3Cpath d='M24 7 38.5 12.2v10.2C38.5 31 32.2 36.3 24 39.4 15.8 36.3 9.5 31 9.5 22.4V12.2Z' fill='none' stroke='%23D9B56D' stroke-width='2'/%3E%3Cpath d='M24 15.5v13' stroke='%23D9B56D' stroke-width='2' stroke-linecap='round'/%3E%3Cpath d='M19 21h10' stroke='%23D9B56D' stroke-width='2' stroke-linecap='round'/%3E%3Ccircle cx='24' cy='32' r='1.8' fill='%23D9B56D'/%3E%3C/svg%3E">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='10' fill='%23080C14'/%3E%3Cpath d='M24 7 38.5 12.2v10.2C38.5 31 32.2 36.3 24 39.4 15.8 36.3 9.5 31 9.5 22.4V12.2Z' fill='none' stroke='%2338BDF8' stroke-width='2'/%3E%3Cpath d='M24 15.5v13' stroke='%2338BDF8' stroke-width='2' stroke-linecap='round'/%3E%3Cpath d='M19 21h10' stroke='%2338BDF8' stroke-width='2' stroke-linecap='round'/%3E%3Ccircle cx='24' cy='32' r='1.8' fill='%2338BDF8'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <!-- Loaded without blocking rendering or script execution; the local font stacks cover the gap -->
@@ -14,6 +14,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   </noscript>
   <link rel="stylesheet" href="style.css">
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem("quest_theme") || "midnight-arcane";
+      document.documentElement.setAttribute("data-theme", savedTheme);
+    })();
+  </script>
 </head>
 <body>
 
@@ -22,313 +28,1558 @@
 
   <div class="app">
 
+    <!-- TOPBAR -->
     <header class="topbar">
-      <div class="brand">
-        <svg class="brand-mark" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
-          <path d="M24 4.5 42 11v12.6C42 34.4 34.2 40.9 24 44.5 13.8 40.9 6 34.4 6 23.6V11Z" fill="none" stroke="#D9B56D" stroke-width="1.3" opacity=".75"/>
-          <path d="M24 14v18" fill="none" stroke="#D9B56D" stroke-width="1.5" stroke-linecap="round"/>
-          <path d="M18.4 20.6h11.2" fill="none" stroke="#D9B56D" stroke-width="1.5" stroke-linecap="round"/>
-          <circle cx="24" cy="34.6" r="1.7" fill="#D9B56D"/>
-        </svg>
-        <div class="brand-text">
-          <p class="eyebrow">Questforge</p>
-          <h1>The Dark Knight&rsquo;s Journal</h1>
+      <div class="topbar-left">
+        <button id="btnMobileNavToggle" class="btn-mobile-nav" type="button" onclick="toggleMobileNav()" aria-label="Toggle navigation menu">
+          <span class="hamburger-box"><span class="hamburger-inner"></span></span>
+          <span class="btn-mobile-label sr-only">Menu</span>
+        </button>
+
+        <div class="brand">
+          <svg class="brand-mark" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+            <path d="M24 4.5 42 11v12.6C42 34.4 34.2 40.9 24 44.5 13.8 40.9 6 34.4 6 23.6V11Z" fill="none" stroke="currentColor" stroke-width="1.3" opacity=".75"/>
+            <path d="M24 14v18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M18.4 20.6h11.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="24" cy="34.6" r="1.7" fill="currentColor"/>
+          </svg>
+          <div class="brand-text">
+            <p class="eyebrow">Questforge</p>
+            <h1>The Dark Knight&rsquo;s Journal</h1>
+          </div>
         </div>
       </div>
-      <button id="soundToggleBtn" class="btn-sound" onclick="toggleSound()" aria-label="Toggle sound effects">🔊 Sound ON</button>
+
+      <div class="topbar-actions">
+        <!-- Global Treasury Wallet -->
+        <div class="topbar-wallet" role="region" aria-label="Adventurer Wallet">
+          <div class="topbar-currency" title="Gold Coins">
+            <img class="wallet-currency-icon" src="assets/items/currency_gold.svg" alt="" aria-hidden="true">
+            <span id="topbarGold" class="currency-value">50</span>
+          </div>
+          <div class="topbar-currency" title="Arcane Shards">
+            <img class="wallet-currency-icon" src="assets/items/currency_shard.svg" alt="" aria-hidden="true">
+            <span id="topbarShards" class="currency-value">2</span>
+          </div>
+        </div>
+
+        <!-- Soundtrack quick toggle -->
+        <button id="musicToggleBtn" class="btn-music" type="button" onclick="toggleMusic()" aria-label="Toggle background soundtrack">
+          <span class="music-eq" aria-hidden="true">
+            <span class="eq-bar bar-1"></span>
+            <span class="eq-bar bar-2"></span>
+            <span class="eq-bar bar-3"></span>
+          </span>
+          <span id="musicBtnText">Soundtrack OFF</span>
+        </button>
+
+        <!-- Hidden music select / vol for engine compatibility -->
+        <select id="musicMoodSelect" class="sr-only" aria-hidden="true" onchange="changeMusicMood(this.value)">
+          <option value="arcane" selected>Arcane</option>
+          <option value="tavern">Tavern</option>
+          <option value="frost">Frost</option>
+        </select>
+        <input id="musicVolumeSlider" type="range" class="sr-only" min="0" max="1" step="0.05" value="0.35" oninput="setMusicVolume(this.value)" aria-hidden="true">
+        <select id="themeSelect" class="sr-only" aria-hidden="true" onchange="setTheme(this.value)">
+          <option value="midnight-arcane" selected>Midnight Arcane</option>
+          <option value="dark-knight">Dark Knight</option>
+          <option value="obsidian-gold">Obsidian Gold</option>
+          <option value="nordic-frost">Nordic Frost</option>
+        </select>
+
+        <button id="soundToggleBtn" class="btn-sound" onclick="toggleSound()" aria-label="Toggle sound effects">🔊 Sound ON</button>
+        <button id="authTopbarBtn" class="btn-vault" type="button" onclick="openAuthModal()" aria-label="Adventurer Vault and Character Slots">
+          <span class="vault-avatar" id="topbarAvatar" aria-hidden="true">🛡️</span>
+          <span id="topbarAccountName" class="topbar-account-name">Guest Knight</span>
+          <span class="vault-tag" id="topbarVaultTag">Vault</span>
+        </button>
+      </div>
     </header>
 
-    <nav class="jump-bar" aria-label="Sections of the journal">
-      <a class="jump-link" href="#panel-profile">Profile</a>
-      <a class="jump-link" href="#panel-board">Board</a>
-      <a class="jump-link" href="#panel-streak">Streak</a>
-      <a class="jump-link" href="#panel-feedback">Feedback</a>
-    </nav>
+    <!-- MOBILE BACKDROP -->
+    <div id="sidebarBackdrop" class="sidebar-backdrop" onclick="closeMobileNav()" aria-hidden="true"></div>
 
-    <main class="dashboard">
+    <!-- MAIN APP SHELL -->
+    <div class="app-layout">
 
-      <!-- A. Player Profile -->
-      <section id="panel-profile" class="panel panel-profile" aria-labelledby="heading-profile">
-        <div class="panel-head">
-          <h2 id="heading-profile">Player Profile</h2>
-          <span class="panel-index" aria-hidden="true">I</span>
-        </div>
-
-        <div class="profile-body">
-          <div class="level-orb">
-            <span class="level-label">Level</span>
-            <span id="level" class="level-value">1</span>
+      <!-- ============================================
+           SIDEBAR NAVIGATION (Desktop & Mobile Drawer)
+           ============================================ -->
+      <aside class="app-sidebar" id="appSidebar" role="navigation" aria-label="Main Navigation">
+        <!-- Hero Character Profile Chip -->
+        <div class="sidebar-hero-chip" onclick="switchPage('profile')" tabindex="0" role="button" aria-label="View Adventurer Profile">
+          <div class="sidebar-avatar-frame">
+            <img class="sidebar-avatar-img" src="assets/characters/hero_adventurer.svg" alt="Adventurer">
           </div>
-
-          <div class="profile-meta">
-            <div class="profile-name-row">
-              <p class="profile-name-line">
-                <span id="playerName" class="player-name">Dark Knight</span>
-              </p>
-              <button id="renameBtn" class="btn-rename" type="button" onclick="startRename()" aria-label="Change your adventurer name">Rename</button>
-            </div>
-
-            <div id="renameForm" class="rename-form" role="group" aria-label="Change your adventurer name" hidden>
-              <label class="sr-only" for="renameInput">Adventurer name</label>
-              <input id="renameInput" type="text" maxlength="24" autocomplete="off" placeholder="Adventurer name">
-              <div class="rename-actions">
-                <button id="renameSave" class="btn-primary btn-small" type="button" onclick="saveName()">Save</button>
-                <button id="renameCancel" class="btn-ghost" type="button" onclick="cancelRename()">Cancel</button>
-              </div>
-              <p id="renameError" class="rename-error" role="alert" hidden></p>
-            </div>
-
-            <p class="profile-rank-line">
-              <span id="playerTitle" class="player-title">Beginner Adventurer</span>
-            </p>
-            <div class="xp-row">
-              <span class="xp-label">Experience</span>
-              <span class="xp-values"><span id="xp">0</span><span class="xp-max">/ 100</span></span>
-            </div>
-            <div id="progressContainer" role="progressbar" aria-label="Experience towards the next level" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-              <div id="progressBar"></div>
-            </div>
-            <p class="xp-hint">Complete quests to earn experience. At 100 XP a new level is claimed.</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- B. Adventure Statistics -->
-      <section class="panel panel-stats" aria-labelledby="heading-stats">
-        <div class="panel-head">
-          <h2 id="heading-stats">Adventure Statistics</h2>
-          <span class="panel-index" aria-hidden="true">II</span>
-        </div>
-
-        <div id="questStats">
-          <div class="stat">
-            <span class="stat-value" id="totalQuests">0</span>
-            <p class="stat-label">Total Quests</p>
-          </div>
-
-          <div class="stat">
-            <span class="stat-value" id="completedQuests">0</span>
-            <p class="stat-label">Completed</p>
-          </div>
-
-          <div class="stat">
-            <span class="stat-value" id="remainingQuests">0</span>
-            <p class="stat-label">Remaining</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- C. Quest creation -->
-      <section id="panel-composer" class="panel panel-composer" aria-labelledby="heading-composer">
-        <div class="panel-head">
-          <h2 id="heading-composer">Forge a New Quest</h2>
-          <span class="panel-index" aria-hidden="true">III</span>
-        </div>
-
-        <div class="composer-row">
-          <div class="field field-quest">
-            <label for="taskInput">Quest name</label>
-            <input id="taskInput" type="text" placeholder="Describe the trial ahead…" autocomplete="off">
-          </div>
-
-          <div class="field field-difficulty">
-            <label for="difficultySelect">Difficulty</label>
-            <select id="difficultySelect">
-              <option value="easy">Easy — +10 XP</option>
-              <option value="medium" selected>Medium — +20 XP</option>
-              <option value="hard">Hard — +50 XP</option>
-            </select>
-          </div>
-
-          <div class="field field-due">
-            <label for="dueInput">Due date <span class="label-optional">optional</span></label>
-            <input id="dueInput" type="date">
-          </div>
-
-          <button class="btn-primary" onclick="addTask()">Add Quest</button>
-        </div>
-      </section>
-
-      <!-- D. Quest Board -->
-      <section id="panel-board" class="panel panel-board" aria-labelledby="heading-board">
-        <div class="panel-head">
-          <h2 id="heading-board">Quest Board</h2>
-          <span class="panel-index" aria-hidden="true">IV</span>
-        </div>
-
-        <div class="board-tools">
-          <div class="search-wrap">
-            <label class="sr-only" for="questSearch">Search quests</label>
-            <input id="questSearch" type="search" class="quest-search" placeholder="Search quests by name…"
-                   autocomplete="off" oninput="setSearch(this.value)">
-            <kbd class="search-key" aria-hidden="true">/</kbd>
+          <div class="sidebar-hero-meta">
+            <span class="sidebar-hero-name" id="sidebarPlayerName">Dark Knight</span>
+            <span class="sidebar-hero-level">Level <span id="sidebarPlayerLevel">1</span> &bull; <span id="sidebarPlayerTitle">Beginner</span></span>
           </div>
         </div>
 
-        <div class="filter-tabs" role="group" aria-label="Filter quests">
-          <button class="filter-btn active" data-filter="all" aria-pressed="true" onclick="setFilter('all')">All <span class="filter-count" id="countAll">0</span></button>
-          <button class="filter-btn" data-filter="today" aria-pressed="false" onclick="setFilter('today')">Today <span class="filter-count" id="countToday">0</span></button>
-          <button class="filter-btn" data-filter="active" aria-pressed="false" onclick="setFilter('active')">In Progress <span class="filter-count" id="countActive">0</span></button>
-          <button class="filter-btn" data-filter="completed" aria-pressed="false" onclick="setFilter('completed')">Completed <span class="filter-count" id="countCompleted">0</span></button>
+        <!-- Navigation Tabs List -->
+        <nav class="sidebar-nav">
+          <button type="button" class="nav-item active" data-page="profile" onclick="switchPage('profile')" id="navBtn-profile">
+            <span class="nav-icon" aria-hidden="true">👤</span>
+            <span class="nav-label">Profile</span>
+          </button>
+
+          <button type="button" class="nav-item" data-page="quests" onclick="switchPage('quests')" id="navBtn-quests">
+            <span class="nav-icon" aria-hidden="true">⚔️</span>
+            <span class="nav-label">Quests</span>
+            <span id="navQuestBadge" class="nav-badge" hidden>0</span>
+          </button>
+
+          <button type="button" class="nav-item" data-page="inventory" onclick="switchPage('inventory')" id="navBtn-inventory">
+            <span class="nav-icon" aria-hidden="true">🎒</span>
+            <span class="nav-label">Inventory</span>
+            <span id="navBagBadge" class="nav-badge">4/20</span>
+          </button>
+
+          <button type="button" class="nav-item" data-page="companions" onclick="switchPage('companions')" id="navBtn-companions">
+            <span class="nav-icon" aria-hidden="true">🐾</span>
+            <span class="nav-label">Companions</span>
+            <span id="navCompanionBadge" class="nav-badge">1/6</span>
+          </button>
+
+          <button type="button" class="nav-item" data-page="forge" onclick="switchPage('forge')" id="navBtn-forge">
+            <span class="nav-icon" aria-hidden="true">📜</span>
+            <span class="nav-label">Forge</span>
+          </button>
+
+          <button type="button" class="nav-item" data-page="refine" onclick="switchPage('refine')" id="navBtn-refine">
+            <span class="nav-icon" aria-hidden="true">🔨</span>
+            <span class="nav-label">Refinement</span>
+          </button>
+
+          <button type="button" class="nav-item" data-page="shop" onclick="switchPage('shop')" id="navBtn-shop">
+            <span class="nav-icon" aria-hidden="true">🪙</span>
+            <span class="nav-label">Shop</span>
+          </button>
+
+          <button type="button" class="nav-item" data-page="soundtrack" onclick="switchPage('soundtrack')" id="navBtn-soundtrack">
+            <span class="nav-icon" aria-hidden="true">🎵</span>
+            <span class="nav-label">Soundtrack</span>
+          </button>
+
+          <button type="button" class="nav-item" data-page="themes" onclick="switchPage('themes')" id="navBtn-themes">
+            <span class="nav-icon" aria-hidden="true">🎨</span>
+            <span class="nav-label">Themes</span>
+          </button>
+
+          <button type="button" class="nav-item" data-page="streak" onclick="switchPage('streak')" id="navBtn-streak">
+            <span class="nav-icon" aria-hidden="true">🔥</span>
+            <span class="nav-label">Streak</span>
+            <span id="navStreakBadge" class="nav-badge">0d</span>
+          </button>
+
+          <button type="button" class="nav-item" data-page="board" onclick="switchPage('board')" id="navBtn-board">
+            <span class="nav-icon" aria-hidden="true">🏆</span>
+            <span class="nav-label">Board</span>
+          </button>
+
+          <button type="button" class="nav-item" data-page="attributes" onclick="switchPage('attributes')" id="navBtn-attributes">
+            <span class="nav-icon" aria-hidden="true">⚡</span>
+            <span class="nav-label">Attributes</span>
+            <span id="navAttrBadge" class="nav-badge" hidden>0</span>
+          </button>
+        </nav>
+
+        <div class="sidebar-footer">
+          <button type="button" class="btn-sidebar-vault" onclick="openAuthModal()">
+            <span aria-hidden="true">🛡️</span> Adventurer Vault
+          </button>
         </div>
-
-        <ul id="taskList"></ul>
-
-        <div class="list-actions">
-          <button id="rescheduleOverdueBtn" class="btn-ghost" onclick="rescheduleOverdue()" disabled>Move Overdue to Today</button>
-          <button id="clearCompletedBtn" class="btn-clear" onclick="clearCompleted()">Clear Completed Quests</button>
-        </div>
-      </section>
-
-      <!-- E. Chronicles -->
-      <aside class="panel panel-chronicles" aria-labelledby="heading-chronicles">
-        <div class="panel-head">
-          <h2 id="heading-chronicles">Chronicles</h2>
-          <span class="panel-index" aria-hidden="true">V</span>
-        </div>
-
-        <p class="subsection-title">Rank Progression</p>
-        <div class="rank-track" id="rankLadder"></div>
-
-        <p class="subsection-title">Achievements</p>
-        <div class="achievements" id="achievementGrid"></div>
       </aside>
 
-      <!-- F. Adventurer's Streak -->
-      <section id="panel-streak" class="panel panel-streak" aria-labelledby="heading-streak">
-        <div class="panel-head">
-          <h2 id="heading-streak">Adventurer&rsquo;s Streak</h2>
-          <span class="panel-index" aria-hidden="true">VI</span>
-        </div>
+      <!-- ============================================
+           MAIN VIEWPORT (Only Active Page Visible)
+           ============================================ -->
+      <main class="app-viewport" id="appViewport">
 
-        <div class="streak-body">
-          <div class="streak-hero">
-            <div class="streak-flame" id="streakFlame" data-state="cold">
-              <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false">
-                <defs>
-                  <linearGradient id="streakFlameGradient" x1="0" y1="1" x2="0.2" y2="0">
-                    <stop offset="0" stop-color="#C4703A"/>
-                    <stop offset="0.55" stop-color="#E08A4B"/>
-                    <stop offset="1" stop-color="#EFD9A6"/>
-                  </linearGradient>
-                </defs>
-                <path d="M16 2.5c1.2 4.9 6.6 7.1 6.6 13a6.6 6.6 0 0 1-13.2 0c0-3.1 1.7-5.4 3.4-7.4.2 2 1.2 3.4 2.6 4.1.1-3.4.3-6.6.6-9.7Z" fill="url(#streakFlameGradient)"/>
-                <path d="M16 29.6a4.2 4.2 0 0 1-4.2-4.2c0-2.4 2.1-4.1 4.2-6.4 2.1 2.3 4.2 4 4.2 6.4a4.2 4.2 0 0 1-4.2 4.2Z" fill="#D9B56D" opacity=".9"/>
-              </svg>
+        <!-- 1. PROFILE PAGE -->
+        <div id="page-profile" class="rpg-page is-active" role="tabpanel" aria-labelledby="navBtn-profile">
+          <div class="page-header">
+            <div class="page-title-group">
+              <span class="page-crumb">Realm / Persona</span>
+              <h2 class="page-title">Adventurer Profile</h2>
             </div>
-
-            <div class="streak-readout">
-              <p class="streak-count"><span id="streakCurrent">0</span><span class="streak-unit">day streak</span></p>
-              <p class="streak-best">Best <span id="streakBest">0</span> <span id="streakBestUnit">days</span></p>
-            </div>
-
-            <p class="streak-status" id="streakStatus" aria-live="polite">Complete a quest to start a new streak.</p>
+            <span class="page-badge-rank">⚔️ Level <span id="level">1</span></span>
           </div>
 
-          <div class="streak-week">
-            <p class="subsection-title">This Week</p>
-            <ol class="streak-days" id="streakDays" aria-label="Quest activity for this week"></ol>
-          </div>
+          <div class="profile-layout-grid">
+            <!-- Persona & Character Card -->
+            <div class="panel profile-hero-card">
+              <div class="profile-hero-top">
+                <div class="profile-hero-frame" aria-label="Adventurer Character">
+                  <div class="hero-stage">
+                    <div class="hero-stage-aura" aria-hidden="true"></div>
+                    <img id="profileHeroImg" class="hero-avatar-img" src="assets/characters/hero_adventurer.svg" alt="Adventurer Dark Knight">
+                    <div class="hero-stage-particles" aria-hidden="true">
+                      <span class="hero-mote mote-1">✦</span>
+                      <span class="hero-mote mote-2">⚡</span>
+                    </div>
+                  </div>
+                </div>
 
-          <div class="streak-milestones">
-            <p class="subsection-title">Milestones</p>
-            <div class="milestone-track" id="milestoneTrack" role="list" aria-label="Streak milestones"></div>
-            <div class="streak-meter" id="streakMeter" role="progressbar" aria-label="Progress towards the next streak milestone" aria-valuemin="0" aria-valuemax="3" aria-valuenow="0">
-              <div id="streakMeterFill"></div>
+                <div class="profile-identity">
+                  <div class="profile-name-row">
+                    <p class="profile-name-line">
+                      <span id="playerName" class="player-name">Dark Knight</span>
+                    </p>
+                    <button id="renameBtn" class="btn-rename" type="button" onclick="startRename()" aria-label="Change your adventurer name">Rename</button>
+                  </div>
+
+                  <div id="renameForm" class="rename-form" role="group" aria-label="Change your adventurer name" hidden>
+                    <label class="sr-only" for="renameInput">Adventurer name</label>
+                    <input id="renameInput" type="text" maxlength="24" autocomplete="off" placeholder="Adventurer name">
+                    <div class="rename-actions">
+                      <button id="renameSave" class="btn-primary btn-small" type="button" onclick="saveName()">Save</button>
+                      <button id="renameCancel" class="btn-ghost" type="button" onclick="cancelRename()">Cancel</button>
+                    </div>
+                    <p id="renameError" class="rename-error" role="alert" hidden></p>
+                  </div>
+
+                  <p class="profile-rank-line">
+                    <span id="playerTitle" class="player-title">Beginner Adventurer</span>
+                  </p>
+
+                  <div class="profile-account-row">
+                    <span class="badge-account-status" id="profileAccountBadge">👤 Guest Session</span>
+                    <button type="button" class="btn-account-switch" onclick="openAuthModal()" aria-label="Open Adventurer Vault">Vault / Switch</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Dedicated Active Companion Dock (Clean separation from Adventurer) -->
+              <div id="profileCompanionPod" class="profile-companion-dock" onclick="interactWithCompanion('profile')" role="button" tabindex="0" aria-label="Interact with your active companion">
+                <div id="profileCompanionBubble" class="companion-speech-bubble" hidden></div>
+                <div class="companion-dock-avatar-wrap">
+                  <div class="companion-dock-pedestal" aria-hidden="true"></div>
+                  <img id="profileCompanionImg" class="companion-dock-avatar" src="assets/companions/fennie.svg" alt="Active Companion">
+                </div>
+                <div class="companion-dock-body">
+                  <div class="companion-dock-header">
+                    <span class="companion-dock-badge">Active Familiar</span>
+                    <strong id="profileCompanionNameTag" class="companion-dock-name">Fennie 🐾</strong>
+                  </div>
+                  <div id="profileCompanionDetailChip" class="companion-dock-perk">🐾 Fennie &bull; +5% Gold</div>
+                </div>
+                <button type="button" class="btn-sanctuary-link" onclick="event.stopPropagation(); switchPage('companions');" aria-label="Open Companions Sanctuary">Sanctuary 🐾</button>
+              </div>
+
+              <!-- XP & Level Progress -->
+              <div class="profile-xp-block">
+                <div class="xp-row">
+                  <span class="xp-label">Experience</span>
+                  <span class="xp-values"><span id="xp">0</span><span class="xp-max">/ 100</span></span>
+                </div>
+                <div id="progressContainer" role="progressbar" aria-label="Experience towards the next level" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                  <div id="progressBar"></div>
+                </div>
+                <p class="xp-hint">Complete quests to earn experience. At 100 XP a new level is claimed.</p>
+              </div>
+
+              <!-- Treasury Wallet -->
+              <div class="profile-wallet" role="region" aria-label="Adventurer Wallet">
+                <div class="wallet-currency wallet-gold" title="Gold Coins">
+                  <img class="wallet-currency-icon" src="assets/items/currency_gold.svg" alt="" aria-hidden="true">
+                  <div class="currency-meta">
+                    <span class="currency-label">Gold</span>
+                    <span id="playerGold" class="currency-value">50</span>
+                  </div>
+                </div>
+                <div class="wallet-currency wallet-shards" title="Arcane Shards">
+                  <img class="wallet-currency-icon" src="assets/items/currency_shard.svg" alt="" aria-hidden="true">
+                  <div class="currency-meta">
+                    <span class="currency-label">Shards</span>
+                    <span id="playerShards" class="currency-value">2</span>
+                  </div>
+                </div>
+              </div>
             </div>
-            <p class="milestone-next" id="milestoneNext">Next reward: +20 XP at a 3-day streak.</p>
+
+            <!-- Equipped Regalia (Paperdoll Arena) -->
+            <div class="panel profile-regalia-card">
+              <div class="panel-head">
+                <div class="panel-title-group">
+                  <h3>Equipped Relics &amp; Gear</h3>
+                  <span class="badge-equipped-count">5 Slots Active</span>
+                </div>
+              </div>
+
+              <div class="paperdoll-arena">
+                <!-- Living Adventurer Figure Stage -->
+                <div class="paperdoll-hero-stage" id="paperdollHeroStage" aria-label="Equipped Adventurer Preview">
+                  <div class="paperdoll-backdrop-rune" aria-hidden="true"></div>
+                  <img class="paperdoll-hero-figure" id="paperdollHeroFig" src="assets/characters/hero_adventurer.svg" alt="Equipped Adventurer">
+                  <div class="paperdoll-equipment-glows" id="paperdollGearGlows" aria-hidden="true">
+                    <span class="gear-glow-blade" id="glowWeapon" hidden></span>
+                    <span class="gear-glow-chest" id="glowArmor" hidden></span>
+                    <span class="gear-glow-helm" id="glowHelmet" hidden></span>
+                  </div>
+                </div>
+
+                <div class="equipment-slots">
+                  <!-- Weapon -->
+                  <div class="gear-slot" data-slot="weapon" onclick="inspectEquipped('weapon')" tabindex="0" role="button" aria-label="Weapon slot">
+                    <span class="slot-type-label">Weapon</span>
+                    <div class="slot-frame" id="slot-weapon">
+                      <div class="rpg-slot-empty-art"><img class="rpg-slot-silhouette" src="assets/items/slot_weapon.svg" alt="" aria-hidden="true"></div>
+                    </div>
+                    <span class="slot-item-name" id="name-weapon">Empty</span>
+                  </div>
+
+                  <!-- Armor -->
+                  <div class="gear-slot" data-slot="armor" onclick="inspectEquipped('armor')" tabindex="0" role="button" aria-label="Armor slot">
+                    <span class="slot-type-label">Armor</span>
+                    <div class="slot-frame" id="slot-armor">
+                      <div class="rpg-slot-empty-art"><img class="rpg-slot-silhouette" src="assets/items/slot_armor.svg" alt="" aria-hidden="true"></div>
+                    </div>
+                    <span class="slot-item-name" id="name-armor">Empty</span>
+                  </div>
+
+                  <!-- Helmet -->
+                  <div class="gear-slot" data-slot="helmet" onclick="inspectEquipped('helmet')" tabindex="0" role="button" aria-label="Helmet slot">
+                    <span class="slot-type-label">Headgear</span>
+                    <div class="slot-frame" id="slot-helmet">
+                      <div class="rpg-slot-empty-art"><img class="rpg-slot-silhouette" src="assets/items/slot_helmet.svg" alt="" aria-hidden="true"></div>
+                    </div>
+                    <span class="slot-item-name" id="name-helmet">Empty</span>
+                  </div>
+
+                  <!-- Boots -->
+                  <div class="gear-slot" data-slot="boots" onclick="inspectEquipped('boots')" tabindex="0" role="button" aria-label="Boots slot">
+                    <span class="slot-type-label">Boots</span>
+                    <div class="slot-frame" id="slot-boots">
+                      <div class="rpg-slot-empty-art"><img class="rpg-slot-silhouette" src="assets/items/slot_boots.svg" alt="" aria-hidden="true"></div>
+                    </div>
+                    <span class="slot-item-name" id="name-boots">Empty</span>
+                  </div>
+
+                  <!-- Relic -->
+                  <div class="gear-slot" data-slot="relic" onclick="inspectEquipped('relic')" tabindex="0" role="button" aria-label="Relic slot">
+                    <span class="slot-type-label">Relic</span>
+                    <div class="slot-frame" id="slot-relic">
+                      <div class="rpg-slot-empty-art"><img class="rpg-slot-silhouette" src="assets/items/slot_relic.svg" alt="" aria-hidden="true"></div>
+                    </div>
+                    <span class="slot-item-name" id="name-relic">Empty</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Gear Power Summary -->
+              <div class="gear-power-card">
+                <span class="power-label">Equipped Gear Bonuses</span>
+                <div class="power-stats-row" id="gearPowerStats">
+                  <span class="stat-pill">+2 STR</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </section>
 
-      <!-- G. Adventurer Feedback Portal -->
-      <section id="panel-feedback" class="panel panel-feedback" aria-labelledby="heading-feedback">
-        <div class="panel-head">
-          <h2 id="heading-feedback">Adventurer&rsquo;s Feedback</h2>
-          <span class="panel-index" aria-hidden="true">VII</span>
-        </div>
+        <!-- 2. QUESTS PAGE -->
+        <div id="page-quests" class="rpg-page" hidden role="tabpanel" aria-labelledby="navBtn-quests">
+          <div class="page-header">
+            <div class="page-title-group">
+              <span class="page-crumb">Realm / Trials</span>
+              <h2 class="page-title">Quest Journal &amp; Trials</h2>
+            </div>
+          </div>
 
-        <p class="feedback-intro">Spotted a broken rune, or have a trial worth adding to the journal? Send a message to the keepers of Questforge.</p>
+          <section id="panel-composer" class="panel panel-composer" aria-labelledby="heading-composer">
+          <div class="panel-head">
+            <h2 id="heading-composer">Forge a New Quest</h2>
+            <span class="panel-index" aria-hidden="true">VIII</span>
+          </div>
 
-        <form id="feedbackForm" class="feedback-form" name="adventurer-feedback" method="POST" action="/"
-              data-netlify="true" netlify-honeypot="bot-field" novalidate>
-          <input type="hidden" name="form-name" value="adventurer-feedback">
+          <div class="composer-row">
+            <div class="field field-quest">
+              <label for="taskInput">Quest name</label>
+              <input id="taskInput" type="text" placeholder="Describe the trial ahead…" autocomplete="off">
+            </div>
 
-          <p class="honeypot">
-            <label for="feedbackBot">Leave this field empty</label>
-            <input id="feedbackBot" name="bot-field" type="text" tabindex="-1" autocomplete="off">
-          </p>
-
-          <div class="feedback-grid">
-            <div class="field">
-              <label for="feedbackCategory">Category</label>
-              <select id="feedbackCategory" name="category" required>
-                <option value="feature">Feature Suggestion</option>
-                <option value="bug">Bug Report</option>
-                <option value="general" selected>General Feedback</option>
-                <option value="other">Other</option>
+            <div class="field field-difficulty">
+              <label for="difficultySelect">Difficulty</label>
+              <select id="difficultySelect">
+                <option value="easy">Easy — +10 XP &bull; 15 🪙</option>
+                <option value="medium" selected>Medium — +20 XP &bull; 35 🪙</option>
+                <option value="hard">Hard — +50 XP &bull; 80 🪙</option>
               </select>
             </div>
 
-            <div class="field">
-              <label for="feedbackEmail">Contact email <span class="label-optional">optional</span></label>
-              <input id="feedbackEmail" name="email" type="email" autocomplete="email" placeholder="you@example.com" aria-describedby="feedbackEmailHint feedbackEmailError">
-              <p class="field-hint" id="feedbackEmailHint">Only if you would like a reply. Nothing else is collected.</p>
-              <p class="field-error" id="feedbackEmailError" role="alert" hidden></p>
+            <div class="field field-due">
+              <label for="dueInput">Due date <span class="label-optional">optional</span></label>
+              <input id="dueInput" type="date">
+            </div>
+
+            <button class="btn-primary" onclick="addTask()">Add Quest</button>
+          </div>
+        </section>
+
+          <section id="panel-board" class="panel panel-board" aria-labelledby="heading-board">
+          <div class="panel-head">
+            <h2 id="heading-board">Quest Board</h2>
+            <span class="panel-index" aria-hidden="true">IX</span>
+          </div>
+
+          <div class="board-tools">
+            <div class="search-wrap">
+              <label class="sr-only" for="questSearch">Search quests</label>
+              <input id="questSearch" type="search" class="quest-search" placeholder="Search quests by name…"
+                     autocomplete="off" oninput="setSearch(this.value)">
+              <kbd class="search-key" aria-hidden="true">/</kbd>
             </div>
           </div>
 
-          <div class="field field-message">
-            <label for="feedbackMessage">Message</label>
-            <textarea id="feedbackMessage" name="message" rows="5" maxlength="1000" required
-                      placeholder="Describe the rune that broke, or the trial you would like to see added…"
-                      aria-describedby="feedbackMessageHint feedbackMessageError"></textarea>
-            <div class="field-hint-row">
-              <p class="field-hint" id="feedbackMessageHint">Required — up to 1000 characters.</p>
-              <p class="char-count" id="feedbackCount" aria-hidden="true">0 / 1000</p>
-            </div>
-            <p class="field-error" id="feedbackMessageError" role="alert" hidden></p>
+          <div class="filter-tabs" role="group" aria-label="Filter quests">
+            <button class="filter-btn active" data-filter="all" aria-pressed="true" onclick="setFilter('all')">All <span class="filter-count" id="countAll">0</span></button>
+            <button class="filter-btn" data-filter="today" aria-pressed="false" onclick="setFilter('today')">Today <span class="filter-count" id="countToday">0</span></button>
+            <button class="filter-btn" data-filter="active" aria-pressed="false" onclick="setFilter('active')">In Progress <span class="filter-count" id="countActive">0</span></button>
+            <button class="filter-btn" data-filter="completed" aria-pressed="false" onclick="setFilter('completed')">Completed <span class="filter-count" id="countCompleted">0</span></button>
           </div>
 
-          <div class="feedback-actions">
-            <button type="submit" id="feedbackSubmit" class="btn-primary">Send feedback</button>
-            <p class="feedback-status" id="feedbackStatus" role="status" aria-live="polite"></p>
-            <p class="field-error" id="feedbackError" role="alert" hidden></p>
-          </div>
-        </form>
+          <ul id="taskList"></ul>
 
-        <div class="feedback-success" id="feedbackSuccess" tabindex="-1" hidden>
-          <p class="success-mark" aria-hidden="true">✦</p>
-          <h3>Message received</h3>
-          <p>Your words have reached the guild. Thank you for helping forge Questforge.</p>
-          <button type="button" class="btn-ghost" id="feedbackAgain">Send another message</button>
+          <div class="list-actions">
+            <button id="rescheduleOverdueBtn" class="btn-ghost" onclick="rescheduleOverdue()" disabled>Move Overdue to Today</button>
+            <button id="clearCompletedBtn" class="btn-clear" onclick="clearCompleted()">Clear Completed Quests</button>
+          </div>
+        </section>
         </div>
-      </section>
 
-    </main>
-  </div>
+        <!-- 3. INVENTORY PAGE -->
+        <div id="page-inventory" class="rpg-page" hidden role="tabpanel" aria-labelledby="navBtn-inventory">
+          <div class="page-header">
+            <div class="page-title-group">
+              <span class="page-crumb">Realm / Spoils</span>
+              <h2 class="page-title">Adventurer Bag &amp; Inventory</h2>
+            </div>
+            <span id="bagCapacity" class="badge-bag-capacity">🎒 <span id="bagCount">4</span> / 20</span>
+          </div>
 
-  <!-- Level-Up Celebration Modal -->
+          <div class="panel inventory-page-panel">
+            <div class="bag-header">
+              <p class="subsection-title">Adventurer's Bag (20 Slots)</p>
+              <div class="bag-actions">
+                <button type="button" class="btn-ghost btn-tiny" onclick="sortInventory()">Sort Bag</button>
+              </div>
+            </div>
+            <div class="bag-grid" id="inventoryGrid" role="grid" aria-label="Adventurer Inventory Bag">
+              <!-- 20 slots dynamically populated by JavaScript -->
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. FORGE PAGE (Crafting Workshop) -->
+        <div id="page-forge" class="rpg-page" hidden role="tabpanel" aria-labelledby="navBtn-forge">
+          <div class="page-header">
+            <div class="page-title-group">
+              <span class="page-crumb">Realm / Workshop</span>
+              <h2 class="page-title">Crafting Workshop</h2>
+            </div>
+          </div>
+
+          <!-- NPC Blacksmith Card -->
+          <div class="rpg-npc-card npc-blacksmith-card" aria-label="Master Blacksmith Grimar">
+            <div class="npc-portrait-wrap">
+              <img class="npc-portrait-img" src="assets/characters/npc_blacksmith.svg" alt="Grimar the Forge-Master">
+              <div class="npc-status-dot heat" title="Furnace Stoked"></div>
+            </div>
+            <div class="npc-card-content">
+              <div class="npc-header-row">
+                <span class="npc-name">Grimar Stonebreaker</span>
+                <span class="npc-role-badge">Master Forge-Smith</span>
+              </div>
+              <p class="npc-speech">&ldquo;The anvil reveals what metal is made of. Bring me shadow iron, star dust, and your courage &mdash; we shall temper relics worthy of song.&rdquo;</p>
+            </div>
+          </div>
+
+          <div class="panel forge-craft-panel">
+            <p class="craft-intro">Transform raw ores, dragon scales, and arcane star dust into battle-ready artifacts.</p>
+            <div class="recipes-grid" id="recipesGrid">
+              <!-- Dynamically populated crafting recipes -->
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. REFINEMENT PAGE (The Enchanted Anvil) -->
+        <div id="page-refine" class="rpg-page" hidden role="tabpanel" aria-labelledby="navBtn-refine">
+          <div class="page-header">
+            <div class="page-title-group">
+              <span class="page-crumb">Realm / Blacksmith</span>
+              <h2 class="page-title">The Enchanted Anvil (Refinement)</h2>
+            </div>
+            <span class="badge-anvil-glow">🔨 Anvil Attuned</span>
+          </div>
+
+          <div class="panel refine-panel">
+            <div class="refine-select-wrap">
+              <label for="refineItemSelect" class="refine-label">Select Gear to Refine</label>
+              <select id="refineItemSelect" class="refine-select" onchange="onSelectRefineItem(this.value)">
+                <!-- Populated with equipped & bag gear -->
+              </select>
+            </div>
+
+            <!-- Enchanted Anvil Stage -->
+            <div class="anvil-stage" id="anvilStage">
+              <div class="anvil-icon-display" id="anvilIconDisplay">
+                <div class="anvil-rune-ring" id="anvilRuneRing" aria-hidden="true"></div>
+                <div class="anvil-base-icon" id="anvilBaseIcon" aria-hidden="true"></div>
+                <div class="anvil-sparks" id="anvilSparks" aria-hidden="true"></div>
+              </div>
+
+              <div class="anvil-meta">
+                <h3 id="refineItemName" class="refine-title">Select an item above</h3>
+                <div class="refine-tier-line" id="refineTierLine">
+                  <span class="current-tier" id="refineCurrentTier">+0</span>
+                  <span class="tier-arrow" aria-hidden="true">➔</span>
+                  <span class="next-tier" id="refineNextTier">+1</span>
+                </div>
+                <p class="refine-stats-preview" id="refineStatsPreview">Refining improves base stats, gold bounties, and critical fortunes.</p>
+              </div>
+
+              <div class="refine-cost-card" id="refineCostCard">
+                <span class="cost-title">Required Spoils &amp; Reagents</span>
+                <div class="cost-items-row" id="refineCostItems">
+                  <!-- Populated dynamically -->
+                </div>
+                <div class="success-rate-line" id="refineSuccessRate">
+                  <span>Success Rate: <strong id="successRateVal">100%</strong></span>
+                  <span class="luck-hint" id="luckBonusHint">(🍀 +5% Luck Bonus)</span>
+                </div>
+              </div>
+
+              <button id="btnStrikeAnvil" type="button" class="btn-primary btn-anvil" onclick="strikeAnvil()" disabled>
+                🔨 Strike the Anvil
+              </button>
+              <button id="btnSkipRefine" type="button" class="btn-ghost btn-skip-action" onclick="skipRefineAnimation()" hidden>
+                ⏩ Skip Strike Animation
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. SHOP PAGE (Guild Merchant) -->
+        <div id="page-shop" class="rpg-page" hidden role="tabpanel" aria-labelledby="navBtn-shop">
+          <div class="page-header">
+            <div class="page-title-group">
+              <span class="page-crumb">Realm / Merchant</span>
+              <h2 class="page-title">Guild Merchant Shop</h2>
+            </div>
+            <span class="badge-merchant-gold"><img class="badge-currency-icon" src="assets/items/currency_gold.svg" alt="" aria-hidden="true"> <span id="shopPlayerGold">230</span> Gold</span>
+          </div>
+
+          <!-- NPC Merchant Card -->
+          <div class="rpg-npc-card npc-merchant-card" aria-label="Quartermaster Lady Vivienne">
+            <div class="npc-portrait-wrap">
+              <img class="npc-portrait-img" src="assets/characters/npc_merchant.svg" alt="Lady Vivienne the Quartermaster">
+              <div class="npc-status-dot online" title="Trading Vault Open"></div>
+            </div>
+            <div class="npc-card-content">
+              <div class="npc-header-row">
+                <span class="npc-name">Lady Vivienne</span>
+                <span class="npc-role-badge">Guild Quartermaster</span>
+              </div>
+              <p class="npc-speech">&ldquo;Welcome to the Vault, adventurer. My couriers scour the continent for rare bladecraft and arcane curiosities. Spend your hard-earned gold wisely.&rdquo;</p>
+            </div>
+          </div>
+
+          <div class="shop-filter-tabs" role="group" aria-label="Filter shop wares">
+            <button class="shop-tab active" data-category="all" onclick="filterShop('all')" aria-pressed="true">All Wares</button>
+            <button class="shop-tab" data-category="equipment" onclick="filterShop('equipment')" aria-pressed="false">Equipment</button>
+            <button class="shop-tab" data-category="material" onclick="filterShop('material')" aria-pressed="false">Materials</button>
+            <button class="shop-tab" data-category="consumable" onclick="filterShop('consumable')" aria-pressed="false">Potions &amp; Tomes</button>
+            <button class="shop-tab" data-category="companion" onclick="filterShop('companion')" aria-pressed="false">🐾 Companions</button>
+          </div>
+
+          <div class="shop-grid" id="shopGrid" role="region" aria-label="Shop catalog">
+            <!-- Dynamically rendered wares cards -->
+          </div>
+        </div>
+
+        <!-- 7. COMPANIONS SANCTUARY & CODEX PAGE -->
+        <div id="page-companions" class="rpg-page" hidden role="tabpanel" aria-labelledby="navBtn-companions">
+          <div class="page-header">
+            <div class="page-title-group">
+              <span class="page-crumb">Realm / Familiars &amp; Bestiary</span>
+              <h2 class="page-title">Companions Sanctuary &amp; Pet Index</h2>
+            </div>
+            <div class="companion-page-badges">
+              <span id="companionsOwnedBadge" class="page-badge-rank">🐾 Owned: 1 / 8</span>
+              <span id="codexCompletionHeaderBadge" class="page-badge-rank codex-badge-rank">📖 Codex: 12%</span>
+            </div>
+          </div>
+
+          <!-- Subview Switcher: Sanctuary vs Pet Index (Codex) -->
+          <div class="companion-subview-toggle" role="tablist" aria-label="Companions view mode">
+            <button type="button" class="subview-tab active" id="tabBtnSanctuary" onclick="switchCompanionSubView('sanctuary')" role="tab" aria-selected="true">
+              🐾 Familiar Sanctuary
+            </button>
+            <button type="button" class="subview-tab" id="tabBtnCodex" onclick="switchCompanionSubView('codex')" role="tab" aria-selected="false">
+              📖 Pet Index &amp; Codex
+              <span class="subview-progress-pill" id="subviewCodexProgress">1/8 (12%)</span>
+            </button>
+          </div>
+
+          <!-- SUBVIEW 1: Active Sanctuary & Familiar Bestiary -->
+          <div id="viewCompanionSanctuary" class="companion-subview">
+            <div class="companions-sanctuary-layout">
+              <!-- Active Companion Showcase -->
+              <div class="panel companion-showcase-card" aria-label="Active Companion Showcase">
+                <div class="panel-head">
+                  <div class="panel-title-group">
+                    <h3>Active Familiar</h3>
+                    <span class="badge-active-indicator" id="activeCompanionStatusBadge">Equipped &bull; In Journey</span>
+                  </div>
+                </div>
+
+                <div class="companion-showcase-stage" id="activeCompanionStage">
+                  <div class="companion-pedestal-rune" aria-hidden="true"></div>
+                  <!-- Interactive Speech Bubble -->
+                  <div id="activeCompanionBubble" class="companion-speech-bubble" hidden></div>
+
+                  <!-- 3D Interactive Viewport Container -->
+                  <div id="activeCompanion3DContainer" class="companion-3d-container">
+                    <div id="companion3DCanvasHost" class="companion-3d-canvas-host" onclick="onCompanion3DClick(event)" role="region" aria-label="Interactive 3D companion viewer. Drag to rotate, click to interact."></div>
+                    <div id="companion3DLoadingSpinner" class="companion-3d-spinner" aria-label="Loading 3D model...">
+                      <div class="spinner-orbit"></div>
+                      <span>Summoning 3D Familiar…</span>
+                    </div>
+                    <div class="companion-3d-hud">
+                      <div class="companion-3d-chip hint"><span>👆 Drag to rotate &bull; Click to pet</span></div>
+                      <div class="companion-3d-controls-row">
+                        <button type="button" id="btnToggle3DAutoRotate" class="btn-3d-tool" onclick="toggleCompanion3DAutoRotate()" title="Toggle idle turntable rotation">
+                          <span id="icon3DAutoRotate">🔄</span> Auto-Turn
+                        </button>
+                        <button type="button" id="btnReset3DCamera" class="btn-3d-tool" onclick="resetCompanion3DCamera()" title="Reset camera angle">
+                          🎯 Reset
+                        </button>
+                        <button type="button" id="btnToggleCompanionMode" class="btn-3d-tool mode-toggle" onclick="toggleCompanionRenderMode()" title="Switch between 3D View and 2D Art">
+                          <span id="labelCompanionMode">🎨 2D Art</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 2D Fallback / Alternative Artwork Container -->
+                  <div class="companion-avatar-wrap" id="activeCompanionAvatarWrap" onclick="interactWithCompanion('sanctuary')" role="button" tabindex="0" aria-label="Interact with active companion" hidden>
+                    <img id="activeCompanionImg" class="companion-showcase-avatar" src="assets/companions/fennie.svg" alt="Active Companion">
+                  </div>
+                  <div class="companion-stage-shadow" aria-hidden="true"></div>
+                </div>
+
+                <div class="companion-showcase-info">
+                  <div class="companion-name-heading">
+                    <h4 id="activeCompanionDisplayName" class="companion-title-name">Fennie</h4>
+                    <span id="activeCompanionSpeciesBadge" class="companion-species-pill">Magical Fox</span>
+                    <span id="activeCompanionRarityBadge" class="companion-rarity-pill rarity-rare">Rare Familiar</span>
+                    <span id="activeCompanionElementBadge" class="companion-element-pill elem-arcane">🔮 Arcane</span>
+                  </div>
+
+                  <div class="companion-traits-row">
+                    <span class="trait-label">Personality:</span>
+                    <span id="activeCompanionPersonality" class="trait-value">Playful, curious, adventurous</span>
+                  </div>
+
+                  <p id="activeCompanionLore" class="companion-lore-desc">
+                    &ldquo;An energetic little wanderer who is always curious about the world. Fennie loves discovering new things and accompanying adventurers on their journeys.&rdquo;
+                  </p>
+
+                  <!-- Companion Passive Aura -->
+                  <div class="companion-aura-card">
+                    <span class="aura-icon" aria-hidden="true">✨</span>
+                    <div class="aura-content">
+                      <span class="aura-title">Companion Blessing</span>
+                      <span id="activeCompanionPerk" class="aura-desc">+5% Quest Gold Bounty</span>
+                    </div>
+                  </div>
+
+                  <!-- Companion Evolution Progression Card -->
+                  <div class="companion-evolution-card" id="activeCompanionEvolutionCard">
+                    <div class="evolution-card-header">
+                      <div class="evolution-stage-info">
+                        <span class="evolution-stage-badge" id="activeEvolutionStageBadge">Stage 1 of 3</span>
+                        <h5 id="activeEvolutionFormTitle" class="evolution-form-title">Fennie (Base Familiar)</h5>
+                      </div>
+                      <div class="evolution-pips" id="activeEvolutionPips" role="progressbar" aria-label="Evolution Stages">
+                        <span class="pip active" data-stage="1" title="Stage 1: Base Familiar">1</span>
+                        <span class="pip-connector"></span>
+                        <span class="pip" data-stage="2" title="Stage 2: Ascended Familiar">2</span>
+                        <span class="pip-connector"></span>
+                        <span class="pip" data-stage="3" title="Stage 3: Apex Mythic">3</span>
+                      </div>
+                    </div>
+
+                    <div class="evolution-next-row" id="activeEvolutionNextRow">
+                      <div class="evolution-next-info">
+                        <span class="evolution-next-label">Next Evolution:</span>
+                        <strong id="activeEvolutionNextTitle" class="evolution-next-title">Gale Fennie</strong>
+                        <span id="activeEvolutionNextReq" class="evolution-next-req">Req. Player Level 2 (You are Level 1)</span>
+                      </div>
+                      <div class="evolution-action-btns">
+                        <button type="button" id="btnPreviewEvolution" class="btn-ghost btn-small" onclick="togglePreviewActiveEvolution()" title="Preview evolved 3D form on pedestal">
+                          <span id="previewEvolutionIcon">🔍</span> <span id="previewEvolutionLabel">Preview Next</span>
+                        </button>
+                        <button type="button" id="btnEvolveActiveCompanion" class="btn-primary btn-small btn-evolve-action" onclick="promptEvolveActiveCompanion()" disabled>
+                          Evolve ✨
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="companion-showcase-actions">
+                    <button type="button" id="btnPetActiveCompanion" class="btn-primary" onclick="interactWithCompanion('sanctuary')">
+                      Pet &amp; Interact 🐾
+                    </button>
+                    <button type="button" id="btnOpenRenameModal" class="btn-secondary" onclick="openCompanionRenameModal()">
+                      Rename Familiar ✏️
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Companion Quick Bestiary Grid Panel -->
+              <div class="panel companion-collection-card" aria-label="Companion Collection">
+                <div class="panel-head">
+                  <div class="panel-title-group">
+                    <h3>Familiar Roster</h3>
+                    <span class="badge-equipped-count" id="sanctuaryRosterCount">8 Familiars Cataloged</span>
+                  </div>
+                  <div class="collection-filter-chips">
+                    <button type="button" class="chip-filter active" data-filter="all" onclick="filterCompanionGrid('all')">All (8)</button>
+                    <button type="button" class="chip-filter" data-filter="owned" onclick="filterCompanionGrid('owned')">Owned</button>
+                    <button type="button" class="chip-filter" data-filter="locked" onclick="filterCompanionGrid('locked')">Locked</button>
+                  </div>
+                </div>
+
+                <div class="codex-teaser-banner">
+                  <div class="teaser-text">
+                    <strong>Pet Index &amp; Elemental Codex</strong>
+                    <span>Inspect elemental affinities, power types, and collection completion.</span>
+                  </div>
+                  <button type="button" class="btn-ghost btn-small" onclick="switchCompanionSubView('codex')">Open Codex 📖</button>
+                </div>
+
+                <div class="companion-grid" id="companionCollectionGrid" role="region" aria-label="Available Companions">
+                  <!-- Dynamically populated companion cards -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SUBVIEW 2: Full Pet Index & Companion Codex -->
+          <div id="viewCompanionCodex" class="companion-subview" hidden>
+            <!-- 1. Codex Progression Dashboard Panel -->
+            <div class="panel codex-dashboard-panel">
+              <div class="panel-head">
+                <div class="panel-title-group">
+                  <h3>Companion Codex Progress</h3>
+                  <span class="badge-equipped-count" id="codexCollectionRatio">0 / 8 Unlocked</span>
+                </div>
+                <span class="codex-percent-headline" id="codexPercentHeadline">0% Discovered</span>
+              </div>
+
+              <!-- Main Progress Bar -->
+              <div class="codex-main-bar-container">
+                <div class="codex-progress-bar-track" role="progressbar" aria-label="Codex collection progress" aria-valuemin="0" aria-valuemax="100" id="codexProgressBarContainer">
+                  <div class="codex-progress-bar-fill" id="codexProgressBarFill" style="width: 12%;"></div>
+                </div>
+                <div class="codex-status-counts">
+                  <span id="codexUnlockedCount" class="status-count-item unlocked">✦ 1 Discovered</span>
+                  <span id="codexUndiscoveredCount" class="status-count-item locked">🔒 7 Undiscovered</span>
+                </div>
+              </div>
+
+              <!-- Elemental & Rarity Breakdown Grids -->
+              <div class="codex-breakdown-row">
+                <!-- Elemental Affinities Breakdown -->
+                <div class="codex-breakdown-card">
+                  <h4 class="breakdown-title">Elemental Affinities (7 Elements)</h4>
+                  <div class="element-breakdown-grid" id="elementalBreakdownGrid">
+                    <!-- Populated via JS: Fire, Water, Earth, Wind, Light, Shadow, Arcane -->
+                  </div>
+                </div>
+
+                <!-- Rarity Spectrum Breakdown -->
+                <div class="codex-breakdown-card">
+                  <h4 class="breakdown-title">Rarity Spectrum (6 Tiers)</h4>
+                  <div class="rarity-breakdown-grid" id="rarityBreakdownGrid">
+                    <!-- Populated via JS: Common, Uncommon, Rare, Epic, Legendary, Mythical -->
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2. Codex Controls: Search & Multi-Filters -->
+            <div class="panel codex-controls-panel">
+              <div class="codex-search-row">
+                <div class="codex-search-field">
+                  <span class="search-icon" aria-hidden="true">🔍</span>
+                  <input type="text" id="codexSearchInput" class="codex-search-input" placeholder="Search codex by name, species, trait or element…" autocomplete="off" oninput="onCodexSearchInput(event)">
+                </div>
+                <button type="button" class="btn-ghost btn-small" onclick="resetCodexFilters()">Reset Filters</button>
+              </div>
+
+              <div class="codex-filters-group">
+                <!-- Status Filter -->
+                <div class="filter-cluster">
+                  <span class="cluster-label">Status:</span>
+                  <div class="filter-pills-row" id="codexStatusPills">
+                    <button type="button" class="codex-pill active" data-status="all" onclick="setCodexFilter('status', 'all')">All</button>
+                    <button type="button" class="codex-pill" data-status="owned" onclick="setCodexFilter('status', 'owned')">Owned</button>
+                    <button type="button" class="codex-pill" data-status="locked" onclick="setCodexFilter('status', 'locked')">Locked</button>
+                  </div>
+                </div>
+
+                <!-- Element Filter -->
+                <div class="filter-cluster">
+                  <span class="cluster-label">Element:</span>
+                  <div class="filter-pills-row scrollable" id="codexElementPills">
+                    <button type="button" class="codex-pill active" data-element="all" onclick="setCodexFilter('element', 'all')">All</button>
+                    <button type="button" class="codex-pill elem-pill" data-element="fire" onclick="setCodexFilter('element', 'fire')">🔥 Fire</button>
+                    <button type="button" class="codex-pill elem-pill" data-element="water" onclick="setCodexFilter('element', 'water')">💧 Water</button>
+                    <button type="button" class="codex-pill elem-pill" data-element="earth" onclick="setCodexFilter('element', 'earth')">🌱 Earth</button>
+                    <button type="button" class="codex-pill elem-pill" data-element="wind" onclick="setCodexFilter('element', 'wind')">💨 Wind</button>
+                    <button type="button" class="codex-pill elem-pill" data-element="light" onclick="setCodexFilter('element', 'light')">✨ Light</button>
+                    <button type="button" class="codex-pill elem-pill" data-element="shadow" onclick="setCodexFilter('element', 'shadow')">🌑 Shadow</button>
+                    <button type="button" class="codex-pill elem-pill" data-element="arcane" onclick="setCodexFilter('element', 'arcane')">🔮 Arcane</button>
+                  </div>
+                </div>
+
+                <!-- Rarity Filter -->
+                <div class="filter-cluster">
+                  <span class="cluster-label">Rarity:</span>
+                  <div class="filter-pills-row scrollable" id="codexRarityPills">
+                    <button type="button" class="codex-pill active" data-rarity="all" onclick="setCodexFilter('rarity', 'all')">All</button>
+                    <button type="button" class="codex-pill rarity-pill" data-rarity="common" onclick="setCodexFilter('rarity', 'common')">Common</button>
+                    <button type="button" class="codex-pill rarity-pill" data-rarity="uncommon" onclick="setCodexFilter('rarity', 'uncommon')">Uncommon</button>
+                    <button type="button" class="codex-pill rarity-pill" data-rarity="rare" onclick="setCodexFilter('rarity', 'rare')">Rare</button>
+                    <button type="button" class="codex-pill rarity-pill" data-rarity="epic" onclick="setCodexFilter('rarity', 'epic')">Epic</button>
+                    <button type="button" class="codex-pill rarity-pill" data-rarity="legendary" onclick="setCodexFilter('rarity', 'legendary')">Legendary</button>
+                    <button type="button" class="codex-pill rarity-pill" data-rarity="mythical" onclick="setCodexFilter('rarity', 'mythical')">Mythical</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 3. Codex Bestiary Cards Grid -->
+            <div class="panel codex-bestiary-panel">
+              <div class="panel-head">
+                <div class="panel-title-group">
+                  <h3>Bestiary Catalog Entries</h3>
+                  <span class="badge-equipped-count" id="codexFilteredCount">Showing 8 of 8</span>
+                </div>
+              </div>
+
+              <div class="codex-grid" id="codexGrid" role="region" aria-label="Codex Entries">
+                <!-- Dynamically populated 8 codex entry cards -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 7. SOUNDTRACK PAGE -->
+        <div id="page-soundtrack" class="rpg-page" hidden role="tabpanel" aria-labelledby="navBtn-soundtrack">
+          <div class="page-header">
+            <div class="page-title-group">
+              <span class="page-crumb">Realm / Atmosphere</span>
+              <h2 class="page-title">Soundtrack &amp; Atmosphere</h2>
+            </div>
+          </div>
+
+          <div class="panel soundtrack-console-panel">
+            <div class="soundtrack-hero-player">
+              <div class="soundtrack-art-visualizer">
+                <canvas id="soundtrackVisualizer" width="480" height="140" aria-label="Audio Visualizer"></canvas>
+              </div>
+
+              <div class="soundtrack-playback-bar">
+                <button id="soundtrackPagePlayBtn" class="btn-primary btn-large btn-soundtrack-play" type="button" onclick="toggleMusic()">
+                  <span id="soundtrackPagePlayIcon">▶</span> <span id="soundtrackPagePlayLabel">Play Soundtrack</span>
+                </button>
+
+                <div class="soundtrack-volume-control">
+                  <span class="vol-icon" aria-hidden="true">🔊</span>
+                  <label for="soundtrackPageVol" class="sr-only">Master Volume</label>
+                  <input id="soundtrackPageVol" type="range" class="music-vol-slider" min="0" max="1" step="0.05" value="0.35" oninput="setMusicVolume(this.value)">
+                  <span id="soundtrackPageVolVal" class="vol-percentage">35%</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Realm Music Profiles -->
+            <h3 class="soundtrack-subheading">Select Ambient Realm Soundscape</h3>
+            <div class="soundtrack-moods-grid">
+              <div class="soundtrack-mood-card active" data-mood="arcane" onclick="selectSoundtrackMood('arcane')">
+                <div class="mood-icon">🔮</div>
+                <div class="mood-meta">
+                  <h4 class="mood-name">Arcane Sanctuary</h4>
+                  <p class="mood-lore">Deep harmonic minor drones with crystal chime resonances and echoing starlight arpeggios.</p>
+                </div>
+                <span class="mood-badge" id="badge-mood-arcane">Attuned</span>
+              </div>
+
+              <div class="soundtrack-mood-card" data-mood="tavern" onclick="selectSoundtrackMood('tavern')">
+                <div class="mood-icon">⚔️</div>
+                <div class="mood-meta">
+                  <h4 class="mood-name">Campfire Forge</h4>
+                  <p class="mood-lore">Rhythmic acoustic warmth, rustic anvil chimes, and crackling campfire embers of the wanderer.</p>
+                </div>
+                <span class="mood-badge" id="badge-mood-tavern">Select</span>
+              </div>
+
+              <div class="soundtrack-mood-card" data-mood="frost" onclick="selectSoundtrackMood('frost')">
+                <div class="mood-icon">❄️</div>
+                <div class="mood-meta">
+                  <h4 class="mood-name">Nordic Glacier</h4>
+                  <p class="mood-lore">Expansive low-frequency icy winds with pure crystalline bells echoing across frozen tundra.</p>
+                </div>
+                <span class="mood-badge" id="badge-mood-frost">Select</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 8. THEMES PAGE -->
+        <div id="page-themes" class="rpg-page" hidden role="tabpanel" aria-labelledby="navBtn-themes">
+          <div class="page-header">
+            <div class="page-title-group">
+              <span class="page-crumb">Realm / Aesthetics</span>
+              <h2 class="page-title">Realm Aesthetics &amp; Themes</h2>
+            </div>
+          </div>
+
+          <div class="panel themes-gallery-panel">
+            <p class="themes-intro">Attune your journal to different fantasy realms. Changing realm modifies the color palette, lighting glow, and atmospheric accents across the entire application.</p>
+
+            <div class="themes-cards-grid">
+              <!-- 1. Midnight Arcane -->
+              <div class="theme-card active" data-theme="midnight-arcane" onclick="setTheme('midnight-arcane')">
+                <div class="theme-card-head">
+                  <span class="theme-badge-icon">🔮</span>
+                  <h4 class="theme-title">Midnight Arcane</h4>
+                  <span class="theme-active-tag">Active</span>
+                </div>
+                <p class="theme-desc">Obsidian shadows infused with ethereal cyan runes, starlight violet accents, and radiant gold.</p>
+                <div class="theme-swatches">
+                  <span class="swatch" style="background: #020617;" title="Void Obsidian"></span>
+                  <span class="swatch" style="background: #0f172a;" title="Arcane Iron"></span>
+                  <span class="swatch" style="background: #38bdf8;" title="Celestial Cyan"></span>
+                  <span class="swatch" style="background: #f5c542;" title="Solar Gold"></span>
+                </div>
+              </div>
+
+              <!-- 2. Dark Knight -->
+              <div class="theme-card" data-theme="dark-knight" onclick="setTheme('dark-knight')">
+                <div class="theme-card-head">
+                  <span class="theme-badge-icon">⚔️</span>
+                  <h4 class="theme-title">Dark Knight</h4>
+                  <span class="theme-active-tag">Select</span>
+                </div>
+                <p class="theme-desc">Battle-worn charcoal steel, deep crimson undertones, and tempered silver specular edges.</p>
+                <div class="theme-swatches">
+                  <span class="swatch" style="background: #0c0d10;" title="Abyssal Steel"></span>
+                  <span class="swatch" style="background: #17181c;" title="Dark Plate"></span>
+                  <span class="swatch" style="background: #f59f42;" title="Tempered Ember"></span>
+                  <span class="swatch" style="background: #e2e8f0;" title="Polished Edge"></span>
+                </div>
+              </div>
+
+              <!-- 3. Obsidian Gold -->
+              <div class="theme-card" data-theme="obsidian-gold" onclick="setTheme('obsidian-gold')">
+                <div class="theme-card-head">
+                  <span class="theme-badge-icon">👑</span>
+                  <h4 class="theme-title">Obsidian Gold</h4>
+                  <span class="theme-active-tag">Select</span>
+                </div>
+                <p class="theme-desc">Regal imperial velvet, polished obsidian masonry, and opulent bullion gold illumination.</p>
+                <div class="theme-swatches">
+                  <span class="swatch" style="background: #08080a;" title="Royal Obsidian"></span>
+                  <span class="swatch" style="background: #181510;" title="Gilded Iron"></span>
+                  <span class="swatch" style="background: #f5c542;" title="Imperial Gold"></span>
+                  <span class="swatch" style="background: #fbbf24;" title="Radiant Crest"></span>
+                </div>
+              </div>
+
+              <!-- 4. Nordic Frost -->
+              <div class="theme-card" data-theme="nordic-frost" onclick="setTheme('nordic-frost')">
+                <div class="theme-card-head">
+                  <span class="theme-badge-icon">❄️</span>
+                  <h4 class="theme-title">Nordic Frost</h4>
+                  <span class="theme-active-tag">Select</span>
+                </div>
+                <p class="theme-desc">Glacial fjord navy, crystalline hoarfrost silver, and chilled glacial blue runes.</p>
+                <div class="theme-swatches">
+                  <span class="swatch" style="background: #070d18;" title="Glacial Trench"></span>
+                  <span class="swatch" style="background: #0e1c2e;" title="Ice Fortress"></span>
+                  <span class="swatch" style="background: #67e8f9;" title="Hoarfrost Rune"></span>
+                  <span class="swatch" style="background: #e0f2fe;" title="Winter Light"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 9. STREAK PAGE -->
+        <div id="page-streak" class="rpg-page" hidden role="tabpanel" aria-labelledby="navBtn-streak">
+          <div class="page-header">
+            <div class="page-title-group">
+              <span class="page-crumb">Realm / Discipline</span>
+              <h2 class="page-title">Daily Streak &amp; Consistency</h2>
+            </div>
+          </div>
+
+          <section id="panel-streak" class="panel panel-streak" aria-labelledby="heading-streak">
+          <div class="panel-head">
+            <h2 id="heading-streak">Adventurer&rsquo;s Streak</h2>
+            <span class="panel-index" aria-hidden="true">IV</span>
+          </div>
+
+          <div class="streak-body">
+            <div class="streak-hero">
+              <div class="streak-flame" id="streakFlame" data-state="cold">
+                <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+                  <defs>
+                    <linearGradient id="streakFlameGradient" x1="0" y1="1" x2="0.2" y2="0">
+                      <stop offset="0" stop-color="#C4703A"/>
+                      <stop offset="0.55" stop-color="#E08A4B"/>
+                      <stop offset="1" stop-color="#EFD9A6"/>
+                    </linearGradient>
+                  </defs>
+                  <path d="M16 2.5c1.2 4.9 6.6 7.1 6.6 13a6.6 6.6 0 0 1-13.2 0c0-3.1 1.7-5.4 3.4-7.4.2 2 1.2 3.4 2.6 4.1.1-3.4.3-6.6.6-9.7Z" fill="url(#streakFlameGradient)"/>
+                  <path d="M16 29.6a4.2 4.2 0 0 1-4.2-4.2c0-2.4 2.1-4.1 4.2-6.4 2.1 2.3 4.2 4 4.2 6.4a4.2 4.2 0 0 1-4.2 4.2Z" fill="#D9B56D" opacity=".9"/>
+                </svg>
+              </div>
+
+              <div class="streak-readout">
+                <p class="streak-count"><span id="streakCurrent">0</span><span class="streak-unit">day streak</span></p>
+                <p class="streak-best">Best <span id="streakBest">0</span> <span id="streakBestUnit">days</span></p>
+              </div>
+
+              <p class="streak-status" id="streakStatus" aria-live="polite">Complete a quest to start a new streak.</p>
+            </div>
+
+            <div class="streak-week">
+              <p class="subsection-title">This Week</p>
+              <ol class="streak-days" id="streakDays" aria-label="Quest activity for this week"></ol>
+            </div>
+
+            <div class="streak-milestones">
+              <p class="subsection-title">Milestones</p>
+              <div class="milestone-track" id="milestoneTrack" role="list" aria-label="Streak milestones"></div>
+              <div class="streak-meter" id="streakMeter" role="progressbar" aria-label="Progress towards the next streak milestone" aria-valuemin="0" aria-valuemax="3" aria-valuenow="0">
+                <div id="streakMeterFill"></div>
+              </div>
+              <p class="milestone-next" id="milestoneNext">Next reward: +20 XP at a 3-day streak.</p>
+            </div>
+          </div>
+        </section>
+        </div>
+
+        <!-- 10. BOARD PAGE (Statistics & Chronicles) -->
+        <div id="page-board" class="rpg-page" hidden role="tabpanel" aria-labelledby="navBtn-board">
+          <div class="page-header">
+            <div class="page-title-group">
+              <span class="page-crumb">Realm / Records</span>
+              <h2 class="page-title">Adventure Statistics &amp; Chronicles</h2>
+            </div>
+          </div>
+
+          <section class="panel panel-stats" aria-labelledby="heading-stats">
+          <div class="panel-head">
+            <h2 id="heading-stats">Adventure Statistics</h2>
+            <span class="panel-index" aria-hidden="true">III</span>
+          </div>
+
+          <div id="questStats">
+            <div class="stat">
+              <span class="stat-value" id="totalQuests">0</span>
+              <p class="stat-label">Total Quests</p>
+            </div>
+
+            <div class="stat">
+              <span class="stat-value" id="completedQuests">0</span>
+              <p class="stat-label">Completed</p>
+            </div>
+
+            <div class="stat">
+              <span class="stat-value" id="remainingQuests">0</span>
+              <p class="stat-label">Remaining</p>
+            </div>
+          </div>
+        </section>
+
+          <aside id="panel-chronicles" class="panel panel-chronicles" aria-labelledby="heading-chronicles">
+          <div class="panel-head">
+            <h2 id="heading-chronicles">Chronicles</h2>
+            <span class="panel-index" aria-hidden="true">X</span>
+          </div>
+
+          <p class="subsection-title">Rank Progression</p>
+          <div class="rank-track" id="rankLadder"></div>
+
+          <p class="subsection-title">Achievements</p>
+          <div class="achievements" id="achievementGrid"></div>
+        </aside>
+        </div>
+
+        <!-- 11. ATTRIBUTES PAGE -->
+        <div id="page-attributes" class="rpg-page" hidden role="tabpanel" aria-labelledby="navBtn-attributes">
+          <div class="page-header">
+            <div class="page-title-group">
+              <span class="page-crumb">Realm / Progression</span>
+              <h2 class="page-title">Hero Attributes &amp; Power</h2>
+            </div>
+          </div>
+
+          <section id="panel-attributes" class="panel panel-attributes" aria-labelledby="heading-attributes">
+          <div class="panel-head">
+            <div class="panel-title-group">
+              <h2 id="heading-attributes">Attributes</h2>
+              <span id="statPointsBadge" class="badge-unallocated" hidden>⚡ <span id="statPointsCount">0</span> pts</span>
+            </div>
+            <span class="panel-index" aria-hidden="true">II</span>
+          </div>
+
+          <div class="attributes-grid">
+            <!-- Strength -->
+            <div class="attribute-row" data-stat="str">
+              <div class="attr-icon-wrap" aria-hidden="true">⚔️</div>
+              <div class="attr-details">
+                <div class="attr-title-line">
+                  <span class="attr-name">Strength</span>
+                  <span class="attr-val" id="valSTR">5</span>
+                </div>
+                <p class="attr-perk" id="perkSTR">+10% Quest Gold</p>
+              </div>
+              <button id="btnStatSTR" type="button" class="btn-stat-inc" onclick="allocateStat('str')" aria-label="Increase Strength" disabled>+</button>
+            </div>
+
+            <!-- Intelligence -->
+            <div class="attribute-row" data-stat="int">
+              <div class="attr-icon-wrap" aria-hidden="true">🔮</div>
+              <div class="attr-details">
+                <div class="attr-title-line">
+                  <span class="attr-name">Intellect</span>
+                  <span class="attr-val" id="valINT">5</span>
+                </div>
+                <p class="attr-perk" id="perkINT">+10% Quest XP</p>
+              </div>
+              <button id="btnStatINT" type="button" class="btn-stat-inc" onclick="allocateStat('int')" aria-label="Increase Intellect" disabled>+</button>
+            </div>
+
+            <!-- Endurance -->
+            <div class="attribute-row" data-stat="end">
+              <div class="attr-icon-wrap" aria-hidden="true">🛡️</div>
+              <div class="attr-details">
+                <div class="attr-title-line">
+                  <span class="attr-name">Endurance</span>
+                  <span class="attr-val" id="valEND">5</span>
+                </div>
+                <p class="attr-perk" id="perkEND">Streak Shield Active</p>
+              </div>
+              <button id="btnStatEND" type="button" class="btn-stat-inc" onclick="allocateStat('end')" aria-label="Increase Endurance" disabled>+</button>
+            </div>
+
+            <!-- Luck -->
+            <div class="attribute-row" data-stat="lck">
+              <div class="attr-icon-wrap" aria-hidden="true">🍀</div>
+              <div class="attr-details">
+                <div class="attr-title-line">
+                  <span class="attr-name">Luck</span>
+                  <span class="attr-val" id="valLCK">5</span>
+                </div>
+                <p class="attr-perk" id="perkLCK">+15% Crit Bounty / Shards</p>
+              </div>
+              <button id="btnStatLCK" type="button" class="btn-stat-inc" onclick="allocateStat('lck')" aria-label="Increase Luck" disabled>+</button>
+            </div>
+          </div>
+        </section>
+        </div>
+
+        <!-- ============================================
+             12. FEEDBACK IS ALWAYS AT THE BOTTOM
+             ============================================ -->
+        <div class="feedback-bottom-container" id="feedbackAnchor">
+          <section id="panel-feedback" class="panel panel-feedback" aria-labelledby="heading-feedback">
+          <div class="panel-head">
+            <h2 id="heading-feedback">Adventurer&rsquo;s Feedback</h2>
+            <span class="panel-index" aria-hidden="true">XI</span>
+          </div>
+
+          <p class="feedback-intro">Spotted a broken rune, or have a trial worth adding to the journal? Send a message to the keepers of Questforge.</p>
+
+          <form action='/' class='feedback-form' id='feedbackForm' method='POST' name='adventurer-feedback' novalidate>
+            <input type="hidden" name="form-name" value="adventurer-feedback">
+
+            <p class="honeypot">
+              <label for="feedbackBot">Leave this field empty</label>
+              <input id="feedbackBot" name="bot-field" type="text" tabindex="-1" autocomplete="off">
+            </p>
+
+            <div class="feedback-grid">
+              <div class="field">
+                <label for="feedbackCategory">Category</label>
+                <select id="feedbackCategory" name="category" required>
+                  <option value="feature">Feature Suggestion</option>
+                  <option value="bug">Bug Report</option>
+                  <option value="general" selected>General Feedback</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="feedbackEmail">Contact email <span class="label-optional">optional</span></label>
+                <input id="feedbackEmail" name="email" type="email" autocomplete="email" placeholder="you@example.com" aria-describedby="feedbackEmailHint feedbackEmailError">
+                <p class="field-hint" id="feedbackEmailHint">Only if you would like a reply. Nothing else is collected.</p>
+                <p class="field-error" id="feedbackEmailError" role="alert" hidden></p>
+              </div>
+            </div>
+
+            <div class="field field-message">
+              <label for="feedbackMessage">Message</label>
+              <textarea id="feedbackMessage" name="message" rows="5" maxlength="1000" required
+                        placeholder="Describe the rune that broke, or the trial you would like to see added…"
+                        aria-describedby="feedbackMessageHint feedbackMessageError"></textarea>
+              <div class="field-hint-row">
+                <p class="field-hint" id="feedbackMessageHint">Required — up to 1000 characters.</p>
+                <p class="char-count" id="feedbackCount" aria-hidden="true">0 / 1000</p>
+              </div>
+              <p class="field-error" id="feedbackMessageError" role="alert" hidden></p>
+            </div>
+
+            <div class="feedback-actions">
+              <button type="submit" id="feedbackSubmit" class="btn-primary">Send feedback</button>
+              <p class="feedback-status" id="feedbackStatus" role="status" aria-live="polite"></p>
+              <p class="field-error" id="feedbackError" role="alert" hidden></p>
+            </div>
+          </form>
+
+          <div class="feedback-success" id="feedbackSuccess" tabindex="-1" hidden>
+            <p class="success-mark" aria-hidden="true">✦</p>
+            <h3>Message received</h3>
+            <p>Your words have reached the guild. Thank you for helping forge Questforge.</p>
+            <button type="button" class="btn-ghost" id="feedbackAgain">Send another message</button>
+          </div>
+        </section>
+        </div>
+
+      </main>
+    </div>
+
+<!-- Level-Up Celebration Modal -->
   <div id="levelUpModal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="levelUpTitle">
     <div class="modal-card">
       <div class="modal-icon" aria-hidden="true">
         <svg viewBox="0 0 48 48" focusable="false">
-          <path d="M24 4.5 42 11v12.6C42 34.4 34.2 40.9 24 44.5 13.8 40.9 6 34.4 6 23.6V11Z" fill="none" stroke="#D9B56D" stroke-width="1.3" opacity=".85"/>
-          <path d="M24 14v18" fill="none" stroke="#D9B56D" stroke-width="1.5" stroke-linecap="round"/>
-          <path d="M18.4 20.6h11.2" fill="none" stroke="#D9B56D" stroke-width="1.5" stroke-linecap="round"/>
-          <circle cx="24" cy="34.6" r="1.7" fill="#D9B56D"/>
+          <path d="M24 4.5 42 11v12.6C42 34.4 34.2 40.9 24 44.5 13.8 40.9 6 34.4 6 23.6V11Z" fill="none" stroke="currentColor" stroke-width="1.3" opacity=".85"/>
+          <path d="M24 14v18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M18.4 20.6h11.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="24" cy="34.6" r="1.7" fill="currentColor"/>
         </svg>
       </div>
       <h2 id="levelUpTitle">Level Up</h2>
       <p class="modal-level-text"><strong id="modalLevel">Level 2</strong></p>
       <p class="modal-title-text" id="modalTitle">Title: Skilled Adventurer</p>
-      <button id="closeModalBtn" class="btn-primary modal-close" onclick="closeLevelUpModal()">Continue Questing</button>
+
+      <div class="modal-rewards" role="group" aria-label="Level-up spoils">
+        <p class="modal-rewards-title">Spoils of Victory</p>
+        <div class="modal-rewards-grid">
+          <div class="modal-reward-item">
+            <img class="modal-reward-icon-img" src="assets/items/currency_gold.svg" alt="" aria-hidden="true">
+            <span class="reward-val" id="modalGoldReward">+50 Gold</span>
+          </div>
+          <div class="modal-reward-item">
+            <img class="modal-reward-icon-img" src="assets/items/currency_shard.svg" alt="" aria-hidden="true">
+            <span class="reward-val" id="modalShardsReward">+1 Shard</span>
+          </div>
+          <div class="modal-reward-item">
+            <span class="reward-icon" aria-hidden="true">⚡</span>
+            <span class="reward-val" id="modalStatsReward">+3 Stat Pts</span>
+          </div>
+        </div>
+      </div>
+
+      <button id="closeModalBtn" class="btn-primary modal-close" onclick="closeLevelUpModal()">Claim Rewards</button>
     </div>
   </div>
+
+  <!-- Item Inspection & Action Modal -->
+  <div id="itemModal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="itemModalName">
+    <div class="modal-card item-modal-card">
+      <div class="item-modal-badge-row">
+        <span id="itemModalRarity" class="item-rarity-badge rarity-common">Common</span>
+        <span id="itemModalType" class="item-type-badge">Weapon</span>
+      </div>
+      <div class="item-modal-icon-wrap" id="itemModalIconWrap">
+        <div id="itemModalIcon" class="item-modal-icon-display" aria-hidden="true"></div>
+      </div>
+      <h2 id="itemModalName" class="item-modal-title">Apprentice Spellblade</h2>
+      <p id="itemModalLore" class="item-modal-lore">A balanced blade forged with attuned conduits that focus arcane energy into physical strikes.</p>
+
+      <div class="item-modal-stats" id="itemModalStats">
+        <!-- Rendered stat modifiers -->
+      </div>
+
+      <div class="item-modal-actions" id="itemModalActions">
+        <button id="itemActionPrimary" class="btn-primary" type="button">Equip</button>
+        <button id="itemActionSecondary" class="btn-ghost" type="button">Sell for 20 🪙</button>
+        <button class="btn-ghost" type="button" onclick="closeItemModal()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Adventurer Vault & Authentication Modal -->
+  <div id="authModal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="authModalHeading">
+    <div class="modal-card auth-modal-card">
+      <button class="modal-close-icon-btn" type="button" onclick="closeAuthModal()" aria-label="Close authentication vault">✕</button>
+
+      <div class="auth-modal-badge">
+        <span class="auth-crest" aria-hidden="true">🛡️</span>
+        <span class="auth-eyebrow">Guild Cryptography</span>
+      </div>
+
+      <h2 id="authModalHeading" class="auth-title">Adventurer Vault</h2>
+      <p class="auth-subtitle">Preserve your legend across scrolls and devices. Switch characters or bind your journal.</p>
+
+      <!-- Navigation Tabs: Save Slots, Login, Register -->
+      <div class="auth-tabs" role="tablist" aria-label="Authentication Options">
+        <button id="authTabSlots" class="auth-tab active" role="tab" aria-selected="true" onclick="switchAuthTab('slots')">📜 Save Slots</button>
+        <button id="authTabLogin" class="auth-tab" role="tab" aria-selected="false" onclick="switchAuthTab('login')">🔑 Enter Realm</button>
+        <button id="authTabRegister" class="auth-tab" role="tab" aria-selected="false" onclick="switchAuthTab('register')">✨ Create Hero</button>
+      </div>
+
+      <!-- View 1: Save Slots / Multi-Character Manager -->
+      <div id="authViewSlots" class="auth-view">
+        <div class="auth-active-banner" id="authActiveBanner">
+          <span class="banner-avatar" id="authBannerAvatar">⚔️</span>
+          <div class="banner-meta">
+            <span class="banner-status-label">Active Character</span>
+            <h4 class="banner-name" id="authBannerName">Dark Knight</h4>
+            <span class="banner-desc" id="authBannerDesc">Level 1 • Guest Session</span>
+          </div>
+          <button type="button" class="btn-ghost-sm" onclick="exportActiveSaveFile()" title="Export active hero as JSON backup">💾 Export</button>
+        </div>
+
+        <div class="auth-slots-title-row">
+          <span class="auth-slots-subhead">Bound Heroes in Local Crypt</span>
+          <button type="button" class="btn-text-action" onclick="document.getElementById('importSaveInput').click()">📥 Import Save</button>
+          <input type="file" id="importSaveInput" accept=".json" style="display:none" onchange="importSaveFile(event)">
+        </div>
+
+        <div class="auth-slots-list" id="authSlotsList">
+          <!-- Rendered list of character slots -->
+        </div>
+
+        <div class="auth-slots-foot">
+          <button type="button" class="btn-ghost auth-foot-btn" onclick="continueAsGuest()">Play as Guest</button>
+          <button type="button" class="btn-primary auth-foot-btn" onclick="switchAuthTab('register')">➕ New Adventurer</button>
+        </div>
+      </div>
+
+      <!-- View 2: Login Form -->
+      <form id="authViewLogin" class="auth-view" hidden onsubmit="handleAuthLogin(event)">
+        <div class="auth-form-group">
+          <label for="loginHeroName" class="auth-label">Adventurer Name</label>
+          <div class="auth-input-wrap">
+            <span class="auth-input-icon" aria-hidden="true">👤</span>
+            <input id="loginHeroName" type="text" class="auth-input" placeholder="e.g., Ser Arthur" required autocomplete="username">
+          </div>
+        </div>
+
+        <div class="auth-form-group">
+          <label for="loginPasscode" class="auth-label">Secret Passcode / Sigil</label>
+          <div class="auth-input-wrap">
+            <span class="auth-input-icon" aria-hidden="true">🗝️</span>
+            <input id="loginPasscode" type="password" class="auth-input" placeholder="Enter secret passcode" required autocomplete="current-password">
+            <button type="button" class="btn-toggle-pw" onclick="togglePasswordVisibility('loginPasscode', this)" aria-label="Toggle passcode visibility">👁️</button>
+          </div>
+        </div>
+
+        <div class="auth-remember-row">
+          <label class="auth-checkbox-label">
+            <input type="checkbox" id="loginRememberMe" checked>
+            <span>Keep sworn session active</span>
+          </label>
+        </div>
+
+        <button type="submit" class="btn-primary btn-auth-submit">
+          <span>Enter the Realm</span> ➔
+        </button>
+
+        <p class="auth-switch-prompt">
+          First time walking these lands?
+          <button type="button" class="btn-link" onclick="switchAuthTab('register')">Create a new Adventurer</button>
+        </p>
+      </form>
+
+      <!-- View 3: Register Form -->
+      <form id="authViewRegister" class="auth-view" hidden onsubmit="handleAuthRegister(event)">
+        <div class="auth-form-group">
+          <label for="regHeroName" class="auth-label">Adventurer Name</label>
+          <div class="auth-input-wrap">
+            <span class="auth-input-icon" aria-hidden="true">⚔️</span>
+            <input id="regHeroName" type="text" class="auth-input" placeholder="e.g., Lady Guinevere" required maxlength="24" autocomplete="username">
+          </div>
+        </div>
+
+        <div class="auth-form-group">
+          <label class="auth-label">Hero Archetype / Calling</label>
+          <div class="archetype-selector" role="radiogroup" aria-label="Hero Archetype">
+            <label class="archetype-card active">
+              <input type="radio" name="heroArchetype" value="Knight" checked onchange="selectArchetype(this.value)">
+              <span class="archetype-avatar">🛡️</span>
+              <span class="archetype-title">Knight</span>
+              <span class="archetype-perk">+2 STR • +1 END</span>
+            </label>
+            <label class="archetype-card">
+              <input type="radio" name="heroArchetype" value="Mage" onchange="selectArchetype(this.value)">
+              <span class="archetype-avatar">🔮</span>
+              <span class="archetype-title">Mage</span>
+              <span class="archetype-perk">+2 INT • +1 LCK</span>
+            </label>
+            <label class="archetype-card">
+              <input type="radio" name="heroArchetype" value="Rogue" onchange="selectArchetype(this.value)">
+              <span class="archetype-avatar">🗡️</span>
+              <span class="archetype-title">Rogue</span>
+              <span class="archetype-perk">+2 LCK • +1 STR</span>
+            </label>
+            <label class="archetype-card">
+              <input type="radio" name="heroArchetype" value="Paladin" onchange="selectArchetype(this.value)">
+              <span class="archetype-avatar">✨</span>
+              <span class="archetype-title">Paladin</span>
+              <span class="archetype-perk">+2 END • +1 INT</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="auth-form-group">
+          <label for="regPasscode" class="auth-label">Secret Passcode</label>
+          <div class="auth-input-wrap">
+            <span class="auth-input-icon" aria-hidden="true">🗝️</span>
+            <input id="regPasscode" type="password" class="auth-input" placeholder="At least 4 characters" required minlength="4" autocomplete="new-password">
+            <button type="button" class="btn-toggle-pw" onclick="togglePasswordVisibility('regPasscode', this)" aria-label="Toggle passcode visibility">👁️</button>
+          </div>
+        </div>
+
+        <div class="auth-form-group">
+          <label for="regPasscodeConfirm" class="auth-label">Confirm Secret Passcode</label>
+          <div class="auth-input-wrap">
+            <span class="auth-input-icon" aria-hidden="true">🔒</span>
+            <input id="regPasscodeConfirm" type="password" class="auth-input" placeholder="Re-enter passcode" required minlength="4" autocomplete="new-password">
+          </div>
+        </div>
+
+        <button type="submit" class="btn-primary btn-auth-submit">
+          <span>Pledge Oath &amp; Begin Journey</span> ⚔️
+        </button>
+
+        <p class="auth-switch-prompt">
+          Already sworn to an oath?
+          <button type="button" class="btn-link" onclick="switchAuthTab('login')">Log in to existing journal</button>
+        </p>
+      </form>
+    </div>
+  </div>
+
+  <!-- Interactive Crafting Modal -->
+  <div id="craftingModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="craftingModalTitle" hidden>
+    <div class="modal-card crafting-modal-card">
+      <div class="crafting-stage" id="craftingStage">
+        <!-- Swirling Reagents Field -->
+        <div class="crafting-reagents-swirl" id="craftingReagentsSwirl" aria-hidden="true"></div>
+
+        <!-- Center Crucible / Forge Sigil -->
+        <div class="crafting-crucible" id="craftingCrucible">
+          <div class="crucible-rune-circle" aria-hidden="true"></div>
+          <div class="crucible-core-glow" aria-hidden="true"></div>
+          <div class="crafting-result-preview" id="craftingResultPreview"></div>
+        </div>
+
+        <!-- Forge Sparks & Embers -->
+        <div class="crafting-sparks-emitter" id="craftingSparks" aria-hidden="true"></div>
+      </div>
+
+      <h3 id="craftingModalTitle" class="crafting-modal-title">Forging Artifact...</h3>
+      <p id="craftingModalStatus" class="crafting-modal-status">Transmuting reagents and infusing runes...</p>
+
+      <div class="crafting-modal-actions">
+        <button id="btnSkipCrafting" type="button" class="btn-ghost btn-small" onclick="skipCraftingAnimation()">⏩ Skip Animation</button>
+        <button id="btnCloseCrafting" type="button" class="btn-primary" onclick="closeCraftingModal()" hidden>Claim Artifact ⚔️</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Companion Rename Modal -->
+  <div id="companionRenameModal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="renameModalTitle">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h3 id="renameModalTitle">Rename Companion</h3>
+        <button type="button" class="btn-close-modal" onclick="closeCompanionRenameModal()" aria-label="Close modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="rename-modal-subtitle">Give your familiar a cherished name. Its species, traits, and lore will remain unchanged.</p>
+        <div class="field">
+          <label for="companionNameInput">Custom Name <span id="companionNameCount" class="count-hint">0 / 20</span></label>
+          <input type="text" id="companionNameInput" maxlength="20" placeholder="Enter companion name…" autocomplete="off">
+          <span id="companionRenameError" class="field-error" hidden></span>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button type="button" class="btn-ghost" onclick="resetActiveCompanionName()">Reset to Default</button>
+        <button type="button" class="btn-primary" onclick="saveCompanionName()">Save Name</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Companion Detail Inspector Modal -->
+  <div id="companionDetailModal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="companionDetailTitle">
+    <div class="modal-card companion-detail-card">
+      <div class="modal-head">
+        <h3 id="companionDetailTitle">Familiar Codex</h3>
+        <button type="button" class="btn-close-modal" onclick="closeCompanionDetailModal()" aria-label="Close modal">&times;</button>
+      </div>
+      <div class="modal-body companion-detail-body" id="companionDetailBody">
+        <!-- Dynamically injected detail view -->
+      </div>
+      <div class="modal-foot" id="companionDetailFoot">
+        <!-- Dynamic Action: Equip, Adopt in Shop, or Close -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Companion Evolution & Metamorphosis Confirmation Modal -->
+  <div id="companionEvolutionModal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="evolutionModalTitle">
+    <div class="modal-card evolution-modal-card">
+      <div class="modal-head">
+        <h3 id="evolutionModalTitle">Familiar Metamorphosis ✨</h3>
+        <button type="button" class="btn-close-modal" onclick="closeCompanionEvolutionModal()" aria-label="Close modal">&times;</button>
+      </div>
+      <div class="modal-body evolution-modal-body" id="evolutionModalBody">
+        <!-- Injected dynamically: Stage Before & After, New Perks, Requirements -->
+      </div>
+      <div class="modal-foot" id="evolutionModalFoot">
+        <button type="button" class="btn-ghost" onclick="closeCompanionEvolutionModal()">Not Now</button>
+        <button type="button" class="btn-primary btn-evolve-confirm" id="btnConfirmMetamorphosis" onclick="confirmActiveCompanionEvolution()">
+          Confirm Metamorphosis ✨
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Global Animation Particle Layer -->
+  <div id="rpgAnimationLayer" class="rpg-animation-layer" aria-hidden="true"></div>
 
   <button id="backToTop" class="back-to-top" type="button" aria-label="Back to top" hidden><span aria-hidden="true">↑</span></button>
 
   <div id="toastRegion" class="toast-region" role="status" aria-live="polite"></div>
+
+  <!-- 3D Graphics Engine (Three.js r128, GLTFLoader, OrbitControls) -->
+  <script src="assets/vendor/three.min.js"></script>
+  <script src="assets/vendor/GLTFLoader.js"></script>
+  <script src="assets/vendor/OrbitControls.js"></script>
 
   <script src="script.js"></script>
 

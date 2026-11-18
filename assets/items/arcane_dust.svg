@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <filter id="dustNova" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="4.5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <linearGradient id="cosmicDust" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="25%" stop-color="#a5f3fc" />
+      <stop offset="55%" stop-color="#c084fc" />
+      <stop offset="85%" stop-color="#ec4899" />
+      <stop offset="100%" stop-color="#3b0764" />
+    </linearGradient>
+    <radialGradient id="nebulaCore" cx="50%" cy="55%" r="50%">
+      <stop offset="0%" stop-color="#e879f9" stop-opacity="0.6" />
+      <stop offset="50%" stop-color="#818cf8" stop-opacity="0.3" />
+      <stop offset="80%" stop-color="#06b6d4" stop-opacity="0.1" />
+      <stop offset="100%" stop-color="#020617" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="glassBowl" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.7" />
+      <stop offset="60%" stop-color="#93c5fd" stop-opacity="0.2" />
+      <stop offset="100%" stop-color="#3b82f6" stop-opacity="0.5" />
+    </linearGradient>
+  </defs>
+
+  <!-- Swirling Nebula Cloud -->
+  <circle cx="64" cy="62" r="48" fill="url(#nebulaCore)" filter="url(#dustNova)" />
+
+  <!-- Crystal Glass Offering Bowl -->
+  <ellipse cx="64" cy="88" rx="36" ry="14" fill="#090d16" stroke="url(#glassBowl)" stroke-width="1.8" />
+  <path d="M 28 88 C 28 106 100 106 100 88" fill="none" stroke="url(#glassBowl)" stroke-width="1.8" />
+
+  <!-- Heaped Shimmering Stardust Powder inside Bowl -->
+  <ellipse cx="64" cy="84" rx="32" ry="11" fill="url(#cosmicDust)" filter="url(#dustNova)" />
+
+  <!-- Rising Orbiting Star Particles and Constellation Lines -->
+  <line x1="38" y1="62" x2="52" y2="44" stroke="#c084fc" stroke-width="0.8" stroke-dasharray="2,2" opacity="0.6" />
+  <line x1="52" y1="44" x2="74" y2="38" stroke="#38bdf8" stroke-width="0.8" stroke-dasharray="2,2" opacity="0.6" />
+  <line x1="74" y1="38" x2="90" y2="56" stroke="#f472b6" stroke-width="0.8" stroke-dasharray="2,2" opacity="0.6" />
+
+  <!-- Starburst 1 (Center Large) -->
+  <path d="M 64 24 L 67 36 L 79 39 L 67 42 L 64 54 L 61 42 L 49 39 L 61 36 Z" fill="#ffffff" filter="url(#dustNova)" />
+  <circle cx="64" cy="39" r="2.5" fill="#fbcfe8" />
+
+  <!-- Starburst 2 (Left Medium) -->
+  <path d="M 40 48 L 42 54 L 48 56 L 42 58 L 40 64 L 38 58 L 32 56 L 38 54 Z" fill="#a5f3fc" filter="url(#dustNova)" />
+
+  <!-- Starburst 3 (Right Medium) -->
+  <path d="M 88 44 L 90 50 L 96 52 L 90 54 L 88 60 L 86 54 L 80 52 L 86 50 Z" fill="#f472b6" filter="url(#dustNova)" />
+
+  <!-- Scattered Glowing Glitter Points -->
+  <circle cx="48" cy="74" r="2" fill="#ffffff" filter="url(#dustNova)" />
+  <circle cx="60" cy="68" r="2.5" fill="#67e8f9" filter="url(#dustNova)" />
+  <circle cx="76" cy="72" r="2" fill="#e879f9" filter="url(#dustNova)" />
+  <circle cx="82" cy="64" r="1.5" fill="#ffffff" />
+  <circle cx="54" cy="32" r="1.8" fill="#fde047" />
+  <circle cx="76" cy="28" r="1.5" fill="#ffffff" />
+  <circle cx="32" cy="72" r="1.2" fill="#bae6fd" />
+  <circle cx="98" cy="72" r="1.4" fill="#fbcfe8" />
+</svg>

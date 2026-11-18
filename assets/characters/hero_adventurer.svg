@@ -1,0 +1,183 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 480" width="100%" height="100%">
+  <defs>
+    <!-- Background Aura -->
+    <radialGradient id="heroAura" cx="50%" cy="45%" r="55%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.35"/>
+      <stop offset="50%" stop-color="#6366f1" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#0b0f19" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Obsidian Plate Armor Gradients -->
+    <linearGradient id="plateSteel" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#475569"/>
+      <stop offset="35%" stop-color="#1e293b"/>
+      <stop offset="70%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+
+    <linearGradient id="plateHighlight" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#94a3b8"/>
+      <stop offset="25%" stop-color="#475569"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+
+    <!-- Gold Trims -->
+    <linearGradient id="goldTrim" x1="0%" y1="0%" x2="100%" y2="80%">
+      <stop offset="0%" stop-color="#fef08a"/>
+      <stop offset="30%" stop-color="#f59e0b"/>
+      <stop offset="70%" stop-color="#b45309"/>
+      <stop offset="100%" stop-color="#78350f"/>
+    </linearGradient>
+
+    <!-- Arcane Cyan Glow -->
+    <linearGradient id="arcaneCyan" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#a5f3fc"/>
+      <stop offset="50%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+
+    <!-- Cape Royal Fabric -->
+    <linearGradient id="capeFabric" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#312e81"/>
+      <stop offset="40%" stop-color="#1e1b4b"/>
+      <stop offset="85%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+
+    <!-- Glow Filter -->
+    <filter id="runeGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    <filter id="eyeGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Ambient Backdrop Halo -->
+  <circle cx="200" cy="220" r="170" fill="url(#heroAura)"/>
+
+  <!-- Mystic Rune Ring Behind Shoulders -->
+  <g opacity="0.45" stroke="#38bdf8" stroke-width="1.5" fill="none">
+    <circle cx="200" cy="210" r="145" stroke-dasharray="12 8 4 8"/>
+    <circle cx="200" cy="210" r="132" stroke-width="0.8" stroke-dasharray="4 6"/>
+    <!-- Cardinal Runes -->
+    <polygon points="200,68 204,78 196,78" fill="#38bdf8"/>
+    <polygon points="200,352 204,342 196,342" fill="#38bdf8"/>
+    <polygon points="58,210 68,214 68,206" fill="#38bdf8"/>
+    <polygon points="342,210 332,214 332,206" fill="#38bdf8"/>
+  </g>
+
+  <!-- Flowing Royal Cape (Back Layer) -->
+  <path d="M120 180 Q80 260 70 430 Q130 420 200 425 Q270 420 330 430 Q320 260 280 180 Z" fill="url(#capeFabric)"/>
+  <path d="M110 220 Q75 320 70 430 Q120 415 150 422 Q115 310 135 220 Z" fill="#1e1b4b" opacity="0.6"/>
+  <path d="M290 220 Q325 320 330 430 Q280 415 250 422 Q285 310 265 220 Z" fill="#0f172a" opacity="0.7"/>
+
+  <!-- Body Torso / Chain Underlay -->
+  <path d="M150 200 L250 200 L240 370 L160 370 Z" fill="#1e293b"/>
+  <!-- Chainmail links hint -->
+  <line x1="165" y1="210" x2="235" y2="210" stroke="#334155" stroke-width="1.5" stroke-dasharray="2 3"/>
+  <line x1="163" y1="220" x2="237" y2="220" stroke="#334155" stroke-width="1.5" stroke-dasharray="2 3"/>
+
+  <!-- Main Gothic Breastplate -->
+  <path d="M155 190 L200 215 L245 190 L235 320 L200 355 L165 320 Z" fill="url(#plateSteel)" stroke="url(#goldTrim)" stroke-width="2"/>
+  <!-- Beveled Center Ridge -->
+  <path d="M200 215 L200 355" stroke="#94a3b8" stroke-width="2.5" opacity="0.8"/>
+  <path d="M155 190 L200 215 L200 355 L165 320 Z" fill="#ffffff" opacity="0.06"/>
+  <!-- Engraved Arcane Sigil on Chest -->
+  <g filter="url(#runeGlow)" stroke="#38bdf8" stroke-width="1.5" fill="none">
+    <polygon points="200,240 215,260 200,280 185,260" stroke="#38bdf8"/>
+    <circle cx="200" cy="260" r="4" fill="#a5f3fc"/>
+    <line x1="200" y1="232" x2="200" y2="288"/>
+    <line x1="180" y1="260" x2="220" y2="260"/>
+  </g>
+
+  <!-- Heavy Armored Belt & Faulds -->
+  <path d="M160 325 L240 325 L235 365 L200 380 L165 365 Z" fill="#0f172a" stroke="url(#goldTrim)" stroke-width="1.5"/>
+  <!-- Golden Belt Buckle -->
+  <rect x="188" y="322" width="24" height="20" rx="3" fill="url(#goldTrim)" stroke="#fef08a" stroke-width="1"/>
+  <circle cx="200" cy="332" r="4" fill="#38bdf8" filter="url(#runeGlow)"/>
+
+  <!-- Left Pauldron (Viewer's Left - Massive Tiered Shoulder Plate) -->
+  <g>
+    <path d="M165 180 Q110 170 95 215 Q135 250 170 230 Z" fill="url(#plateSteel)" stroke="url(#goldTrim)" stroke-width="2"/>
+    <path d="M160 190 Q120 185 105 220 Q135 245 165 230 Z" fill="url(#plateHighlight)" opacity="0.3"/>
+    <!-- Outer spike / blade plate -->
+    <path d="M135 170 Q85 160 70 205 Q105 235 140 210 Z" fill="url(#plateSteel)" stroke="#38bdf8" stroke-width="1.2"/>
+    <!-- Glowing Runes on Pauldron -->
+    <path d="M98 200 L115 208 L128 198" fill="none" stroke="#38bdf8" stroke-width="1.8" filter="url(#runeGlow)"/>
+  </g>
+
+  <!-- Right Pauldron (Viewer's Right) -->
+  <g>
+    <path d="M235 180 Q290 170 305 215 Q265 250 230 230 Z" fill="url(#plateSteel)" stroke="url(#goldTrim)" stroke-width="2"/>
+    <path d="M240 190 Q280 185 295 220 Q265 245 235 230 Z" fill="url(#plateHighlight)" opacity="0.3"/>
+    <path d="M265 170 Q315 160 330 205 Q295 235 260 210 Z" fill="url(#plateSteel)" stroke="#38bdf8" stroke-width="1.2"/>
+    <path d="M302 200 L285 208 L272 198" fill="none" stroke="#38bdf8" stroke-width="1.8" filter="url(#runeGlow)"/>
+  </g>
+
+  <!-- Right Arm & Glowing Spellblade (Sheathed / Held at Ready) -->
+  <g>
+    <!-- Forearm Vambrace -->
+    <path d="M255 240 L285 255 L305 340 L275 330 Z" fill="url(#plateSteel)" stroke="url(#goldTrim)" stroke-width="1.5"/>
+    <!-- Gauntlet Hand -->
+    <path d="M295 330 Q315 345 305 365 Q285 360 280 340 Z" fill="#334155" stroke="url(#goldTrim)" stroke-width="1.2"/>
+    <!-- Spellblade Crossguard & Blade extending upward -->
+    <g transform="translate(300, 320) rotate(-18)">
+      <!-- Blade Glow Aura -->
+      <path d="M-6 -180 L6 -180 L14 10 L-14 10 Z" fill="#38bdf8" opacity="0.3" filter="url(#eyeGlow)"/>
+      <!-- Blade Core -->
+      <path d="M0 -185 L8 0 L-8 0 Z" fill="url(#arcaneCyan)"/>
+      <line x1="0" y1="-180" x2="0" y2="0" stroke="#ffffff" stroke-width="2"/>
+      <!-- Crossguard -->
+      <path d="M-22 5 L22 5 L16 16 L-16 16 Z" fill="url(#goldTrim)" stroke="#fef08a" stroke-width="1"/>
+      <circle cx="0" cy="10" r="3.5" fill="#a5f3fc" filter="url(#runeGlow)"/>
+      <!-- Grip & Pommel -->
+      <rect x="-4" y="16" width="8" height="24" rx="2" fill="#1e1b4b" stroke="url(#goldTrim)" stroke-width="1"/>
+      <polygon points="0,48 -7,40 7,40" fill="url(#goldTrim)"/>
+    </g>
+  </g>
+
+  <!-- Left Arm (Armored Guard Pose) -->
+  <g>
+    <path d="M145 240 L115 255 L95 340 L125 330 Z" fill="url(#plateSteel)" stroke="url(#goldTrim)" stroke-width="1.5"/>
+    <path d="M105 330 Q85 345 95 365 Q115 360 120 340 Z" fill="#334155" stroke="url(#goldTrim)" stroke-width="1.2"/>
+  </g>
+
+  <!-- Gorget & Neck Guard -->
+  <path d="M175 165 L225 165 L215 195 L185 195 Z" fill="#1e293b" stroke="url(#goldTrim)" stroke-width="1.5"/>
+
+  <!-- Mystical Hood & Helmet Visor -->
+  <g id="heroHead">
+    <!-- Dark Hood Base -->
+    <path d="M150 160 Q130 95 200 70 Q270 95 250 160 Q215 175 200 175 Q185 175 150 160 Z" fill="#0f172a" stroke="url(#goldTrim)" stroke-width="1.5"/>
+    <!-- Hood Inner Shadow -->
+    <path d="M158 150 Q145 105 200 85 Q255 105 242 150 Q210 162 200 162 Q190 162 158 150 Z" fill="#020617"/>
+
+    <!-- Armored Faceplate / Visor -->
+    <path d="M170 120 L200 108 L230 120 L225 155 L200 168 L175 155 Z" fill="url(#plateSteel)" stroke="url(#goldTrim)" stroke-width="1.5"/>
+    <!-- Visor Bevel Highlight -->
+    <line x1="200" y1="108" x2="200" y2="168" stroke="#94a3b8" stroke-width="1.5"/>
+
+    <!-- Glowing Cyan Arcane Eyes / Slits -->
+    <g filter="url(#eyeGlow)">
+      <!-- Left Eye -->
+      <polygon points="180,132 194,134 192,137 178,135" fill="#a5f3fc"/>
+      <!-- Right Eye -->
+      <polygon points="220,132 206,134 208,137 222,135" fill="#a5f3fc"/>
+      <!-- Center Forehead Rune Gem -->
+      <circle cx="200" cy="116" r="3" fill="#38bdf8"/>
+    </g>
+  </g>
+
+  <!-- Ambient Shimmer / Sparkle Accents -->
+  <circle cx="110" cy="140" r="1.5" fill="#a5f3fc" opacity="0.8"/>
+  <circle cx="310" cy="120" r="2" fill="#a5f3fc" opacity="0.9"/>
+  <circle cx="290" cy="80" r="1.2" fill="#fef08a" opacity="0.8"/>
+  <circle cx="90" cy="270" r="1.5" fill="#38bdf8" opacity="0.7"/>
+  <circle cx="330" cy="280" r="2" fill="#38bdf8" opacity="0.7"/>
+</svg>

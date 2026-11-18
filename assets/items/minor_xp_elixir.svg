@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <filter id="potionGlow" x="-25%" y="-25%" width="150%" height="150%">
+      <feGaussianBlur stdDeviation="4" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <linearGradient id="azurePotion" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#bae6fd" />
+      <stop offset="35%" stop-color="#38bdf8" />
+      <stop offset="75%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#082f49" />
+    </linearGradient>
+    <linearGradient id="glassSpecular" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.8" />
+      <stop offset="40%" stop-color="#ffffff" stop-opacity="0.1" />
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+    </linearGradient>
+    <linearGradient id="brassFiligree" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fde047" />
+      <stop offset="50%" stop-color="#ca8a04" />
+      <stop offset="100%" stop-color="#713f12" />
+    </linearGradient>
+  </defs>
+
+  <!-- Ambient Bioluminescent Blue Radiance -->
+  <circle cx="64" cy="74" r="44" fill="#38bdf8" opacity="0.3" filter="url(#potionGlow)" />
+
+  <!-- Flask Neck & Lip -->
+  <ellipse cx="64" cy="34" rx="14" ry="4" fill="url(#brassFiligree)" stroke="#451a03" stroke-width="0.8" />
+  <rect x="54" y="34" width="20" height="16" fill="url(#brassFiligree)" stroke="#451a03" stroke-width="0.8" />
+  <ellipse cx="64" cy="50" rx="12" ry="3.5" fill="#1e293b" />
+
+  <!-- Wood/Cork Stopper -->
+  <path d="M 56 34 L 58 20 C 58 18 70 18 70 20 L 72 34 Z" fill="#92400e" stroke="#451a03" stroke-width="0.8" />
+  <!-- Purple Wax Seal & Ribbon -->
+  <circle cx="64" cy="22" r="5" fill="#a855f7" stroke="#581c87" stroke-width="0.6" />
+  <path d="M 64 27 L 68 40 L 64 38 L 60 40 Z" fill="#a855f7" />
+
+  <!-- Spherical Glass Body Silhouette -->
+  <circle cx="64" cy="78" r="34" fill="#0c4a6e" stroke="url(#brassFiligree)" stroke-width="1.8" />
+
+  <!-- Swirling Glowing Azure Liquid Mass -->
+  <path d="M 32 82 C 32 102 96 102 96 82 C 86 86 76 78 64 80 C 52 82 42 78 32 82 Z" fill="url(#azurePotion)" filter="url(#potionGlow)" />
+  <ellipse cx="64" cy="80" rx="32" ry="8" fill="url(#azurePotion)" opacity="0.8" />
+
+  <!-- Bioluminescent Bubbles & Arcane Swirls -->
+  <circle cx="52" cy="90" r="3" fill="#ffffff" filter="url(#potionGlow)" />
+  <circle cx="72" cy="88" r="4.5" fill="#e0f2fe" filter="url(#potionGlow)" />
+  <circle cx="62" cy="98" r="2.5" fill="#bae6fd" />
+  <circle cx="80" cy="94" r="2" fill="#ffffff" />
+  <circle cx="48" cy="82" r="1.8" fill="#ffffff" />
+
+  <!-- Arcane Eye of Insight Sigil floating in potion -->
+  <path d="M 52 78 Q 64 68 76 78 Q 64 88 52 78 Z" fill="none" stroke="#ffffff" stroke-width="1.2" filter="url(#potionGlow)" />
+  <circle cx="64" cy="78" r="3" fill="#ffffff" />
+
+  <!-- Glass Specular Reflection Curves -->
+  <path d="M 38 62 C 34 70 34 82 40 92" fill="none" stroke="url(#glassSpecular)" stroke-width="4.5" stroke-linecap="round" />
+  <circle cx="42" cy="56" r="2" fill="#ffffff" opacity="0.8" />
+  <circle cx="88" cy="90" r="1.5" fill="#ffffff" opacity="0.4" />
+</svg>

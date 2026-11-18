@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <filter id="goldGlint" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2.5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <linearGradient id="velvetCrimson" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#be185d" />
+      <stop offset="40%" stop-color="#881337" />
+      <stop offset="85%" stop-color="#4c0519" />
+      <stop offset="100%" stop-color="#1f0209" />
+    </linearGradient>
+    <linearGradient id="coinGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="25%" stop-color="#fef08a" />
+      <stop offset="60%" stop-color="#eab308" />
+      <stop offset="85%" stop-color="#a16207" />
+      <stop offset="100%" stop-color="#451a03" />
+    </linearGradient>
+    <linearGradient id="goldCord" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#fef08a" />
+      <stop offset="50%" stop-color="#eab308" />
+      <stop offset="100%" stop-color="#713f12" />
+    </linearGradient>
+  </defs>
+
+  <!-- Pouch Body (Plump heavy sack) -->
+  <path d="M 44 48 C 30 54 22 72 22 88 C 22 106 38 116 64 116 C 90 116 106 106 106 88 C 106 72 98 54 84 48 Z" fill="url(#velvetCrimson)" stroke="#3f0713" stroke-width="1.4" />
+
+  <!-- Velvet Folds & Shading -->
+  <path d="M 46 54 Q 64 68 82 54 Q 64 78 46 54 Z" fill="#4c0519" opacity="0.6" />
+  <path d="M 32 86 Q 44 104 64 106" fill="none" stroke="#be185d" stroke-width="2" opacity="0.4" />
+
+  <!-- Ruffled Collar at Neck of Pouch -->
+  <path d="M 40 48 C 36 36 44 32 48 44 C 54 32 62 32 64 44 C 68 32 76 32 80 44 C 84 32 92 36 88 48 Z" fill="url(#velvetCrimson)" stroke="#3f0713" stroke-width="1" />
+
+  <!-- Spilling Ancient Gold Coins at Neck -->
+  <ellipse cx="64" cy="40" rx="9" ry="6" fill="url(#coinGold)" stroke="#713f12" stroke-width="0.8" />
+  <circle cx="64" cy="40" r="3" fill="none" stroke="#713f12" stroke-width="0.6" />
+
+  <ellipse cx="54" cy="44" rx="8" ry="5.5" fill="url(#coinGold)" stroke="#713f12" stroke-width="0.8" transform="rotate(-15, 54, 44)" />
+  <ellipse cx="74" cy="44" rx="8" ry="5.5" fill="url(#coinGold)" stroke="#713f12" stroke-width="0.8" transform="rotate(15, 74, 44)" />
+
+  <!-- Twisted Golden Drawstring Cord -->
+  <rect x="42" y="48" width="44" height="4.5" rx="2" fill="url(#goldCord)" stroke="#713f12" stroke-width="0.8" />
+  
+  <!-- Hanging Cord Ends & Tassels -->
+  <path d="M 48 52 Q 44 64 42 74" fill="none" stroke="url(#goldCord)" stroke-width="2" />
+  <polygon points="39,74 45,74 42,82" fill="url(#goldCord)" />
+
+  <path d="M 52 52 Q 52 66 56 76" fill="none" stroke="url(#goldCord)" stroke-width="2" />
+  <polygon points="53,76 59,76 56,84" fill="url(#goldCord)" />
+
+  <!-- Coins Spilled at Base -->
+  <ellipse cx="88" cy="104" rx="10" ry="6" fill="url(#coinGold)" stroke="#713f12" stroke-width="0.8" transform="rotate(20, 88, 104)" />
+  <ellipse cx="98" cy="108" rx="8" ry="5" fill="url(#coinGold)" stroke="#713f12" stroke-width="0.8" transform="rotate(-10, 98, 108)" />
+
+  <!-- Specular Sparkle Stars -->
+  <path d="M 64 30 L 65.5 33 L 69 34 L 65.5 35 L 64 38 L 62.5 35 L 59 34 L 62.5 33 Z" fill="#ffffff" filter="url(#goldGlint)" />
+  <path d="M 94 98 L 95 101 L 98 102 L 95 103 L 94 106 L 93 103 L 90 102 L 93 101 Z" fill="#ffffff" filter="url(#goldGlint)" />
+</svg>

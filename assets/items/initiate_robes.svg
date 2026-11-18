@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="robeFabric" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#312e81" />
+      <stop offset="40%" stop-color="#1e1b4b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="silverTrim" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#94a3b8" />
+      <stop offset="50%" stop-color="#f8fafc" />
+      <stop offset="100%" stop-color="#cbd5e1" />
+    </linearGradient>
+    <linearGradient id="cowlShadow" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e1b4b" />
+      <stop offset="100%" stop-color="#020617" />
+    </linearGradient>
+    <linearGradient id="leatherBelt" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#78350f" />
+      <stop offset="50%" stop-color="#92400e" />
+      <stop offset="100%" stop-color="#451a03" />
+    </linearGradient>
+  </defs>
+
+  <!-- Cowl Collar Backdrop -->
+  <path d="M 44 26 C 54 22 74 22 84 26 L 88 40 C 78 46 50 46 40 40 Z" fill="url(#cowlShadow)" stroke="url(#silverTrim)" stroke-width="1" />
+
+  <!-- Shoulder Mantle -->
+  <path d="M 44 26 L 24 42 C 22 56 26 68 34 76 L 42 66 L 42 108 L 86 108 L 86 66 L 94 76 C 102 68 106 56 104 42 L 84 26 Z" fill="url(#robeFabric)" stroke="#1e1b4b" stroke-width="1.2" />
+
+  <!-- Chest Lapel & Drapes -->
+  <path d="M 46 36 L 64 68 L 82 36" fill="none" stroke="url(#silverTrim)" stroke-width="1.8" />
+  <path d="M 52 38 L 64 62 L 76 38" fill="#1e1b4b" />
+
+  <!-- Silver Arcane Sigil Embroidery on Chest -->
+  <circle cx="64" cy="50" r="4.5" fill="none" stroke="url(#silverTrim)" stroke-width="1" />
+  <path d="M 64 43 L 64 57 M 57 50 L 71 50" stroke="url(#silverTrim)" stroke-width="0.8" />
+
+  <!-- Sturdy Leather Belt -->
+  <rect x="40" y="74" width="48" height="8" rx="2" fill="url(#leatherBelt)" stroke="#451a03" stroke-width="0.8" />
+  
+  <!-- Silver Buckle -->
+  <rect x="60" y="72" width="8" height="12" rx="1.5" fill="none" stroke="url(#silverTrim)" stroke-width="1.6" />
+  <rect x="63" y="76" width="2" height="4" fill="url(#silverTrim)" />
+
+  <!-- Hanging Belt Sash & Arcane Tassels -->
+  <path d="M 54 82 L 52 106 L 58 106 L 60 82 Z" fill="#312e81" stroke="url(#silverTrim)" stroke-width="0.8" />
+  
+  <!-- Lower Skirt Fold Highlights -->
+  <line x1="50" y1="84" x2="48" y2="108" stroke="#4338ca" stroke-width="1.2" opacity="0.6" />
+  <line x1="78" y1="84" x2="80" y2="108" stroke="#4338ca" stroke-width="1.2" opacity="0.6" />
+
+  <!-- Potion Vial on Belt Loop -->
+  <rect x="74" y="76" width="5" height="10" rx="2" fill="#0284c7" stroke="url(#silverTrim)" stroke-width="0.6" />
+  <circle cx="76.5" cy="82" r="1.2" fill="#bae6fd" />
+</svg>

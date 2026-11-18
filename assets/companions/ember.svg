@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" width="100%" height="100%" class="companion-svg companion-ember-svg">
+  <defs>
+    <radialGradient id="emberAura" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ef4444" stop-opacity="0.35"/>
+      <stop offset="65%" stop-color="#f59e0b" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="emberScaleRed" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f87171"/>
+      <stop offset="40%" stop-color="#dc2626"/>
+      <stop offset="100%" stop-color="#7f1d1d"/>
+    </linearGradient>
+    <linearGradient id="emberBelly" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#fef08a"/>
+      <stop offset="60%" stop-color="#fed7aa"/>
+      <stop offset="100%" stop-color="#fba176"/>
+    </linearGradient>
+    <linearGradient id="emberWingMembrane" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef08a"/>
+      <stop offset="45%" stop-color="#f97316"/>
+      <stop offset="100%" stop-color="#b91c1c"/>
+    </linearGradient>
+    <linearGradient id="emberHorn" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef08a"/>
+      <stop offset="50%" stop-color="#d97706"/>
+      <stop offset="100%" stop-color="#78350f"/>
+    </linearGradient>
+    <radialGradient id="emberEye" cx="35%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#fef08a"/>
+      <stop offset="50%" stop-color="#f59e0b"/>
+      <stop offset="85%" stop-color="#b45309"/>
+      <stop offset="100%" stop-color="#451a03"/>
+    </radialGradient>
+    <radialGradient id="flameGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fef08a"/>
+      <stop offset="40%" stop-color="#f97316"/>
+      <stop offset="80%" stop-color="#dc2626"/>
+      <stop offset="100%" stop-color="#b91c1c" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="emberFireGlow" x="0%" y="0%" width="100%" height="100%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <circle cx="160" cy="170" r="130" fill="url(#emberAura)"/>
+
+  <g class="comp-particles-group" filter="url(#emberFireGlow)">
+    <circle cx="75" cy="140" r="3.5" fill="#fef08a" opacity="0.8"/>
+    <circle cx="245" cy="120" r="4" fill="#f97316" opacity="0.75"/>
+    <circle cx="265" cy="200" r="3" fill="#fbbf24" opacity="0.7"/>
+    <circle cx="60" cy="80" r="2.5" fill="#f87171" opacity="0.8"/>
+  </g>
+
+  <g class="comp-wing-l ember-wing-left">
+    <path d="M125 170 C90 140 50 145 65 180 C80 188 105 182 125 185 Z" fill="url(#emberWingMembrane)"/>
+    <path d="M125 170 Q75 145 65 180" stroke="#7f1d1d" stroke-width="3" fill="none"/>
+    <circle cx="65" cy="180" r="2.5" fill="#fef08a"/>
+  </g>
+
+  <g class="comp-tail-group ember-tail">
+    <path d="M185 225 C230 235 255 210 245 175 C240 160 225 168 215 178 C205 190 190 215 185 225 Z" fill="url(#emberScaleRed)"/>
+    <polygon points="228,172 235,166 233,178" fill="#fed7aa"/>
+    <polygon points="242,185 250,182 245,193" fill="#fed7aa"/>
+
+    <g class="ember-tail-flame" filter="url(#emberFireGlow)">
+      <path d="M242 170 C240 145 260 135 255 152 C265 142 272 155 262 168 C255 175 245 178 242 170 Z" fill="url(#flameGlow)"/>
+      <circle cx="252" cy="158" r="4" fill="#ffffff" opacity="0.9"/>
+    </g>
+  </g>
+
+  <ellipse cx="125" cy="262" rx="16" ry="11" fill="url(#emberScaleRed)"/>
+  <ellipse cx="195" cy="262" rx="16" ry="11" fill="url(#emberScaleRed)"/>
+  <circle cx="116" cy="268" r="3" fill="#fef08a"/>
+  <circle cx="125" cy="270" r="3.5" fill="#fef08a"/>
+  <circle cx="134" cy="268" r="3" fill="#fef08a"/>
+  <circle cx="186" cy="268" r="3" fill="#fef08a"/>
+  <circle cx="195" cy="270" r="3.5" fill="#fef08a"/>
+  <circle cx="204" cy="268" r="3" fill="#fef08a"/>
+
+  <g class="comp-body-group ember-body">
+    <ellipse cx="160" cy="215" rx="50" ry="50" fill="url(#emberScaleRed)"/>
+    <path d="M138 185 C130 215 135 245 160 252 C185 245 190 215 182 185 C170 190 150 190 138 185 Z" fill="url(#emberBelly)"/>
+    <path d="M136 205 Q160 212 184 205" stroke="#ea580c" stroke-width="2" fill="none" opacity="0.6"/>
+    <path d="M139 223 Q160 230 181 223" stroke="#ea580c" stroke-width="2" fill="none" opacity="0.6"/>
+    <path d="M145 240 Q160 245 175 240" stroke="#ea580c" stroke-width="2" fill="none" opacity="0.6"/>
+  </g>
+
+  <g class="comp-wing-r ember-wing-right">
+    <path d="M190 175 C230 145 270 150 255 188 C240 195 210 188 190 190 Z" fill="url(#emberWingMembrane)"/>
+    <path d="M190 175 Q245 150 255 188" stroke="#7f1d1d" stroke-width="3.5" fill="none"/>
+    <circle cx="255" cy="188" r="3" fill="#fef08a"/>
+  </g>
+
+  <g class="comp-head-group ember-head">
+    <g class="ember-horns">
+      <path d="M125 118 C110 85 95 65 110 55 C125 45 135 78 138 110 Z" fill="url(#emberHorn)"/>
+      <ellipse cx="118" cy="80" rx="6" ry="2.5" transform="rotate(-25 118 80)" fill="#fef08a" opacity="0.8"/>
+      <path d="M195 118 C210 85 225 65 210 55 C195 45 185 78 182 110 Z" fill="url(#emberHorn)"/>
+      <ellipse cx="202" cy="80" rx="6" ry="2.5" transform="rotate(25 202 80)" fill="#fef08a" opacity="0.8"/>
+    </g>
+
+    <ellipse cx="160" cy="142" rx="48" ry="40" fill="url(#emberScaleRed)"/>
+
+    <ellipse cx="160" cy="158" rx="26" ry="18" fill="#b91c1c"/>
+    <ellipse cx="160" cy="157" rx="24" ry="16" fill="url(#emberScaleRed)"/>
+
+    <ellipse cx="152" cy="154" rx="2.5" ry="3" fill="#451a03"/>
+    <ellipse cx="168" cy="154" rx="2.5" ry="3" fill="#451a03"/>
+
+    <g class="comp-eye ember-eye-l">
+      <ellipse cx="135" cy="135" rx="11" ry="13" fill="url(#emberEye)"/>
+      <ellipse cx="135" cy="135" rx="4" ry="10" fill="#262626"/>
+      <circle cx="132" cy="130" r="3.5" fill="#ffffff"/>
+      <circle cx="138" cy="140" r="1.8" fill="#ffffff" opacity="0.85"/>
+    </g>
+    <g class="comp-eye ember-eye-r">
+      <ellipse cx="185" cy="135" rx="11" ry="13" fill="url(#emberEye)"/>
+      <ellipse cx="185" cy="135" rx="4" ry="10" fill="#262626"/>
+      <circle cx="182" cy="130" r="3.5" fill="#ffffff"/>
+      <circle cx="188" cy="140" r="1.8" fill="#ffffff" opacity="0.85"/>
+    </g>
+
+    <path d="M152 165 Q160 172 168 165" stroke="#451a03" stroke-width="2" stroke-linecap="round" fill="none"/>
+    <polygon points="154,165 156,170 158,165" fill="#ffffff"/>
+  </g>
+</svg>

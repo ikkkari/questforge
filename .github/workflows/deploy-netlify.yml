@@ -35,7 +35,7 @@ jobs:
       - name: Assemble publish directory
         run: |
           mkdir -p deploy
-          cp index.html style.css script.js deploy/
+          cp -r index.html style.css script.js assets deploy/
           ls -l deploy
 
       - name: Deploy to Netlify

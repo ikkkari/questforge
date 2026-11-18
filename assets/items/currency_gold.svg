@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <radialGradient id="coinFace" cx="35%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="25%" stop-color="#fef08a" />
+      <stop offset="65%" stop-color="#eab308" />
+      <stop offset="90%" stop-color="#a16207" />
+      <stop offset="100%" stop-color="#713f12" />
+    </radialGradient>
+    <filter id="goldGlintCoin" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2.5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+  <!-- Outer Rim with Dentils -->
+  <circle cx="64" cy="64" r="54" fill="#713f12" />
+  <circle cx="64" cy="64" r="50" fill="url(#coinFace)" stroke="#fef08a" stroke-width="2" />
+  <circle cx="64" cy="64" r="43" fill="none" stroke="#a16207" stroke-width="1.5" stroke-dasharray="3,3" />
+
+  <!-- Shield Crest Emblazoned in High Relief -->
+  <path d="M 48 44 L 80 44 L 80 62 C 80 76 70 86 64 90 C 58 86 48 76 48 62 Z" fill="#ca8a04" stroke="#fef08a" stroke-width="1.6" />
+  
+  <!-- Crossed Broadswords on Shield -->
+  <line x1="52" y1="48" x2="76" y2="76" stroke="#fef08a" stroke-width="2" stroke-linecap="round" />
+  <line x1="76" y1="48" x2="52" y2="76" stroke="#fef08a" stroke-width="2" stroke-linecap="round" />
+  <circle cx="64" cy="62" r="3" fill="#ffffff" />
+
+  <!-- Specular Star Sparkle -->
+  <path d="M 38 32 L 40 37 L 45 38 L 40 39 L 38 44 L 36 39 L 31 38 L 36 37 Z" fill="#ffffff" filter="url(#goldGlintCoin)" />
+</svg>

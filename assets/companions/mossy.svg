@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" width="100%" height="100%" class="companion-svg companion-mossy-svg">
+  <defs>
+    <radialGradient id="mossyAura" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#10b981" stop-opacity="0.35"/>
+      <stop offset="65%" stop-color="#a7f3d0" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="mossyGreen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34d399"/>
+      <stop offset="50%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#065f46"/>
+    </linearGradient>
+    <linearGradient id="mossyLeaf" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#a7f3d0"/>
+      <stop offset="50%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#047857"/>
+    </linearGradient>
+    <radialGradient id="flowerPink" cx="40%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#fbcfe8"/>
+      <stop offset="60%" stop-color="#f472b6"/>
+      <stop offset="100%" stop-color="#db2777"/>
+    </radialGradient>
+    <filter id="natureGlow" x="0%" y="0%" width="100%" height="100%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <circle cx="160" cy="170" r="130" fill="url(#mossyAura)"/>
+
+  <g class="comp-particles-group" filter="url(#natureGlow)">
+    <circle cx="75" cy="130" r="4" fill="#a7f3d0" opacity="0.8"/>
+    <circle cx="245" cy="110" r="3.5" fill="#fef08a" opacity="0.85"/>
+    <circle cx="255" cy="190" r="4" fill="#6ee7b7" opacity="0.75"/>
+    <circle cx="65" cy="200" r="3" fill="#fbcfe8" opacity="0.7"/>
+  </g>
+
+  <ellipse cx="132" cy="265" rx="14" ry="10" fill="#047857"/>
+  <ellipse cx="188" cy="265" rx="14" ry="10" fill="#047857"/>
+
+  <g class="comp-body-group mossy-body">
+    <ellipse cx="160" cy="205" rx="54" ry="54" fill="url(#mossyGreen)"/>
+    <ellipse cx="160" cy="215" rx="36" ry="36" fill="#d1fae5" opacity="0.85"/>
+    <path d="M135 185 C145 200 155 195 160 210 C165 195 175 200 185 185 C170 180 150 180 135 185 Z" fill="url(#mossyLeaf)"/>
+  </g>
+
+  <ellipse cx="108" cy="205" rx="12" ry="16" transform="rotate(20 108 205)" fill="url(#mossyGreen)"/>
+  <ellipse cx="212" cy="205" rx="12" ry="16" transform="rotate(-20 212 205)" fill="url(#mossyGreen)"/>
+
+  <g class="comp-head-group mossy-head">
+    <g class="mossy-sprouts" filter="url(#natureGlow)">
+      <path d="M160 105 C140 85 125 75 135 60 C150 65 155 85 160 105 Z" fill="url(#mossyLeaf)"/>
+      <path d="M160 105 Q140 75 135 60" stroke="#065f46" stroke-width="2" fill="none"/>
+      <path d="M160 105 C180 85 195 75 185 60 C170 65 165 85 160 105 Z" fill="url(#mossyLeaf)"/>
+      <path d="M160 105 Q180 75 185 60" stroke="#065f46" stroke-width="2" fill="none"/>
+      <g transform="translate(160, 68)">
+        <circle cx="0" cy="-8" r="7" fill="url(#flowerPink)"/>
+        <circle cx="8" cy="-2" r="7" fill="url(#flowerPink)"/>
+        <circle cx="5" cy="7" r="7" fill="url(#flowerPink)"/>
+        <circle cx="-5" cy="7" r="7" fill="url(#flowerPink)"/>
+        <circle cx="-8" cy="-2" r="7" fill="url(#flowerPink)"/>
+        <circle cx="0" cy="1" r="5" fill="#fef08a"/>
+      </g>
+    </g>
+
+    <ellipse cx="160" cy="140" rx="50" ry="42" fill="url(#mossyGreen)"/>
+    <ellipse cx="125" cy="152" rx="9" ry="6" fill="#f472b6" opacity="0.5"/>
+    <ellipse cx="195" cy="152" rx="9" ry="6" fill="#f472b6" opacity="0.5"/>
+
+    <g class="comp-eye mossy-eye-l">
+      <ellipse cx="138" cy="138" rx="10" ry="12" fill="#064e3b"/>
+      <circle cx="135" cy="133" r="4" fill="#ffffff"/>
+      <circle cx="141" cy="142" r="2" fill="#ffffff" opacity="0.9"/>
+    </g>
+    <g class="comp-eye mossy-eye-r">
+      <ellipse cx="182" cy="138" rx="10" ry="12" fill="#064e3b"/>
+      <circle cx="179" cy="133" r="4" fill="#ffffff"/>
+      <circle cx="185" cy="142" r="2" fill="#ffffff" opacity="0.9"/>
+    </g>
+
+    <path d="M154 154 Q160 160 166 154" stroke="#064e3b" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+  </g>
+</svg>

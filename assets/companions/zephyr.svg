@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" width="100%" height="100%" class="companion-svg companion-zephyr-svg">
+  <defs>
+    <radialGradient id="zephyrAura" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#14b8a6" stop-opacity="0.35"/>
+      <stop offset="65%" stop-color="#38bdf8" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="zephyrBodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f0fdfa"/>
+      <stop offset="45%" stop-color="#5eead4"/>
+      <stop offset="100%" stop-color="#0d9488"/>
+    </linearGradient>
+    <linearGradient id="zephyrWingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="60%" stop-color="#99f6e4"/>
+      <stop offset="100%" stop-color="#14b8a6"/>
+    </linearGradient>
+    <radialGradient id="zephyrEye" cx="35%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="60%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </radialGradient>
+    <filter id="zephyrGlow" x="0%" y="0%" width="100%" height="100%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <circle cx="160" cy="170" r="130" fill="url(#zephyrAura)"/>
+
+  <!-- Swirling Wind Wisps & Leaves -->
+  <g class="comp-particles-group" filter="url(#zephyrGlow)">
+    <path d="M70 120 C90 100 110 115 130 110" stroke="#99f6e4" stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.7"/>
+    <path d="M200 180 C230 190 250 170 265 185" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.65"/>
+    <circle cx="85" cy="85" r="3.5" fill="#fef08a" opacity="0.8"/>
+    <circle cx="245" cy="105" r="4" fill="#a5f3fc" opacity="0.75"/>
+    <!-- Autumn golden floating leaf -->
+    <path d="M240 145 C235 135 248 130 250 140 C252 148 242 150 240 145 Z" fill="#fbbf24" opacity="0.85"/>
+  </g>
+
+  <!-- Swirling Cloud / Breeze Tail -->
+  <g class="comp-tail-group zephyr-tail">
+    <path d="M165 220 C210 240 245 220 235 180 C225 155 200 170 190 190 C180 205 170 215 165 220 Z" fill="url(#zephyrWingGrad)"/>
+    <circle cx="230" cy="180" r="6" fill="#ffffff" opacity="0.8"/>
+  </g>
+
+  <!-- Cute Chubby Feet -->
+  <ellipse cx="132" cy="265" rx="14" ry="10" fill="#0f766e"/>
+  <ellipse cx="188" cy="265" rx="14" ry="10" fill="#0f766e"/>
+
+  <!-- Body -->
+  <g class="comp-body-group zephyr-body">
+    <ellipse cx="160" cy="210" rx="50" ry="52" fill="url(#zephyrBodyGrad)"/>
+    <!-- Creamy Cloud Belly -->
+    <path d="M138 185 C128 215 138 245 160 252 C182 245 192 215 182 185 C170 195 150 195 138 185 Z" fill="#ffffff" opacity="0.9"/>
+  </g>
+
+  <!-- Feathered Little Wings -->
+  <g class="zephyr-wings">
+    <path d="M115 175 C90 160 70 180 85 205 C100 215 118 200 125 190 Z" fill="url(#zephyrWingGrad)"/>
+    <path d="M205 175 C230 160 250 180 235 205 C220 215 202 200 195 190 Z" fill="url(#zephyrWingGrad)"/>
+  </g>
+
+  <!-- Head -->
+  <g class="comp-head-group zephyr-head">
+    <!-- Feather Tufts / Winged Ears -->
+    <path d="M125 125 C100 95 85 85 105 70 C120 68 135 98 140 120 Z" fill="url(#zephyrWingGrad)"/>
+    <path d="M195 125 C220 95 235 85 215 70 C200 68 185 98 180 120 Z" fill="url(#zephyrWingGrad)"/>
+
+    <ellipse cx="160" cy="142" rx="46" ry="38" fill="url(#zephyrBodyGrad)"/>
+
+    <!-- Cheeks -->
+    <circle cx="128" cy="155" r="7" fill="#2dd4bf" opacity="0.5"/>
+    <circle cx="192" cy="155" r="7" fill="#2dd4bf" opacity="0.5"/>
+
+    <!-- Shiny Eyes -->
+    <g class="comp-eye zephyr-eye-l">
+      <ellipse cx="138" cy="140" rx="10" ry="12" fill="url(#zephyrEye)"/>
+      <circle cx="135" cy="135" r="4" fill="#ffffff"/>
+      <circle cx="141" cy="144" r="2" fill="#ffffff" opacity="0.9"/>
+    </g>
+    <g class="comp-eye zephyr-eye-r">
+      <ellipse cx="182" cy="140" rx="10" ry="12" fill="url(#zephyrEye)"/>
+      <circle cx="179" cy="135" r="4" fill="#ffffff"/>
+      <circle cx="185" cy="144" r="2" fill="#ffffff" opacity="0.9"/>
+    </g>
+
+    <!-- Cute Smile -->
+    <ellipse cx="160" cy="156" rx="3.5" ry="2.5" fill="#134e4a"/>
+    <path d="M156 162 Q160 166 164 162" stroke="#134e4a" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+
+    <!-- Wind Swirl Forehead Mark -->
+    <circle cx="160" cy="118" r="5" fill="none" stroke="#ffffff" stroke-width="2" filter="url(#zephyrGlow)"/>
+  </g>
+</svg>

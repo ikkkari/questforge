@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="leatherBrown" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#b45309" />
+      <stop offset="40%" stop-color="#78350f" />
+      <stop offset="85%" stop-color="#451a03" />
+      <stop offset="100%" stop-color="#1c0b02" />
+    </linearGradient>
+    <linearGradient id="toeSteel" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#cbd5e1" />
+      <stop offset="60%" stop-color="#475569" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="soleIron" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#334155" />
+      <stop offset="100%" stop-color="#020617" />
+    </linearGradient>
+  </defs>
+
+  <!-- Left Boot (Behind) -->
+  <g opacity="0.85" transform="translate(-10, -6)">
+    <path d="M 48 36 L 68 36 L 66 70 L 80 84 L 84 96 L 44 96 L 46 70 Z" fill="#451a03" />
+    <path d="M 44 96 L 86 96 L 86 102 L 44 102 Z" fill="url(#soleIron)" />
+  </g>
+
+  <!-- Right Boot (Front Prominent) -->
+  <!-- Boot Leg Shaft -->
+  <path d="M 52 32 C 54 28 76 28 80 32 L 80 72 C 86 76 96 82 104 88 C 108 92 108 98 104 102 L 54 102 C 50 94 50 82 50 72 Z" fill="url(#leatherBrown)" stroke="#1c0b02" stroke-width="1.2" />
+
+  <!-- Turn-down Cuff at top -->
+  <path d="M 48 30 C 56 26 78 26 84 30 L 82 42 C 76 38 56 38 50 42 Z" fill="#92400e" stroke="#451a03" stroke-width="1" />
+
+  <!-- Reinforced Curved Shin Guard Plate -->
+  <path d="M 56 46 C 64 44 72 44 78 46 L 76 68 C 70 70 62 70 56 68 Z" fill="url(#toeSteel)" stroke="#0f172a" stroke-width="0.8" />
+  <line x1="66" y1="46" x2="66" y2="68" stroke="#f8fafc" stroke-width="1" opacity="0.6" />
+
+  <!-- Buckles & Straps -->
+  <rect x="52" y="52" width="28" height="4" rx="1" fill="#451a03" />
+  <rect x="76" y="50" width="5" height="8" rx="1" fill="#eab308" stroke="#713f12" stroke-width="0.6" />
+  <rect x="52" y="62" width="28" height="4" rx="1" fill="#451a03" />
+  <rect x="76" y="60" width="5" height="8" rx="1" fill="#eab308" stroke="#713f12" stroke-width="0.6" />
+
+  <!-- Steel Toe Cap -->
+  <path d="M 88 84 C 98 84 108 90 106 100 L 82 100 C 82 92 84 86 88 84 Z" fill="url(#toeSteel)" stroke="#0f172a" stroke-width="1" />
+  <circle cx="98" cy="92" r="1.2" fill="#ffffff" opacity="0.7" />
+
+  <!-- Sturdy Lugged Sole with Tread Cleats -->
+  <path d="M 50 102 L 108 102 L 108 110 L 50 110 Z" fill="url(#soleIron)" stroke="#0f172a" stroke-width="1" />
+  <rect x="56" y="110" width="6" height="3" fill="#020617" />
+  <rect x="70" y="110" width="6" height="3" fill="#020617" />
+  <rect x="84" y="110" width="6" height="3" fill="#020617" />
+  <rect x="98" y="110" width="6" height="3" fill="#020617" />
+</svg>

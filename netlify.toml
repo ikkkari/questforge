@@ -9,5 +9,5 @@
 # plain `netlify deploy --prod` uploads the existing deploy/ contents.
 
 [build]
-  command = "mkdir -p deploy && cp index.html style.css script.js deploy/"
+  command = "mkdir -p deploy && cp -r index.html style.css script.js assets deploy/"
   publish = "deploy"

@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <filter id="shardNova" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="4.5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <linearGradient id="crystalFacetA" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="40%" stop-color="#67e8f9" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+    <linearGradient id="crystalFacetB" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#c084fc" />
+      <stop offset="60%" stop-color="#7c3aed" />
+      <stop offset="100%" stop-color="#3b0764" />
+    </linearGradient>
+    <radialGradient id="shardHalo" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#22d3ee" stop-opacity="0.5" />
+      <stop offset="60%" stop-color="#a855f7" stop-opacity="0.2" />
+      <stop offset="100%" stop-color="#020617" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <!-- Ambient Glow Halo -->
+  <circle cx="64" cy="64" r="50" fill="url(#shardHalo)" filter="url(#shardNova)" />
+
+  <!-- Main Shard Crystals Cluster -->
+  <!-- Left Facet -->
+  <polygon points="64,18 42,48 48,94 64,112 64,18" fill="url(#crystalFacetA)" stroke="#e0f2fe" stroke-width="1" />
+  
+  <!-- Right Facet (Darker Violet/Amethyst) -->
+  <polygon points="64,18 86,44 80,94 64,112 64,18" fill="url(#crystalFacetB)" stroke="#f3e8ff" stroke-width="1" />
+
+  <!-- Center Ridge Highlight -->
+  <line x1="64" y1="18" x2="64" y2="112" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" />
+
+  <!-- Diagonal Facet Cut Lines -->
+  <line x1="64" y1="18" x2="48" y2="94" stroke="#ffffff" stroke-width="0.8" opacity="0.6" />
+  <line x1="64" y1="18" x2="80" y2="94" stroke="#ffffff" stroke-width="0.8" opacity="0.6" />
+  <line x1="42" y1="48" x2="64" y2="68" stroke="#ffffff" stroke-width="1.2" opacity="0.8" />
+  <line x1="86" y1="44" x2="64" y2="68" stroke="#ffffff" stroke-width="1.2" opacity="0.8" />
+
+  <!-- Floating Sparkles -->
+  <path d="M 64 12 L 66 16 L 70 17 L 66 18 L 64 22 L 62 18 L 58 17 L 62 16 Z" fill="#ffffff" filter="url(#shardNova)" />
+  <circle cx="38" cy="40" r="2" fill="#67e8f9" filter="url(#shardNova)" />
+  <circle cx="88" cy="78" r="2.2" fill="#c084fc" filter="url(#shardNova)" />
+</svg>

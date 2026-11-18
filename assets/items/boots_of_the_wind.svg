@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <filter id="windGlow" x="-25%" y="-25%" width="150%" height="150%">
+      <feGaussianBlur stdDeviation="3.5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <linearGradient id="mithrilSilver" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="40%" stop-color="#99f6e4" />
+      <stop offset="80%" stop-color="#0f766e" />
+      <stop offset="100%" stop-color="#134e4a" />
+    </linearGradient>
+    <linearGradient id="featherCyan" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="35%" stop-color="#5eead4" />
+      <stop offset="85%" stop-color="#0d9488" />
+      <stop offset="100%" stop-color="#115e59" />
+    </linearGradient>
+    <radialGradient id="cycloneAura" cx="60%" cy="50%" r="55%">
+      <stop offset="0%" stop-color="#2dd4bf" stop-opacity="0.35" />
+      <stop offset="70%" stop-color="#0f766e" stop-opacity="0.1" />
+      <stop offset="100%" stop-color="#042f2e" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <!-- Ambient Zephyr Wind Swirls -->
+  <circle cx="64" cy="64" r="48" fill="url(#cycloneAura)" filter="url(#windGlow)" />
+  <path d="M 24 96 Q 44 80 80 84 Q 106 88 116 70" fill="none" stroke="#5eead4" stroke-width="1.4" opacity="0.5" stroke-linecap="round" />
+  <path d="M 32 108 Q 60 98 94 104" fill="none" stroke="#99f6e4" stroke-width="1" opacity="0.4" stroke-linecap="round" />
+
+  <!-- Left Boot (Back) -->
+  <g opacity="0.8" transform="translate(-8, -6)">
+    <path d="M 52 34 L 72 34 L 70 70 L 86 86 L 86 98 L 48 98 L 48 70 Z" fill="#134e4a" />
+  </g>
+
+  <!-- Hermes Feathered Wings on Heel -->
+  <!-- Top Feather -->
+  <path d="M 44 68 C 30 58 18 64 12 50 C 24 50 36 58 44 68 Z" fill="url(#featherCyan)" stroke="#0f766e" stroke-width="0.8" filter="url(#windGlow)" />
+  <!-- Mid Feather -->
+  <path d="M 42 74 C 26 68 16 76 10 64 C 22 66 34 72 42 74 Z" fill="url(#featherCyan)" stroke="#0f766e" stroke-width="0.8" filter="url(#windGlow)" />
+  <!-- Lower Feather -->
+  <path d="M 42 82 C 28 80 18 90 14 80 C 26 80 36 82 42 82 Z" fill="url(#featherCyan)" stroke="#0f766e" stroke-width="0.8" />
+
+  <!-- Main Boot Chassis (Mithril Metal Plate) -->
+  <path d="M 54 28 C 58 24 76 24 82 28 L 80 70 C 88 74 98 80 106 86 C 110 90 110 96 106 100 L 50 100 C 46 92 46 80 48 70 Z" fill="url(#mithrilSilver)" stroke="#042f2e" stroke-width="1.2" />
+
+  <!-- Emerald Zephyr Speed Inscriptions -->
+  <path d="M 66 38 L 72 46 L 64 54 L 70 62" fill="none" stroke="#2dd4bf" stroke-width="2" stroke-linecap="round" filter="url(#windGlow)" />
+  <circle cx="68" cy="46" r="1.5" fill="#ffffff" />
+
+  <!-- Streamlined Aerodynamic Shin Flutes -->
+  <path d="M 58 34 L 56 68" stroke="#ffffff" stroke-width="1.2" opacity="0.6" />
+  <path d="M 76 34 L 74 68" stroke="#ffffff" stroke-width="1.2" opacity="0.6" />
+
+  <!-- Toe Bevel -->
+  <path d="M 88 84 C 98 84 108 90 106 98 L 82 98 C 82 90 84 84 88 84 Z" fill="#99f6e4" stroke="#0f766e" stroke-width="1" />
+
+  <!-- Glowing Soles -->
+  <path d="M 48 100 L 108 100 L 108 106 L 48 106 Z" fill="#042f2e" stroke="#2dd4bf" stroke-width="1" />
+  <line x1="52" y1="106" x2="104" y2="106" stroke="#5eead4" stroke-width="1.5" filter="url(#windGlow)" />
+</svg>

@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" width="100%" height="100%" class="companion-svg companion-lumi-svg">
+  <defs>
+    <radialGradient id="lumiAura" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.35"/>
+      <stop offset="65%" stop-color="#a5f3fc" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="lumiFurSilver" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f0f9ff"/>
+      <stop offset="50%" stop-color="#bae6fd"/>
+      <stop offset="100%" stop-color="#7dd3fc"/>
+    </linearGradient>
+    <linearGradient id="lumiFurDark" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#0c4a6e"/>
+    </linearGradient>
+    <radialGradient id="lumiEyeGrad" cx="35%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="50%" stop-color="#0284c7"/>
+      <stop offset="85%" stop-color="#0369a1"/>
+      <stop offset="100%" stop-color="#082f49"/>
+    </radialGradient>
+    <filter id="lumiFrostGlow" x="0%" y="0%" width="100%" height="100%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <circle cx="160" cy="170" r="130" fill="url(#lumiAura)"/>
+
+  <g class="comp-particles-group" filter="url(#lumiFrostGlow)">
+    <circle cx="80" cy="105" r="3.5" fill="#ffffff" opacity="0.85"/>
+    <circle cx="245" cy="90" r="4" fill="#a5f3fc" opacity="0.8"/>
+    <circle cx="260" cy="175" r="3.5" fill="#38bdf8" opacity="0.75"/>
+    <circle cx="60" cy="195" r="3" fill="#bae6fd" opacity="0.7"/>
+    <polygon points="160,38 164,45 160,52 156,45" fill="#ffffff" filter="url(#lumiFrostGlow)"/>
+  </g>
+
+  <g class="comp-tail-group lumi-tail">
+    <path d="M175 220 C225 225 270 195 260 145 C250 110 215 130 200 160 C185 185 175 210 175 220 Z" fill="url(#lumiFurSilver)"/>
+    <path d="M260 145 C255 125 235 118 218 128 C230 140 240 152 250 155 C258 155 260 150 260 145 Z" fill="#ffffff"/>
+    <polygon points="228,142 233,132 238,145 232,152" fill="#38bdf8" filter="url(#lumiFrostGlow)"/>
+  </g>
+
+  <ellipse cx="122" cy="265" rx="14" ry="10" fill="url(#lumiFurDark)"/>
+  <ellipse cx="198" cy="265" rx="14" ry="10" fill="url(#lumiFurDark)"/>
+
+  <g class="comp-body-group lumi-body">
+    <ellipse cx="160" cy="215" rx="48" ry="52" fill="url(#lumiFurSilver)"/>
+    <path d="M138 180 C125 210 135 245 160 252 C185 245 195 210 182 180 C172 195 160 200 148 195 Z" fill="#ffffff"/>
+    <polygon points="160,188 166,196 160,206 154,196" fill="#0284c7" stroke="#38bdf8" stroke-width="1.5" filter="url(#lumiFrostGlow)"/>
+  </g>
+
+  <ellipse cx="142" cy="260" rx="12" ry="9" fill="url(#lumiFurDark)"/>
+  <ellipse cx="178" cy="260" rx="12" ry="9" fill="url(#lumiFurDark)"/>
+
+  <g class="comp-head-group lumi-head">
+    <g class="lumi-ear-left">
+      <path d="M120 130 C105 85 90 55 110 45 C128 40 140 85 145 120 Z" fill="url(#lumiFurSilver)"/>
+      <path d="M110 45 C102 45 106 70 118 105 C126 80 122 52 110 45 Z" fill="url(#lumiFurDark)"/>
+      <path d="M120 95 C115 108 124 116 132 112 Z" fill="#ffffff"/>
+    </g>
+    <g class="lumi-ear-right">
+      <path d="M200 130 C215 85 230 55 210 45 C192 40 180 85 175 120 Z" fill="url(#lumiFurSilver)"/>
+      <path d="M210 45 C218 45 214 70 202 105 C194 80 198 52 210 45 Z" fill="url(#lumiFurDark)"/>
+      <path d="M200 95 C205 108 196 116 188 112 Z" fill="#ffffff"/>
+    </g>
+
+    <ellipse cx="160" cy="145" rx="46" ry="38" fill="url(#lumiFurSilver)"/>
+    <path d="M118 152 C102 148 95 162 105 170 C98 174 110 182 126 174 Z" fill="url(#lumiFurSilver)"/>
+    <path d="M202 152 C218 148 225 162 215 170 C222 174 210 182 194 174 Z" fill="url(#lumiFurSilver)"/>
+
+    <path d="M140 152 C135 175 145 182 160 182 C175 182 185 175 180 152 C172 162 160 165 148 162 Z" fill="#ffffff"/>
+
+    <circle cx="128" cy="158" r="7" fill="#38bdf8" opacity="0.35"/>
+    <circle cx="192" cy="158" r="7" fill="#38bdf8" opacity="0.35"/>
+
+    <g class="comp-eye lumi-eye-l">
+      <ellipse cx="138" cy="142" rx="10" ry="12" fill="url(#lumiEyeGrad)"/>
+      <ellipse cx="138" cy="143" rx="6" ry="8" fill="#082f49"/>
+      <circle cx="135" cy="138" r="3.5" fill="#ffffff"/>
+      <circle cx="141" cy="146" r="1.8" fill="#ffffff" opacity="0.9"/>
+    </g>
+    <g class="comp-eye lumi-eye-r">
+      <ellipse cx="182" cy="142" rx="10" ry="12" fill="url(#lumiEyeGrad)"/>
+      <ellipse cx="182" cy="143" rx="6" ry="8" fill="#082f49"/>
+      <circle cx="179" cy="138" r="3.5" fill="#ffffff"/>
+      <circle cx="185" cy="146" r="1.8" fill="#ffffff" opacity="0.9"/>
+    </g>
+
+    <polygon points="157,158 163,158 160,163" fill="url(#lumiFurDark)"/>
+    <path d="M156 166 Q160 170 164 166" stroke="#0c4a6e" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+
+    <polygon points="160,115 165,125 160,132 155,125" fill="#38bdf8" filter="url(#lumiFrostGlow)"/>
+    <polygon points="160,120 162,125 160,129 158,125" fill="#ffffff"/>
+  </g>
+</svg>

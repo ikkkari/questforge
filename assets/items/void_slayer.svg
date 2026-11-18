@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <filter id="voidGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="4" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <linearGradient id="cosmicVoid" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#020617" />
+      <stop offset="30%" stop-color="#1e1b4b" />
+      <stop offset="70%" stop-color="#4c1d95" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="celestialGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef08a" />
+      <stop offset="40%" stop-color="#fbbf24" />
+      <stop offset="70%" stop-color="#b45309" />
+      <stop offset="100%" stop-color="#451a03" />
+    </linearGradient>
+    <linearGradient id="riftNeon" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#6366f1" />
+      <stop offset="50%" stop-color="#a855f7" />
+      <stop offset="100%" stop-color="#f43f5e" />
+    </linearGradient>
+    <radialGradient id="novaCore" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="30%" stop-color="#e879f9" />
+      <stop offset="70%" stop-color="#6366f1" />
+      <stop offset="100%" stop-color="#1e1b4b" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <!-- Cosmic Singularity Halo -->
+  <circle cx="70" cy="56" r="50" fill="url(#novaCore)" opacity="0.4" filter="url(#voidGlow)" />
+
+  <!-- Greatsword Broad Blade Silhouette -->
+  <path d="M 40 84 L 106 18 L 114 26 L 48 92 Z" fill="url(#cosmicVoid)" stroke="url(#celestialGold)" stroke-width="1.2" />
+
+  <!-- Split Cleaving Blade Edges -->
+  <path d="M 42 82 L 106 18 L 102 24 L 46 86 Z" fill="url(#riftNeon)" opacity="0.9" />
+  <path d="M 46 88 L 108 26 L 114 26 L 50 90 Z" fill="#312e81" />
+
+  <!-- Central Star-Forged Rift (Void Crack) -->
+  <path d="M 46 84 Q 60 74 70 60 Q 82 52 92 38 L 106 20 Q 94 36 82 48 Q 72 62 48 86 Z" fill="url(#riftNeon)" filter="url(#voidGlow)" />
+  <path d="M 54 78 Q 74 58 98 28" stroke="#ffffff" stroke-width="1.2" stroke-linecap="round" />
+
+  <!-- Celestial Arcane Runes Along Fuller -->
+  <circle cx="62" cy="70" r="1.5" fill="#fbcfe8" />
+  <circle cx="74" cy="58" r="2" fill="#e0e7ff" />
+  <circle cx="86" cy="46" r="2.2" fill="#ffffff" filter="url(#voidGlow)" />
+  <circle cx="98" cy="34" r="1.8" fill="#fbcfe8" />
+
+  <!-- Massive Solar Guard with Winged Filigree -->
+  <path d="M 28 72 C 38 76 46 82 56 96 C 52 98 46 96 42 90 C 36 84 28 80 24 78 C 22 74 26 72 28 72 Z" fill="url(#celestialGold)" stroke="#451a03" stroke-width="1" />
+  <path d="M 58 72 C 54 80 48 88 40 96 C 40 92 44 86 48 80 C 52 76 56 72 58 72 Z" fill="url(#celestialGold)" stroke="#451a03" stroke-width="1" />
+
+  <!-- Floating Void Singularity at Guard -->
+  <circle cx="44" cy="84" r="7" fill="#020617" stroke="url(#celestialGold)" stroke-width="1.2" />
+  <circle cx="44" cy="84" r="4.5" fill="url(#riftNeon)" filter="url(#voidGlow)" />
+  <circle cx="44" cy="84" r="1.5" fill="#ffffff" />
+
+  <!-- Two-Handed Bastard Grip -->
+  <path d="M 40 88 L 22 106 L 17 101 L 35 83 Z" fill="#18181b" />
+  <line x1="37" y1="87" x2="41" y2="91" stroke="url(#celestialGold)" stroke-width="1.4" />
+  <line x1="31" y1="93" x2="35" y2="97" stroke="url(#celestialGold)" stroke-width="1.4" />
+  <line x1="25" y1="99" x2="29" y2="103" stroke="url(#celestialGold)" stroke-width="1.4" />
+
+  <!-- Heavy Solar Pommel -->
+  <polygon points="17,105 21,113 13,117 9,109" fill="url(#celestialGold)" stroke="#451a03" stroke-width="1" />
+  <circle cx="15" cy="111" r="2" fill="#6366f1" />
+
+  <!-- Stellar Sparks -->
+  <path d="M 108 14 L 111 18 L 115 19 L 111 21 L 108 25 L 106 21 L 102 19 L 106 18 Z" fill="#ffffff" filter="url(#voidGlow)" />
+</svg>

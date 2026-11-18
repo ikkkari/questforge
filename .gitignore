@@ -1,3 +1,6 @@
 .netlify
+.backup_nov12/
+scratch/
 deploy/
 questforge-netlify.zip
+

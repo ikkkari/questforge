@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <defs>
+    <!-- Mystical Violet / Velvet Aura -->
+    <radialGradient id="merchantAura" cx="50%" cy="50%" r="55%">
+      <stop offset="0%" stop-color="#c084fc" stop-opacity="0.35"/>
+      <stop offset="45%" stop-color="#7e22ce" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#020617" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Velvet Hood & Robes -->
+    <linearGradient id="royalVelvet" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#581c87"/>
+      <stop offset="40%" stop-color="#3b0764"/>
+      <stop offset="85%" stop-color="#1e1b4b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+
+    <!-- Ornate Gold Embroidery -->
+    <linearGradient id="merchantGold" x1="0%" y1="0%" x2="100%" y2="80%">
+      <stop offset="0%" stop-color="#fef08a"/>
+      <stop offset="40%" stop-color="#f59e0b"/>
+      <stop offset="80%" stop-color="#d97706"/>
+      <stop offset="100%" stop-color="#78350f"/>
+    </linearGradient>
+
+    <!-- Shimmer Filter -->
+    <filter id="goldShimmer" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Ambient Mystical Aura -->
+  <circle cx="200" cy="200" r="180" fill="url(#merchantAura)"/>
+
+  <!-- Ornate Golden Scale of Trade (Floating behind merchant) -->
+  <g opacity="0.45" stroke="url(#merchantGold)" stroke-width="1.8" fill="none">
+    <circle cx="200" cy="180" r="150" stroke-dasharray="8 6"/>
+    <line x1="200" y1="50" x2="200" y2="310"/>
+    <line x1="120" y1="120" x2="280" y2="120"/>
+    <!-- Scale Pans -->
+    <path d="M100 150 Q120 170 140 150 Z" fill="#7e22ce" opacity="0.6"/>
+    <line x1="120" y1="120" x2="105" y2="150"/>
+    <line x1="120" y1="120" x2="135" y2="150"/>
+    <path d="M260 150 Q280 170 300 150 Z" fill="#7e22ce" opacity="0.6"/>
+    <line x1="280" y1="120" x2="265" y2="150"/>
+    <line x1="280" y1="120" x2="295" y2="150"/>
+  </g>
+
+  <!-- Flowing Velvet Mantle / Robe Body -->
+  <path d="M110 200 L200 230 L290 200 L320 370 L80 370 Z" fill="url(#royalVelvet)" stroke="url(#merchantGold)" stroke-width="2"/>
+  <!-- Gold filigree borders on robe lapels -->
+  <path d="M150 215 L200 280 L250 215" fill="none" stroke="url(#merchantGold)" stroke-width="3"/>
+
+  <!-- Left Arm Holding Parchment Trade Ledger -->
+  <g>
+    <path d="M110 220 Q80 270 115 320 L150 300 Q125 260 140 220 Z" fill="#3b0764"/>
+    <!-- Parchment Roll -->
+    <rect x="95" y="300" width="45" height="18" rx="4" fill="#fef3c7" stroke="#92400e" stroke-width="1.5" transform="rotate(-20 117 309)"/>
+    <!-- Wax Seal Ribbon -->
+    <circle cx="120" cy="312" r="5" fill="#dc2626" stroke="#991b1b" stroke-width="1"/>
+  </g>
+
+  <!-- Right Arm Holding Glowing Exotic Relic / Potion Vial -->
+  <g>
+    <path d="M290 220 Q320 270 285 320 L250 300 Q275 260 260 220 Z" fill="#3b0764"/>
+    <!-- Arcane Elixir Bottle -->
+    <path d="M275 295 L295 295 L305 325 Q305 335 285 335 Q265 335 265 325 Z" fill="#a855f7" stroke="url(#merchantGold)" stroke-width="1.5" filter="url(#goldShimmer)"/>
+    <rect x="281" y="287" width="8" height="8" rx="1" fill="#78350f"/>
+    <!-- Sparkling Liquid Glow -->
+    <ellipse cx="285" cy="320" rx="12" ry="7" fill="#f5d0fe" opacity="0.8"/>
+  </g>
+
+  <!-- Ornate Jeweled Brooch at Neck -->
+  <polygon points="200,215 212,228 200,240 188,228" fill="url(#merchantGold)" stroke="#fef08a" stroke-width="1"/>
+  <circle cx="200" cy="228" r="5" fill="#38bdf8" filter="url(#goldShimmer)"/>
+
+  <!-- Enigmatic Hooded Head -->
+  <g id="merchantHead">
+    <!-- Deep Hood -->
+    <path d="M140 160 Q125 80 200 60 Q275 80 260 160 Q225 180 200 180 Q175 180 140 160 Z" fill="url(#royalVelvet)" stroke="url(#merchantGold)" stroke-width="2"/>
+    <!-- Hood Shadow / Visage -->
+    <path d="M150 150 Q138 95 200 78 Q262 95 250 150 Q215 168 200 168 Q185 168 150 150 Z" fill="#090514"/>
+
+    <!-- Elegant Mystical Eyes & Smile Emerging from Shadow -->
+    <g filter="url(#goldShimmer)">
+      <!-- Left Eye -->
+      <path d="M172 124 Q182 120 192 126 Q182 130 172 124 Z" fill="#f59e0b"/>
+      <circle cx="182" cy="125" r="2.2" fill="#fef08a"/>
+      <!-- Right Eye -->
+      <path d="M208 126 Q218 120 228 124 Q218 130 208 126 Z" fill="#f59e0b"/>
+      <circle cx="218" cy="125" r="2.2" fill="#fef08a"/>
+    </g>
+    <!-- Delicate Lips -->
+    <path d="M192 146 Q200 150 208 146" fill="none" stroke="#e879f9" stroke-width="1.5" stroke-linecap="round"/>
+  </g>
+
+  <!-- Shimmering Golden Coin Motes & Stars -->
+  <g filter="url(#goldShimmer)">
+    <circle cx="90" cy="160" r="2" fill="#fef08a"/>
+    <circle cx="310" cy="140" r="2.5" fill="#fef08a"/>
+    <circle cx="130" cy="90" r="1.5" fill="#c084fc"/>
+    <circle cx="270" cy="80" r="1.8" fill="#fef08a"/>
+    <circle cx="200" cy="30" r="2.2" fill="#fef08a"/>
+  </g>
+</svg>

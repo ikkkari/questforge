@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <defs>
+    <!-- Forge Heat Radial Glow -->
+    <radialGradient id="forgeHeat" cx="50%" cy="50%" r="55%">
+      <stop offset="0%" stop-color="#ff7a00" stop-opacity="0.38"/>
+      <stop offset="45%" stop-color="#dc2626" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#0a0a0a" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Bronze & Heated Iron Gradients -->
+    <linearGradient id="heatedIron" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef08a"/>
+      <stop offset="25%" stop-color="#f97316"/>
+      <stop offset="65%" stop-color="#b91c1c"/>
+      <stop offset="100%" stop-color="#450a0a"/>
+    </linearGradient>
+
+    <linearGradient id="leatherApron" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#78350f"/>
+      <stop offset="50%" stop-color="#451a03"/>
+      <stop offset="100%" stop-color="#1c1917"/>
+    </linearGradient>
+
+    <linearGradient id="dwarfBeard" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ea580c"/>
+      <stop offset="35%" stop-color="#c2410c"/>
+      <stop offset="70%" stop-color="#9a3412"/>
+      <stop offset="100%" stop-color="#7c2d12"/>
+    </linearGradient>
+
+    <linearGradient id="darkAnvil" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#64748b"/>
+      <stop offset="40%" stop-color="#334155"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+
+    <filter id="emberGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="3.5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Ambient Forge Glow -->
+  <circle cx="200" cy="200" r="180" fill="url(#forgeHeat)"/>
+
+  <!-- Anvil Base Silhouette in Foreground -->
+  <path d="M120 320 L280 320 L290 350 L270 380 L130 380 L110 350 Z" fill="url(#darkAnvil)" stroke="#ff7a00" stroke-width="1.5" opacity="0.9"/>
+  <!-- Glowing Ingot on Anvil -->
+  <rect x="170" y="312" width="60" height="14" rx="3" fill="url(#heatedIron)" filter="url(#emberGlow)"/>
+
+  <!-- Broad Muscular Shoulders & Leather Smithing Apron -->
+  <path d="M90 220 Q120 180 200 180 Q280 180 310 220 L325 350 L75 350 Z" fill="url(#leatherApron)" stroke="#292524" stroke-width="2"/>
+  <!-- Apron Cross Straps & Brass Rivets -->
+  <line x1="145" y1="185" x2="175" y2="280" stroke="#92400e" stroke-width="6"/>
+  <line x1="255" y1="185" x2="225" y2="280" stroke="#92400e" stroke-width="6"/>
+  <circle cx="150" cy="200" r="4" fill="#fbbf24"/>
+  <circle cx="250" cy="200" r="4" fill="#fbbf24"/>
+  <circle cx="200" cy="275" r="5" fill="#f59e0b"/>
+
+  <!-- Left Arm Holding Molten Smithing Tongs -->
+  <g>
+    <!-- Bicep / Arm -->
+    <path d="M80 220 Q60 270 95 310 L120 290 Q95 250 110 220 Z" fill="#b45309" stroke="#78350f" stroke-width="1.5"/>
+    <!-- Iron Tongs -->
+    <path d="M100 300 L160 315 L175 318 L160 325 L95 310 Z" fill="#475569" stroke="#94a3b8" stroke-width="1.5"/>
+  </g>
+
+  <!-- Right Arm Holding Spiked Forge Hammer -->
+  <g>
+    <path d="M320 220 Q340 270 305 310 L280 290 Q305 250 290 220 Z" fill="#b45309" stroke="#78350f" stroke-width="1.5"/>
+    <!-- Heavy Warhammer Handle -->
+    <line x1="315" y1="150" x2="285" y2="330" stroke="#78350f" stroke-width="7" stroke-linecap="round"/>
+    <!-- Spiked Anvil Hammer Head -->
+    <rect x="290" y="140" width="48" height="30" rx="3" fill="url(#darkAnvil)" stroke="#ff7a00" stroke-width="1.5" transform="rotate(-15 314 155)"/>
+    <polygon points="335,142 348,150 335,158" fill="#f97316" filter="url(#emberGlow)"/>
+  </g>
+
+  <!-- Braided Fiery Dwarven Beard -->
+  <g id="blacksmithBeard">
+    <!-- Main beard body -->
+    <path d="M140 150 Q110 240 170 310 Q200 325 230 310 Q290 240 260 150 Q200 170 140 150 Z" fill="url(#dwarfBeard)"/>
+    <!-- Mustache -->
+    <path d="M150 145 Q200 165 250 145 Q235 175 200 170 Q165 175 150 145 Z" fill="#ea580c"/>
+    <!-- Braided Golden Rings on Beard Ends -->
+    <rect x="188" y="275" width="24" height="8" rx="2" fill="#fbbf24" stroke="#78350f" stroke-width="1"/>
+    <rect x="192" y="295" width="16" height="6" rx="2" fill="#fbbf24" stroke="#78350f" stroke-width="1"/>
+    <!-- Ember sparks in beard -->
+    <circle cx="165" cy="240" r="2" fill="#fef08a" filter="url(#emberGlow)"/>
+    <circle cx="235" cy="250" r="1.5" fill="#fef08a" filter="url(#emberGlow)"/>
+    <circle cx="180" cy="270" r="1.8" fill="#ff7a00" filter="url(#emberGlow)"/>
+  </g>
+
+  <!-- Face & Head -->
+  <g id="blacksmithHead">
+    <!-- Weathered Head / Face -->
+    <path d="M155 125 Q150 70 200 65 Q250 70 245 125 Q200 140 155 125 Z" fill="#c2410c"/>
+    <!-- Fierce Bushy Eyebrows -->
+    <polygon points="160,98 190,92 188,103 165,103" fill="#ea580c"/>
+    <polygon points="240,98 210,92 212,103 235,103" fill="#ea580c"/>
+    <!-- Intense Golden Eyes -->
+    <circle cx="178" cy="107" r="3.5" fill="#fef08a" filter="url(#emberGlow)"/>
+    <circle cx="222" cy="107" r="3.5" fill="#fef08a" filter="url(#emberGlow)"/>
+    <!-- Smithing Brow Goggles (Pushed onto forehead) -->
+    <rect x="150" y="70" width="100" height="16" rx="4" fill="#292524" stroke="#78350f" stroke-width="2"/>
+    <circle cx="175" cy="78" r="10" fill="#38bdf8" opacity="0.75" stroke="#fbbf24" stroke-width="2"/>
+    <circle cx="225" cy="78" r="10" fill="#38bdf8" opacity="0.75" stroke="#fbbf24" stroke-width="2"/>
+  </g>
+
+  <!-- Rising Cinder Sparks -->
+  <g filter="url(#emberGlow)">
+    <circle cx="120" cy="120" r="2.5" fill="#ff7a00"/>
+    <circle cx="105" cy="80" r="1.8" fill="#fef08a"/>
+    <circle cx="290" cy="100" r="2.2" fill="#ff7a00"/>
+    <circle cx="310" cy="65" r="1.5" fill="#fef08a"/>
+    <circle cx="200" cy="40" r="2" fill="#ffedd5"/>
+  </g>
+</svg>
